@@ -9,11 +9,15 @@ import com.twitter.dao.UserDao;
 import com.twitter.model.User;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
+
+	private UserDao userDao;
 
 	@Autowired
-	private UserDao userDao;
-	
+	public UserServiceImpl(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
 	@Override
 	public void createUser(User user) {
 		userDao.saveOrUpdate(user);
@@ -21,7 +25,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void deleteUser(User user) {
-		userDao.delete(user.getId());
+		userDao.delete(user);
 	}
 
 	@Override
@@ -33,6 +37,5 @@ public class UserServiceImpl implements UserService{
 	public List<User> getAllUsers() {
 		return userDao.list();
 	}
-	
 
 }
