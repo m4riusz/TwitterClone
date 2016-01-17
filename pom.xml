@@ -5,26 +5,41 @@
 	<artifactId>twitter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	
+
 	<properties>
 		<spring.context.version>4.2.4.RELEASE</spring.context.version>
 		<spring.web.version>4.2.4.RELEASE</spring.web.version>
 		<spring.webmvc.version>4.2.4.RELEASE</spring.webmvc.version>
 		<spring.jdbc.version>4.2.4.RELEASE</spring.jdbc.version>
 		<spring.orm.version>4.2.4.RELEASE</spring.orm.version>
+		<spring.security.version>4.0.3.RELEASE</spring.security.version>
 		<org.hibernate.core.version>5.0.7.Final</org.hibernate.core.version>
 		<org.hibernate.validator.version>5.2.2.Final</org.hibernate.validator.version>
 		<org.postgresql.version>9.4.1207.jre7</org.postgresql.version>
-		<org.apache.commons.dbcp2.version>2.1.1</org.apache.commons.dbcp2.version>	
+		<org.apache.commons.dbcp2.version>2.1.1</org.apache.commons.dbcp2.version>
+		<javax.servlet.api>3.1.0</javax.servlet.api>
+		<org.apache.logging.log4j>2.5</org.apache.logging.log4j>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${org.apache.logging.log4j}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${org.apache.logging.log4j}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.context.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
@@ -50,6 +65,24 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-dbcp2</artifactId>
 			<version>${org.apache.commons.dbcp2.version}</version>
@@ -71,6 +104,12 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${org.postgresql.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet.api}</version>
 		</dependency>
 
 	</dependencies>

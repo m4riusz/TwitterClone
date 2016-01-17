@@ -13,8 +13,12 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.twitter.dao.TweetDao;
+import com.twitter.dao.TweetDaoImpl;
 import com.twitter.dao.UserDao;
 import com.twitter.dao.UserDaoImpl;
+import com.twitter.service.TweetService;
+import com.twitter.service.TweetServiceImpl;
 import com.twitter.service.UserService;
 import com.twitter.service.UserServiceImpl;
 
@@ -35,6 +39,16 @@ public class PersistanceConfig {
 	@Bean
 	public UserService userService(UserDao userDao) {
 		return new UserServiceImpl(userDao);
+	}
+
+	@Bean
+	public TweetDao tweetDao(SessionFactory sessionFactory) {
+		return new TweetDaoImpl(sessionFactory);
+	}
+
+	@Bean
+	public TweetService tweetService(TweetDao tweetDao) {
+		return new TweetServiceImpl(tweetDao);
 	}
 
 	@Bean
