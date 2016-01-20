@@ -20,10 +20,5 @@ public class TweetServiceImpl implements TweetService {
 		tweetDao.tweet(user, tweet);
 	}
 
-	@Override
-	public void delete(User user, Tweet tweet) {
-		tweetDao.delete(user, tweet);
-
-	}
 
 }

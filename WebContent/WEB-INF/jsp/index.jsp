@@ -3,6 +3,6 @@
 <title>Twitter clone</title>
 </head>
 <body>
-	some text
+	some text2
 </body>
 </html>

@@ -1,18 +1,17 @@
 package com.twitter.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.twitter.model.Tweet;
 import com.twitter.model.User;
 import com.twitter.service.TweetService;
 import com.twitter.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-@RestController
+@Controller
 public class UserController {
 	Logger logger =LogManager.getLogger(UserController.class);
 	
@@ -41,8 +40,7 @@ public class UserController {
 		userService.createUser(user);
 		tweetService.tweet(user, tweet);
 		tweetService.tweet(user, tweet2);
-
-		tweetService.delete(user, tweet2);
+		
 		return "index";
 	}
 

@@ -25,11 +25,4 @@ public class TweetDaoImpl implements TweetDao {
 		sessionFactory.getCurrentSession().saveOrUpdate(user);
 	}
 
-	@Override
-	public void delete(User user, Tweet tweet) {
-		user.getTweets().remove(tweet);
-		sessionFactory.getCurrentSession().saveOrUpdate(user);
-		
-	}
-
 }
