@@ -1,5 +1,8 @@
 package com.twitter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
@@ -18,6 +21,8 @@ public class User {
     @NotNull
     @Length(min = 6, max = 16)
     private String username;
+
+    @JsonIgnore
     @NotNull
     @Length(min = 6, max = 16)
     private String password;
@@ -26,13 +31,18 @@ public class User {
     private String email;
     @NotNull
     private Role role;
+    @NotNull
+    private Boolean enable;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL)
     private List<Tweet> tweets;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = CascadeType.ALL)
     private List<User> followers;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL)
     private List<User> followingUsers;
 
@@ -41,6 +51,15 @@ public class User {
         followers = new ArrayList<>();
         followingUsers = new ArrayList<>();
         role = Role.USER;
+        enable = true;
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 
     public List<User> getFollowingUsers() {
@@ -105,36 +124,6 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", tweets=" + tweets + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
     }
 
 }

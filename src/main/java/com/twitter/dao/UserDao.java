@@ -1,14 +1,16 @@
 package com.twitter.dao;
 
-import java.util.List;
-
 import com.twitter.model.User;
+
+import java.util.List;
 
 public interface UserDao {
 
 	public List<User> list();
 
 	public User get(int id);
+
+	public User getByUserName(String username);
 
 	public void saveOrUpdate(User user);
 
