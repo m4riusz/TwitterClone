@@ -1,14 +1,17 @@
 package com.twitter.service;
 
 import com.twitter.dao.UserDao;
+import com.twitter.model.Tweet;
 import com.twitter.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
@@ -20,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) {
+
         userDao.saveOrUpdate(user);
     }
 
@@ -49,6 +53,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userDao.list();
+    }
+
+    @Override
+    public void tweet(User user, Tweet tweet) {
+        user.getTweets().add(tweet);
+        userDao.saveOrUpdate(user);
+    }
+
+    @Override
+    public List<Tweet> getTweets(int userId) {
+        User user = userDao.get(userId);
+        return user.getTweets();
     }
 
 }

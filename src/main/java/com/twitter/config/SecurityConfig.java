@@ -24,19 +24,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .jdbcAuthentication().dataSource(dataSource)
                     .usersByUsernameQuery("select username,password, enable from users where username=?")
-                .authoritiesByUsernameQuery("select username, role from users where username=?"); //TODO fix
+                .authoritiesByUsernameQuery("select username, role from users where username=?");
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/register").permitAll()
+
                 .anyRequest().authenticated()
-                    .and()
+                .and()
                 .formLogin()
                     .and()
                 .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .permitAll();
+                .permitAll()
+                    .and().csrf().disable();
     }
 }

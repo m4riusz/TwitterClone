@@ -1,6 +1,7 @@
 package com.twitter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
@@ -18,16 +19,20 @@ public class User {
     @Id
     @GeneratedValue
     private Integer id;
+
     @NotNull
     @Length(min = 6, max = 16)
+    @Column(unique = true)
     private String username;
 
-    @JsonIgnore
     @NotNull
     @Length(min = 6, max = 16)
+    @JsonIgnore
     private String password;
+
     @NotNull
     @Email
+    @Column(unique = true)
     private String email;
     @NotNull
     private Role role;
@@ -52,6 +57,13 @@ public class User {
         followingUsers = new ArrayList<>();
         role = Role.USER;
         enable = true;
+    }
+
+    public User(String username, String password, String email) {
+        super();
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 
     public Boolean getEnable() {
@@ -102,10 +114,12 @@ public class User {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
@@ -126,4 +140,39 @@ public class User {
         this.role = role;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                ", enable=" + enable +
+                ", tweets=" + tweets +
+                ", followers=" + followers +
+                ", followingUsers=" + followingUsers +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (!id.equals(user.id)) return false;
+        if (!username.equals(user.username)) return false;
+        return email.equals(user.email);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + username.hashCode();
+        result = 31 * result + email.hashCode();
+        return result;
+    }
 }
