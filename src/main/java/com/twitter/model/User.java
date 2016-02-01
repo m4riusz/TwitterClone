@@ -39,14 +39,17 @@ public class User {
     @NotNull
     private Boolean enable;
 
+    @JsonIgnore
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL)
     private List<Tweet> tweets;
 
+    @JsonIgnore
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(cascade = CascadeType.ALL)
     private List<User> followers;
 
+    @JsonIgnore
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL)
     private List<User> followingUsers;

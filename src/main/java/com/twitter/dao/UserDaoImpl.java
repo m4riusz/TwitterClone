@@ -2,6 +2,7 @@ package com.twitter.dao;
 
 import com.twitter.model.User;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,32 +21,37 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> list() {
-        List<User> listUser = sessionFactory.getCurrentSession().createCriteria(User.class).list();
+        List<User> listUser = getCurrentSession().createCriteria(User.class).list();
         return listUser;
     }
 
+
     @Override
     public void saveOrUpdate(User user) {
-        sessionFactory.getCurrentSession().saveOrUpdate(user);
+        getCurrentSession().saveOrUpdate(user);
     }
 
     @Override
     public void delete(User user) {
-        sessionFactory.getCurrentSession().delete(user);
+        getCurrentSession().delete(user);
     }
 
     @Override
     public User get(int id) {
-        return sessionFactory.getCurrentSession().get(User.class, id);
+        return getCurrentSession().get(User.class, id);
     }
 
     @Override
     public User getByUserName(String username) {
-        Query query = sessionFactory.getCurrentSession().
-                createQuery("from User where username=:username");
-        query.setParameter("username", username);
-        User user = (User) query.uniqueResult();
+        Query query = getCurrentSession().
+                createQuery("FROM User u WHERE u.username = :name");
+        query.setParameter("name", username);
+        User user = (User) query.list().get(0);
         return user;
+    }
+
+    private Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
     }
 
 }

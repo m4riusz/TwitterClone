@@ -1,10 +1,17 @@
 package com.twitter.dao;
 
 import com.twitter.model.Tweet;
-import com.twitter.model.User;
+
+import java.util.List;
 
 public interface TweetDao {
-	
-	public void tweet(User user, Tweet tweet);
+
+    public List<Tweet> getLatest(int maxNumberOfTweets);
+
+    public List<Tweet> getTweetsByOwnerId(int id);
+
+    public void saveOrUpdate(Tweet tweet);
+
+    public void delete(Tweet tweet);
 
 }
