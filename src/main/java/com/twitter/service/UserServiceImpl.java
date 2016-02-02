@@ -1,8 +1,10 @@
 package com.twitter.service;
 
 import com.twitter.dao.UserDao;
-import com.twitter.model.Tweet;
+import com.twitter.exception.UserAlreadyExist;
+import com.twitter.exception.UserEditException;
 import com.twitter.model.User;
+import com.twitter.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -22,14 +24,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User user) {
+    public void createUser(User user) throws UserAlreadyExist {
+        if (!isUserExist(user)) {
+            userDao.saveOrUpdate(user);
+        }
+        throw new UserAlreadyExist(user.getUsername() + " " + user.getEmail());
 
-        userDao.saveOrUpdate(user);
     }
 
     @Override
     public void deleteUser(User user) {
         userDao.delete(user);
+    }
+
+    @Override
+    public void editUser(User user, String password) throws UserEditException {
+        if (password.length() < UserUtil.MinPasswordLength || password.length() > UserUtil.MaxPasswordLength) {
+            throw new UserEditException("Wrong password length!");
+        }
+        user.setPassword(password);
+        userDao.saveOrUpdate(user);
+    }
+
+    @Override
+    public boolean isUserExist(User user) {
+        if (userDao.getByEmail(user.getEmail()) != null || userDao.getByUsername(user.getUsername()) != null) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -43,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByUsername(String username) {
-        User user = userDao.getByUserName(username);
+        User user = userDao.getByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
@@ -53,18 +75,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userDao.list();
-    }
-
-    @Override
-    public void tweet(User user, Tweet tweet) {
-        user.getTweets().add(tweet);
-        userDao.saveOrUpdate(user);
-    }
-
-    @Override
-    public List<Tweet> getTweets(int userId) {
-        User user = userDao.get(userId);
-        return user.getTweets();
     }
 
 }

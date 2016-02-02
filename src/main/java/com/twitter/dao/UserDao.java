@@ -10,11 +10,12 @@ public interface UserDao {
 
 	public User get(int id);
 
-	public User getByUserName(String username);
+	public User getByEmail(String email);
+
+	public User getByUsername(String username);
 
 	public void saveOrUpdate(User user);
 
 	public void delete(User user);
-	
 
 }

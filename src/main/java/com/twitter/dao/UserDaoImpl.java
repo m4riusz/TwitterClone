@@ -42,7 +42,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getByUserName(String username) {
+    public User getByEmail(String email) {
+        Query query = getCurrentSession().
+                createQuery("FROM User u WHERE u.email = :userEmail");
+        query.setParameter("userEmail", email);
+        User user = (User) query.list().get(0);
+        return user;
+    }
+
+    @Override
+    public User getByUsername(String username) {
         Query query = getCurrentSession().
                 createQuery("FROM User u WHERE u.username = :name");
         query.setParameter("name", username);

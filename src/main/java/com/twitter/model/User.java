@@ -2,6 +2,7 @@ package com.twitter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.twitter.util.UserUtil;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
@@ -21,12 +22,12 @@ public class User {
     private Integer id;
 
     @NotNull
-    @Length(min = 6, max = 16)
+    @Length(min = UserUtil.MinLoginLength, max = UserUtil.MaxLoginLength)
     @Column(unique = true)
     private String username;
 
     @NotNull
-    @Length(min = 6, max = 16)
+    @Length(min = UserUtil.MinPasswordLength, max = UserUtil.MaxPasswordLength)
     @JsonIgnore
     private String password;
 
@@ -141,21 +142,6 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                ", enable=" + enable +
-                ", tweets=" + tweets +
-                ", followers=" + followers +
-                ", followingUsers=" + followingUsers +
-                '}';
     }
 
     @Override
