@@ -1,10 +1,15 @@
 package com.twitter.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.twitter.util.TwitterUtil;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -15,14 +20,13 @@ public class Tweet {
     private Integer id;
 
     @NotNull
-    @Length(max = 140)
+    @Length(max = TwitterUtil.MAX_TWEET_LENGTH)
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "userid")
     private User owner;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = TwitterUtil.DATE_FORMAT)
     @NotNull
     private Date tweetDate;
 
@@ -42,6 +46,7 @@ public class Tweet {
         this.content = content;
     }
 
+    @JsonIgnore
     public User getOwner() {
         return owner;
     }
@@ -50,7 +55,7 @@ public class Tweet {
         this.owner = owner;
     }
 
-    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
+    @JsonFormat(pattern = TwitterUtil.DATE_FORMAT)
     public Date getTweetDate() {
         return tweetDate;
     }

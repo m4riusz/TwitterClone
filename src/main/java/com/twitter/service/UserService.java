@@ -20,13 +20,13 @@ public interface UserService {
 
     public boolean isUserExist(User user);
 
-    public User getUser(int id);
+    public User getUser(int id) throws UserNotFoundException;
 
-    public User getUserByUsername(String username);
+    public User getUserByUsername(String username) throws UserNotFoundException;
 
     public List<User> getAllUsers();
 
-    public List<User> getFollowers(int userId);
+    public List<User> getFollowers(int userId) throws UserNotFoundException;
 
 
 }

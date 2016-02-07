@@ -20,7 +20,7 @@ public class TweetDaoImpl implements TweetDao {
 
     @Override
     public Tweet get(int tweetId) {
-        return getCurrentSession().get(Tweet.class,tweetId);
+        return getCurrentSession().get(Tweet.class, tweetId);
     }
 
     @Override

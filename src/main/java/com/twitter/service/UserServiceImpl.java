@@ -6,9 +6,8 @@ import com.twitter.exception.UserAlreadyFollowed;
 import com.twitter.exception.UserEditException;
 import com.twitter.exception.UserNotFoundException;
 import com.twitter.model.User;
-import com.twitter.util.UserUtil;
+import com.twitter.util.TwitterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void editUser(User user, String password) throws UserEditException {
-        if (password.length() < UserUtil.MinPasswordLength || password.length() > UserUtil.MaxPasswordLength) {
+        if (password.length() < TwitterUtil.MinPasswordLength || password.length() > TwitterUtil.MaxPasswordLength) {
             throw new UserEditException("Wrong password length!");
         }
         user.setPassword(password);
@@ -51,17 +50,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void follow(User user, String username) throws UserNotFoundException, UserAlreadyFollowed {
-        List<User> currentFollowing = userDao.getFollowingUsers(user.getId());
         User userToFollow = userDao.getByUsername(username);
         if (userToFollow == null) {
             throw new UserNotFoundException("Username: " + username);
         }
-        if (currentFollowing == null || !currentFollowing.contains(userToFollow)) {
-            user.getFollowingUsers().add(userToFollow);
+        System.out.println(userDao.getFollowers(user.getId()));
+        if (!userDao.getFollowers(user.getId()).contains(userToFollow)) {
+            user.getFollowers().add(userToFollow);
             userDao.saveOrUpdate(user);
             return;
         }
-        throw new UserAlreadyFollowed("You are already following user: "+username);
+        throw new UserAlreadyFollowed("You are already following user: " + username);
 
     }
 
@@ -74,19 +73,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(int id) {
+    public User getUser(int id) throws UserNotFoundException {
         User user = userDao.get(id);
         if (user == null) {
-            throw new UsernameNotFoundException("Id: " + id);
+            throw new UserNotFoundException("Id: " + id);
         }
         return user;
     }
 
     @Override
-    public User getUserByUsername(String username) {
+    public User getUserByUsername(String username) throws UserNotFoundException {
         User user = userDao.getByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UserNotFoundException(username);
         }
         return user;
     }
@@ -97,10 +96,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getFollowers(int userId) {
+    public List<User> getFollowers(int userId) throws UserNotFoundException {
         User user = userDao.get(userId);
         if (user == null) {
-            throw new UsernameNotFoundException("User with id " + userId + " does not exists!");
+            throw new UserNotFoundException("User with id " + userId + " does not exists!");
         }
         return userDao.getFollowers(userId);
     }

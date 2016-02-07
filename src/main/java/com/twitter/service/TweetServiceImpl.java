@@ -4,10 +4,10 @@ import com.twitter.dao.TweetDao;
 import com.twitter.dao.UserDao;
 import com.twitter.exception.TweetGetException;
 import com.twitter.exception.TweetNotFoundException;
+import com.twitter.exception.UserNotFoundException;
 import com.twitter.model.Tweet;
 import com.twitter.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,10 +56,10 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public List<Tweet> getTweetsFromUser(int userId) {
+    public List<Tweet> getTweetsFromUser(int userId) throws UserNotFoundException {
         User user = userDao.get(userId);
         if (user == null) {
-            throw new UsernameNotFoundException("UserId: " + userId);
+            throw new UserNotFoundException("UserId: " + userId);
         }
         return tweetDao.getTweetsByOwnerId(userId);
     }

@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @RequestMapping(value = Route.GET_USER_BY_ID, method = RequestMethod.GET)
-    public User getUser(@PathVariable int userId) {
+    public User getUser(@PathVariable int userId) throws UserNotFoundException {
         User user = userService.getUser(userId);
         logger.info(user.toString());
         return user;
@@ -46,13 +46,13 @@ public class UserController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @RequestMapping(value = Route.PUT_USER, method = RequestMethod.PUT)
-    public void editUser(@RequestBody User user, Principal principal) throws UserEditException {
+    public void editUser(@RequestBody User user, Principal principal) throws UserEditException, UserNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
         userService.editUser(currentUser, user.getPassword());
     }
 
     @RequestMapping(value = Route.USER_GET_FOLLOWERS, method = RequestMethod.GET)
-    public List<User> getFollowers(Principal principal) {
+    public List<User> getFollowers(Principal principal) throws UserNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
         List<User> followers = userService.getFollowers(currentUser.getId());
         logger.info(followers);

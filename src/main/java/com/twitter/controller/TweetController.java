@@ -2,6 +2,7 @@ package com.twitter.controller;
 
 import com.twitter.exception.TweetGetException;
 import com.twitter.exception.TweetNotFoundException;
+import com.twitter.exception.UserNotFoundException;
 import com.twitter.model.Tweet;
 import com.twitter.model.User;
 import com.twitter.route.Route;
@@ -39,7 +40,7 @@ public class TweetController {
 
 
     @RequestMapping(value = Route.GET_TWEETS_BY_USERID, method = RequestMethod.GET)
-    public List<Tweet> getTweetsFromUser(@PathVariable int userId) {
+    public List<Tweet> getTweetsFromUser(@PathVariable int userId) throws UserNotFoundException {
         List<Tweet> tweets = tweetService.getTweetsFromUser(userId);
         logger.info(userId + " " + tweets);
         return tweets;
@@ -47,7 +48,7 @@ public class TweetController {
 
     @RequestMapping(value = Route.POST_TWEET, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public void tweet(@RequestBody Tweet tweet, Principal principal) {
+    public void tweet(@RequestBody Tweet tweet, Principal principal) throws UserNotFoundException {
         User user = userService.getUserByUsername(principal.getName());
         tweetService.tweet(user, tweet);
         logger.info(user + " " + tweet);

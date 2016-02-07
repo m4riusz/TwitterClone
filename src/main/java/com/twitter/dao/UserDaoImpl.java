@@ -38,13 +38,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getFollowers(int userId) {
-        return getCurrentSession().createQuery("FROM User u JOIN u.followers r WHERE r.id = :id")
-                .setParameter("id", userId).list();
-    }
-
-    @Override
-    public List<User> getFollowingUsers(int userId) {
-        return getCurrentSession().createQuery("FROM User u JOIN u.followingUsers r WHERE r.id = :id")
+        return getCurrentSession().createQuery("SELECT r FROM User u JOIN u.followers r WHERE u.id = :id")
                 .setParameter("id", userId).list();
     }
 

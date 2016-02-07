@@ -2,9 +2,7 @@ package com.twitter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.twitter.util.UserUtil;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import com.twitter.util.TwitterUtil;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
@@ -22,12 +20,12 @@ public class User {
     private Integer id;
 
     @NotNull
-    @Length(min = UserUtil.MinLoginLength, max = UserUtil.MaxLoginLength)
+    @Length(min = TwitterUtil.MinLoginLength, max = TwitterUtil.MaxLoginLength)
     @Column(unique = true)
     private String username;
 
     @NotNull
-    @Length(min = UserUtil.MinPasswordLength, max = UserUtil.MaxPasswordLength)
+    @Length(min = TwitterUtil.MinPasswordLength, max = TwitterUtil.MaxPasswordLength)
     @JsonIgnore
     private String password;
 
@@ -41,24 +39,18 @@ public class User {
     private Boolean enable;
 
     @JsonIgnore
-    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL)
     private List<Tweet> tweets;
 
     @JsonIgnore
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "followerId"))
     private List<User> followers;
-
-    @JsonIgnore
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany
-    private List<User> followingUsers;
 
     public User() {
         tweets = new ArrayList<>();
         followers = new ArrayList<>();
-        followingUsers = new ArrayList<>();
         role = Role.USER;
         enable = true;
     }
@@ -76,14 +68,6 @@ public class User {
 
     public void setEnable(Boolean enable) {
         this.enable = enable;
-    }
-
-    public List<User> getFollowingUsers() {
-        return followingUsers;
-    }
-
-    public void setFollowingUsers(List<User> followingUsers) {
-        this.followingUsers = followingUsers;
     }
 
     public List<User> getFollowers() {
@@ -164,4 +148,6 @@ public class User {
         result = 31 * result + email.hashCode();
         return result;
     }
+
+
 }
