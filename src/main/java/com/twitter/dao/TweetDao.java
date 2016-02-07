@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface TweetDao {
 
+    public Tweet get(int tweetId);
+
     public List<Tweet> getLatest(int maxNumberOfTweets);
 
     public List<Tweet> getTweetsByOwnerId(int id);

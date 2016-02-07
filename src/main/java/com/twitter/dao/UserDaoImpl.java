@@ -37,6 +37,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public List<User> getFollowers(int userId) {
+        return getCurrentSession().createQuery("FROM User u JOIN u.followers r WHERE r.id = :id")
+                .setParameter("id", userId).list();
+    }
+
+    @Override
+    public List<User> getFollowingUsers(int userId) {
+        return getCurrentSession().createQuery("FROM User u JOIN u.followingUsers r WHERE r.id = :id")
+                .setParameter("id", userId).list();
+    }
+
+    @Override
     public User get(int id) {
         return getCurrentSession().get(User.class, id);
     }
@@ -46,7 +58,7 @@ public class UserDaoImpl implements UserDao {
         Query query = getCurrentSession().
                 createQuery("FROM User u WHERE u.email = :userEmail");
         query.setParameter("userEmail", email);
-        User user = (User) query.list().get(0);
+        User user = (User) query.uniqueResult();
         return user;
     }
 
@@ -55,7 +67,7 @@ public class UserDaoImpl implements UserDao {
         Query query = getCurrentSession().
                 createQuery("FROM User u WHERE u.username = :name");
         query.setParameter("name", username);
-        User user = (User) query.list().get(0);
+        User user = (User) query.uniqueResult();
         return user;
     }
 

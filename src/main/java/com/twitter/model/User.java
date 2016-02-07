@@ -47,12 +47,12 @@ public class User {
 
     @JsonIgnore
     @LazyCollection(LazyCollectionOption.FALSE)
-    @ManyToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<User> followers;
 
     @JsonIgnore
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<User> followingUsers;
 
     public User() {

@@ -3,6 +3,7 @@ package com.twitter.service;
 import com.twitter.dao.TweetDao;
 import com.twitter.dao.UserDao;
 import com.twitter.exception.TweetGetException;
+import com.twitter.exception.TweetNotFoundException;
 import com.twitter.model.Tweet;
 import com.twitter.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,18 @@ public class TweetServiceImpl implements TweetService {
 
 
     @Override
+    public Tweet getTweetById(int tweetId) throws TweetGetException, TweetNotFoundException {
+        if (tweetId < 0){
+            throw new TweetGetException("Wrong tweet id! "+tweetId);
+        }
+        Tweet tweet = tweetDao.get(tweetId);
+        if (tweet == null){
+            throw new TweetNotFoundException("Tweet with id not found! "+tweetId);
+        }
+        return tweet;
+    }
+
+    @Override
     public void tweet(User user, Tweet tweet) {
         tweet.setTweetDate(Calendar.getInstance().getTime());
         tweet.setOwner(user);
@@ -43,7 +56,7 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public List<Tweet> getTweetsByUserId(int userId) {
+    public List<Tweet> getTweetsFromUser(int userId) {
         User user = userDao.get(userId);
         if (user == null) {
             throw new UsernameNotFoundException("UserId: " + userId);

@@ -2,7 +2,9 @@ package com.twitter.service;
 
 import com.twitter.dao.UserDao;
 import com.twitter.exception.UserAlreadyExist;
+import com.twitter.exception.UserAlreadyFollowed;
 import com.twitter.exception.UserEditException;
+import com.twitter.exception.UserNotFoundException;
 import com.twitter.model.User;
 import com.twitter.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ public class UserServiceImpl implements UserService {
     public void createUser(User user) throws UserAlreadyExist {
         if (!isUserExist(user)) {
             userDao.saveOrUpdate(user);
+            return;
         }
         throw new UserAlreadyExist(user.getUsername() + " " + user.getEmail());
 
@@ -44,6 +47,22 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(password);
         userDao.saveOrUpdate(user);
+    }
+
+    @Override
+    public void follow(User user, String username) throws UserNotFoundException, UserAlreadyFollowed {
+        List<User> currentFollowing = userDao.getFollowingUsers(user.getId());
+        User userToFollow = userDao.getByUsername(username);
+        if (userToFollow == null) {
+            throw new UserNotFoundException("Username: " + username);
+        }
+        if (currentFollowing == null || !currentFollowing.contains(userToFollow)) {
+            user.getFollowingUsers().add(userToFollow);
+            userDao.saveOrUpdate(user);
+            return;
+        }
+        throw new UserAlreadyFollowed("You are already following user: "+username);
+
     }
 
     @Override
@@ -75,6 +94,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userDao.list();
+    }
+
+    @Override
+    public List<User> getFollowers(int userId) {
+        User user = userDao.get(userId);
+        if (user == null) {
+            throw new UsernameNotFoundException("User with id " + userId + " does not exists!");
+        }
+        return userDao.getFollowers(userId);
     }
 
 }

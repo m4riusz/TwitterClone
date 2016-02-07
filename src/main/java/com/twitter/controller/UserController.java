@@ -1,7 +1,9 @@
 package com.twitter.controller;
 
 import com.twitter.exception.UserAlreadyExist;
+import com.twitter.exception.UserAlreadyFollowed;
 import com.twitter.exception.UserEditException;
+import com.twitter.exception.UserNotFoundException;
 import com.twitter.model.User;
 import com.twitter.route.Route;
 import com.twitter.service.UserService;
@@ -9,10 +11,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -49,6 +49,21 @@ public class UserController {
     public void editUser(@RequestBody User user, Principal principal) throws UserEditException {
         User currentUser = userService.getUserByUsername(principal.getName());
         userService.editUser(currentUser, user.getPassword());
+    }
+
+    @RequestMapping(value = Route.USER_GET_FOLLOWERS, method = RequestMethod.GET)
+    public List<User> getFollowers(Principal principal) {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        List<User> followers = userService.getFollowers(currentUser.getId());
+        logger.info(followers);
+        return followers;
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(value = Route.USER_FOLLOW, method = RequestMethod.POST)
+    public void followUser(@RequestBody User user, Principal principal) throws UserAlreadyFollowed, UserNotFoundException {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        userService.follow(currentUser, user.getUsername());
     }
 
 }

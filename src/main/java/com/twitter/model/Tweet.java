@@ -1,5 +1,6 @@
 package com.twitter.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -49,6 +50,7 @@ public class Tweet {
         this.owner = owner;
     }
 
+    @JsonFormat(pattern = "HH:mm dd-MM-yyyy")
     public Date getTweetDate() {
         return tweetDate;
     }

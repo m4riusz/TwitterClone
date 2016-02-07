@@ -19,6 +19,11 @@ public class TweetDaoImpl implements TweetDao {
     }
 
     @Override
+    public Tweet get(int tweetId) {
+        return getCurrentSession().get(Tweet.class,tweetId);
+    }
+
+    @Override
     public List<Tweet> getLatest(int maxNumberOfTweets) {
         return getCurrentSession().createQuery("FROM Tweet t ORDER BY t.tweetDate").setMaxResults(maxNumberOfTweets).list();
     }
