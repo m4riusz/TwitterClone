@@ -13,7 +13,6 @@ public interface UserService {
 
     public void editUser(User user, String password) throws UserEditException;
 
-    public void follow(User user, String userToFollow) throws UserNotFoundException, UserAlreadyFollowed, UserFollowException;
 
     public boolean isUserExist(User user);
 
@@ -25,5 +24,9 @@ public interface UserService {
 
     public List<User> getFollowers(int userId) throws UserNotFoundException;
 
+    public void follow(User user, String userToFollow) throws UserNotFoundException, UserAlreadyFollowed, UserFollowException;
+
     public void unfollow(User currentUser, String username) throws UserNotFoundException, UserNotFollowedException, UserFollowException;
+
+    public List<User> getFollowingUsers(int userId) throws UserNotFoundException;
 }

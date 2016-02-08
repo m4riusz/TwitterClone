@@ -10,10 +10,12 @@ public class Route {
     public static final String CREATE_USER = "/register";
     public static final String EDIT_USER = "/user";
 
-    public static final String GET_FOLLOWERS = "/user/follow";
-    public static final String GET_FOLLOWERS_BY_USERID = "/user/follow/{userId}";
-    public static final String FOLLOW_USER = "/user/follow";
-    public static final String UNFOLLOW_USER = "/user/follow";
+    public static final String GET_FOLLOWERS = "/user/followers";
+    public static final String GET_FOLLOWERS_BY_USERID = "/user/followers/{userId}";
+    public static final String GET_FOLLOWING_USERS = "/user/following";
+    public static final String GET_FOLLOWING_BY_USERID = "/user/following/{userId}";
+    public static final String FOLLOW_USER = "/user/following";
+    public static final String UNFOLLOW_USER = "/user/following";
 
     public static final String GET_TWEETS = "/user/tweet";
     public static final String GET_TWEETS_BY_USERID = "/user/{userId}/tweet";

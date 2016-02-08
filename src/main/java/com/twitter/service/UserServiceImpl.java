@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
             throw new UserFollowException("You can not follow yourself!");
         } else if (userToFollow == null) {
             throw new UserNotFoundException("Username: " + username);
-        } else if (userDao.getFollowers(user.getId()).contains(userToFollow)) {
+        } else if (userDao.getFollowingUsers(user.getId()).contains(userToFollow)) {
             throw new UserAlreadyFollowed("You are already following user: " + username);
         }
         user.getFollowers().add(userToFollow);
@@ -106,11 +106,19 @@ public class UserServiceImpl implements UserService {
             throw new UserFollowException("You can not unfollow yourself!");
         } else if (userToUnfollow == null) {
             throw new UserNotFoundException(username);
-        } else if (!userDao.getFollowers(currentUser.getId()).contains(userToUnfollow)) {
+        } else if (!userDao.getFollowingUsers(currentUser.getId()).contains(userToUnfollow)) {
             throw new UserNotFollowedException("You can not unfollow user who is not followed! " + username);
         }
         currentUser.getFollowers().remove(userToUnfollow);
         userDao.saveOrUpdate(currentUser);
     }
 
+    @Override
+    public List<User> getFollowingUsers(int userId) throws UserNotFoundException {
+        User user = userDao.get(userId);
+        if (user == null){
+            throw new UserNotFoundException("User id: "+userId);
+        }
+        return userDao.getFollowingUsers(userId);
+    }
 }

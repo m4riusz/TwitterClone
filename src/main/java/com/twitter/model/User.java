@@ -1,14 +1,18 @@
 package com.twitter.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.twitter.util.TwitterUtil;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -42,6 +46,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Tweet> tweets;
 
+    @NotNull
+    @DateTimeFormat(pattern = TwitterUtil.DATE_FORMAT)
+    private Date createDate;
+
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "userId"),
@@ -53,6 +61,7 @@ public class User {
         followers = new ArrayList<>();
         role = Role.USER;
         enable = true;
+        createDate = Calendar.getInstance().getTime();
     }
 
     public User(String username, String password, String email) {
@@ -60,6 +69,15 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
+    }
+
+    @JsonFormat(pattern = TwitterUtil.DATE_FORMAT)
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public Boolean getEnable() {

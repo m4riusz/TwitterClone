@@ -20,4 +20,6 @@ public interface UserDao {
 
     public List<User> getFollowers(int userId);
 
+    public List<User> getFollowingUsers(int userId);
+
 }

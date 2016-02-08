@@ -72,7 +72,17 @@ public class UserController {
 
     @RequestMapping(value = Route.GET_FOLLOWERS_BY_USERID, method = RequestMethod.GET)
     public List<User> getFollowersFromUser(@PathVariable int userId) throws UserNotFoundException {
-        User user = userService.getUser(userId);
         return userService.getFollowers(userId);
+    }
+
+    @RequestMapping(value = Route.GET_FOLLOWING_USERS)
+    public List<User> getFollowingUsers(Principal principal) throws UserNotFoundException {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        return userService.getFollowingUsers(currentUser.getId());
+    }
+
+    @RequestMapping(value = Route.GET_FOLLOWING_BY_USERID)
+    public List<User> getFollowingUsersFromUser(@PathVariable int userId) throws UserNotFoundException {
+        return userService.getFollowingUsers(userId);
     }
 }
