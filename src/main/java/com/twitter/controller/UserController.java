@@ -58,16 +58,21 @@ public class UserController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @RequestMapping(value = Route.FOLLOW_USER, method = RequestMethod.POST)
-    public void followUser(@RequestBody User user, Principal principal) throws UserAlreadyFollowed, UserNotFoundException {
+    public void followUser(@RequestBody User user, Principal principal) throws UserAlreadyFollowed, UserNotFoundException, UserFollowException {
         User currentUser = userService.getUserByUsername(principal.getName());
         userService.follow(currentUser, user.getUsername());
     }
 
     @ResponseStatus(value = HttpStatus.OK)
     @RequestMapping(value = Route.UNFOLLOW_USER, method = RequestMethod.DELETE)
-    public void unfollowUser(@RequestBody User user, Principal principal) throws UserNotFoundException, UserNotFollowedException {
+    public void unfollowUser(@RequestBody User user, Principal principal) throws UserNotFoundException, UserNotFollowedException, UserFollowException {
         User currentUser = userService.getUserByUsername(principal.getName());
         userService.unfollow(currentUser, user.getUsername());
     }
 
+    @RequestMapping(value = Route.GET_FOLLOWERS_BY_USERID, method = RequestMethod.GET)
+    public List<User> getFollowersFromUser(@PathVariable int userId) throws UserNotFoundException {
+        User user = userService.getUser(userId);
+        return userService.getFollowers(userId);
+    }
 }

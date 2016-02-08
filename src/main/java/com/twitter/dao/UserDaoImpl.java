@@ -21,7 +21,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> list() {
-        List<User> listUser = getCurrentSession().createCriteria(User.class).list();
+        List<User> listUser = getCurrentSession().createQuery("SELECT u FROM User u").list();
         return listUser;
     }
 

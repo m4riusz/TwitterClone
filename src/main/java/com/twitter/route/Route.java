@@ -11,6 +11,7 @@ public class Route {
     public static final String EDIT_USER = "/user";
 
     public static final String GET_FOLLOWERS = "/user/follow";
+    public static final String GET_FOLLOWERS_BY_USERID = "/user/follow/{userId}";
     public static final String FOLLOW_USER = "/user/follow";
     public static final String UNFOLLOW_USER = "/user/follow";
 
