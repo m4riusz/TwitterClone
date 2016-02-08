@@ -1,10 +1,7 @@
 package com.twitter.service;
 
 import com.twitter.dao.UserDao;
-import com.twitter.exception.UserAlreadyExist;
-import com.twitter.exception.UserAlreadyFollowed;
-import com.twitter.exception.UserEditException;
-import com.twitter.exception.UserNotFoundException;
+import com.twitter.exception.*;
 import com.twitter.model.User;
 import com.twitter.util.TwitterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,22 +46,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void follow(User user, String username) throws UserNotFoundException, UserAlreadyFollowed {
-        User userToFollow = userDao.getByUsername(username);
-        if (userToFollow == null) {
-            throw new UserNotFoundException("Username: " + username);
-        }
-        System.out.println(userDao.getFollowers(user.getId()));
-        if (!userDao.getFollowers(user.getId()).contains(userToFollow)) {
-            user.getFollowers().add(userToFollow);
-            userDao.saveOrUpdate(user);
-            return;
-        }
-        throw new UserAlreadyFollowed("You are already following user: " + username);
-
-    }
-
-    @Override
     public boolean isUserExist(User user) {
         if (userDao.getByEmail(user.getEmail()) != null || userDao.getByUsername(user.getUsername()) != null) {
             return true;
@@ -102,6 +83,36 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException("User with id " + userId + " does not exists!");
         }
         return userDao.getFollowers(userId);
+    }
+
+    @Override
+    public void follow(User user, String username) throws UserNotFoundException, UserAlreadyFollowed {
+        User userToFollow = userDao.getByUsername(username);
+        if (userToFollow == null) {
+            throw new UserNotFoundException("Username: " + username);
+        }
+        System.out.println(userDao.getFollowers(user.getId()));
+        if (!userDao.getFollowers(user.getId()).contains(userToFollow)) {
+            user.getFollowers().add(userToFollow);
+            userDao.saveOrUpdate(user);
+            return;
+        }
+        throw new UserAlreadyFollowed("You are already following user: " + username);
+
+    }
+
+    @Override
+    public void unfollow(User currentUser, String username) throws UserNotFoundException, UserNotFollowedException {
+        User userToUnfollow = userDao.getByUsername(username);
+        if (userToUnfollow == null) {
+            throw new UserNotFoundException(username);
+        }
+        if (!userDao.getFollowers(currentUser.getId()).contains(userToUnfollow)) {
+            throw new UserNotFollowedException("You can not unfollow user who is not followed! " + username);
+        }
+        currentUser.getFollowers().remove(userToUnfollow);
+        userDao.saveOrUpdate(currentUser);
+
     }
 
 }

@@ -1,9 +1,6 @@
 package com.twitter.controller;
 
-import com.twitter.exception.UserAlreadyExist;
-import com.twitter.exception.UserAlreadyFollowed;
-import com.twitter.exception.UserEditException;
-import com.twitter.exception.UserNotFoundException;
+import com.twitter.exception.*;
 import com.twitter.model.User;
 import com.twitter.route.Route;
 import com.twitter.service.UserService;
@@ -38,20 +35,20 @@ public class UserController {
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @RequestMapping(value = Route.POST_USER, method = RequestMethod.POST)
+    @RequestMapping(value = Route.CREATE_USER, method = RequestMethod.POST)
     public void createUser(@RequestBody User user) throws UserAlreadyExist {
         userService.createUser(user);
         logger.info(user);
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @RequestMapping(value = Route.PUT_USER, method = RequestMethod.PUT)
+    @RequestMapping(value = Route.EDIT_USER, method = RequestMethod.PUT)
     public void editUser(@RequestBody User user, Principal principal) throws UserEditException, UserNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
         userService.editUser(currentUser, user.getPassword());
     }
 
-    @RequestMapping(value = Route.USER_GET_FOLLOWERS, method = RequestMethod.GET)
+    @RequestMapping(value = Route.GET_FOLLOWERS, method = RequestMethod.GET)
     public List<User> getFollowers(Principal principal) throws UserNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
         List<User> followers = userService.getFollowers(currentUser.getId());
@@ -60,10 +57,17 @@ public class UserController {
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @RequestMapping(value = Route.USER_FOLLOW, method = RequestMethod.POST)
+    @RequestMapping(value = Route.FOLLOW_USER, method = RequestMethod.POST)
     public void followUser(@RequestBody User user, Principal principal) throws UserAlreadyFollowed, UserNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
         userService.follow(currentUser, user.getUsername());
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(value = Route.UNFOLLOW_USER, method = RequestMethod.DELETE)
+    public void unfollowUser(@RequestBody User user, Principal principal) throws UserNotFoundException, UserNotFollowedException {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        userService.unfollow(currentUser, user.getUsername());
     }
 
 }

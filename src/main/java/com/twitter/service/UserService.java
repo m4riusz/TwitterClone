@@ -1,9 +1,6 @@
 package com.twitter.service;
 
-import com.twitter.exception.UserAlreadyExist;
-import com.twitter.exception.UserAlreadyFollowed;
-import com.twitter.exception.UserEditException;
-import com.twitter.exception.UserNotFoundException;
+import com.twitter.exception.*;
 import com.twitter.model.User;
 
 import java.util.List;
@@ -28,5 +25,5 @@ public interface UserService {
 
     public List<User> getFollowers(int userId) throws UserNotFoundException;
 
-
+    public void unfollow(User currentUser, String username) throws UserNotFoundException, UserNotFollowedException;
 }

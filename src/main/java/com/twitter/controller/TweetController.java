@@ -46,7 +46,7 @@ public class TweetController {
         return tweets;
     }
 
-    @RequestMapping(value = Route.POST_TWEET, method = RequestMethod.POST)
+    @RequestMapping(value = Route.CREATE_TWEET, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void tweet(@RequestBody Tweet tweet, Principal principal) throws UserNotFoundException {
         User user = userService.getUserByUsername(principal.getName());
