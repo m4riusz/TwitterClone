@@ -45,6 +45,7 @@ public class TweetDaoImpl implements TweetDao {
     }
 
     private Session getCurrentSession() {
+        sessionFactory.getCurrentSession().clear();
         return sessionFactory.getCurrentSession();
     }
 }

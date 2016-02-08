@@ -40,6 +40,7 @@ public class UserDaoImpl implements UserDao {
     public List<User> getFollowers(int userId) {
         return getCurrentSession().createQuery("SELECT r FROM User u JOIN u.followers r WHERE u.id = :id")
                 .setParameter("id", userId).list();
+
     }
 
     @Override
@@ -66,6 +67,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     private Session getCurrentSession() {
+        sessionFactory.getCurrentSession().clear();
         return sessionFactory.getCurrentSession();
     }
 
