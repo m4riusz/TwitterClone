@@ -11,4 +11,8 @@ public class UserNotFoundException extends Exception {
     public UserNotFoundException() {
         super();
     }
+
+    public UserNotFoundException(int userId) {
+        super("User not found! ( id: " + userId + " )");
+    }
 }

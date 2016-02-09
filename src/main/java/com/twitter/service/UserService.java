@@ -13,7 +13,6 @@ public interface UserService {
 
     public void editUser(User user, String password) throws UserEditException;
 
-
     public boolean isUserExist(User user);
 
     public User getUser(int id) throws UserNotFoundException;

@@ -37,6 +37,7 @@ public class User {
     @Email
     @Column(unique = true)
     private String email;
+    
     @NotNull
     private Role role;
     @NotNull

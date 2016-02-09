@@ -6,12 +6,12 @@ import com.twitter.util.TwitterUtil;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Tweet {
@@ -29,6 +29,24 @@ public class Tweet {
     @DateTimeFormat(pattern = TwitterUtil.DATE_FORMAT)
     @NotNull
     private Date tweetDate;
+
+    public Tweet() {
+    }
+
+    public Tweet(String content, User owner) {
+        this.comments = new ArrayList<>();
+        this.tweetDate = Calendar.getInstance().getTime();
+        this.content = content;
+        this.owner = owner;
+    }
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(joinColumns = @JoinColumn(name = "tweetId"),
+            inverseJoinColumns = @JoinColumn(name = "commentId"))
+
+
+    private List<Tweet> comments;
 
     public Integer getId() {
         return id;
@@ -62,5 +80,13 @@ public class Tweet {
 
     public void setTweetDate(Date tweetDate) {
         this.tweetDate = tweetDate;
+    }
+
+    public List<Tweet> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Tweet> comments) {
+        this.comments = comments;
     }
 }

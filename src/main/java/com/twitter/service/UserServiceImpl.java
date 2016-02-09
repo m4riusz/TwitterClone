@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     public User getUser(int id) throws UserNotFoundException {
         User user = userDao.get(id);
         if (user == null) {
-            throw new UserNotFoundException("Id: " + id);
+            throw new UserNotFoundException(id);
         }
         return user;
     }
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     public List<User> getFollowers(int userId) throws UserNotFoundException {
         User user = userDao.get(userId);
         if (user == null) {
-            throw new UserNotFoundException("User with id " + userId + " does not exists!");
+            throw new UserNotFoundException(userId);
         }
         return userDao.getFollowers(userId);
     }
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
         if (user.equals(userToFollow)) {
             throw new UserFollowException("You can not follow yourself!");
         } else if (userToFollow == null) {
-            throw new UserNotFoundException("Username: " + username);
+            throw new UserNotFoundException(username);
         } else if (userDao.getFollowingUsers(user.getId()).contains(userToFollow)) {
             throw new UserAlreadyFollowed("You are already following user: " + username);
         }
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
     public List<User> getFollowingUsers(int userId) throws UserNotFoundException {
         User user = userDao.get(userId);
         if (user == null){
-            throw new UserNotFoundException("User id: "+userId);
+            throw new UserNotFoundException(userId);
         }
         return userDao.getFollowingUsers(userId);
     }

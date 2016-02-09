@@ -7,4 +7,8 @@ public class TweetGetException extends Exception {
     public TweetGetException(String s) {
         super(s);
     }
+
+    public TweetGetException(int tweetId) {
+        super("Wrong tweet id! ( " + tweetId + " )");
+    }
 }

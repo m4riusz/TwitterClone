@@ -44,6 +44,12 @@ public class TweetDaoImpl implements TweetDao {
         getCurrentSession().delete(tweet);
     }
 
+    @Override
+    public List<Tweet> getTweetComments(int tweetId) {
+        return getCurrentSession().createQuery("SELECT r FROM Tweet t JOIN t.comments r WHERE t.id = :id")
+                .setParameter("id",tweetId).list();
+    }
+
     private Session getCurrentSession() {
         sessionFactory.getCurrentSession().clear();
         return sessionFactory.getCurrentSession();

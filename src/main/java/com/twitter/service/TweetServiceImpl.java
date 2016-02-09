@@ -2,11 +2,10 @@ package com.twitter.service;
 
 import com.twitter.dao.TweetDao;
 import com.twitter.dao.UserDao;
-import com.twitter.exception.TweetGetException;
-import com.twitter.exception.TweetNotFoundException;
-import com.twitter.exception.UserNotFoundException;
+import com.twitter.exception.*;
 import com.twitter.model.Tweet;
 import com.twitter.model.User;
+import com.twitter.util.TwitterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,19 +28,19 @@ public class TweetServiceImpl implements TweetService {
 
 
     @Override
-    public Tweet getTweetById(int tweetId) throws TweetGetException, TweetNotFoundException {
-        if (tweetId < 0){
-            throw new TweetGetException("Wrong tweet id! "+tweetId);
-        }
+    public Tweet getTweetById(int tweetId) throws TweetNotFoundException {
         Tweet tweet = tweetDao.get(tweetId);
-        if (tweet == null){
-            throw new TweetNotFoundException("Tweet with id not found! "+tweetId);
+        if (tweet == null) {
+            throw new TweetNotFoundException(tweetId);
         }
         return tweet;
     }
 
     @Override
-    public void tweet(User user, Tweet tweet) {
+    public void tweet(User user, Tweet tweet) throws TweetCreateException {
+        if (tweet.getContent().length() > TwitterUtil.MAX_TWEET_LENGTH) {
+            throw new TweetCreateException(tweet.getContent().length());
+        }
         tweet.setTweetDate(Calendar.getInstance().getTime());
         tweet.setOwner(user);
         tweetDao.saveOrUpdate(tweet);
@@ -59,8 +58,42 @@ public class TweetServiceImpl implements TweetService {
     public List<Tweet> getTweetsFromUser(int userId) throws UserNotFoundException {
         User user = userDao.get(userId);
         if (user == null) {
-            throw new UserNotFoundException("UserId: " + userId);
+            throw new UserNotFoundException(userId);
         }
         return tweetDao.getTweetsByOwnerId(userId);
+    }
+
+    @Override
+    public List<Tweet> getTweetComments(int tweetId) throws TweetNotFoundException {
+        Tweet tweet = tweetDao.get(tweetId);
+        if (tweet == null) {
+            throw new TweetNotFoundException(tweetId);
+        }
+        return tweetDao.getTweetComments(tweetId);
+    }
+
+    @Override
+    public void createTweetComment(User currentUser, int tweetId, String content) throws TweetNotFoundException, TweetCreateException {
+        Tweet tweetToComment = tweetDao.get(tweetId);
+        if (tweetToComment == null) {
+            throw new TweetNotFoundException(tweetId);
+        } else if (content.length() > TwitterUtil.MAX_TWEET_LENGTH) {
+            throw new TweetCreateException(content.length());
+        }
+        Tweet comment = new Tweet(content, currentUser);
+        tweetToComment.getComments().add(comment);
+        tweetDao.saveOrUpdate(tweetToComment);
+    }
+
+    @Override
+    public void deleteTweet(User owner, int tweetId) throws TweetNotFoundException, TweetDeleteException {
+        Tweet tweet = tweetDao.get(tweetId);
+        if (tweet == null) {
+            throw new TweetNotFoundException(tweetId);
+        } else if (!tweet.getOwner().equals(owner)) {
+            throw new TweetDeleteException("You are not owner of tweet you want to delete!");
+        }
+        tweet.setContent(TwitterUtil.DELETE_MESSAGE);
+        tweetDao.saveOrUpdate(tweet);
     }
 }

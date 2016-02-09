@@ -16,4 +16,6 @@ public interface TweetDao {
 
     public void delete(Tweet tweet);
 
+    public List<Tweet> getTweetComments(int tweetId);
+
 }

@@ -11,4 +11,8 @@ public class TweetNotFoundException extends Exception {
     public TweetNotFoundException() {
         super();
     }
+
+    public TweetNotFoundException(int tweetId) {
+        super("Tweet not found! ( id: " + tweetId + " )");
+    }
 }
