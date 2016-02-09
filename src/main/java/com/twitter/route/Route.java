@@ -5,6 +5,8 @@ package com.twitter.route;
  */
 public class Route {
 
+    public static final String MAIN = "/";
+
     public static final String GET_USERS = "/user";
     public static final String GET_USER_BY_ID = "/user/{userId}";
     public static final String CREATE_USER = "/register";
