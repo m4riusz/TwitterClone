@@ -4,3 +4,4 @@ target/
 .classpath
 .project
 .idea/
+WebContent/resources/bower_components/
