@@ -1,4 +1,4 @@
-<div ng-controller="UserCtrl">
+<div ng-controller="UserCtrl" ng-init = "getUsers()">
     <div class="col-sm-2 sidenav">
         <h3>Latest users!</h3>
         <div ng-repeat="u in users">
@@ -29,8 +29,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>

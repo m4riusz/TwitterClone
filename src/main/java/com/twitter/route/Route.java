@@ -7,6 +7,8 @@ public class Route {
 
     public static final String VIEW_MAIN = "/";
     public static final String VIEW_USERS = "/users";
+    public static final String VIEW_FOLLOWERS = "/followers";
+    public static final String VIEW_FOLLOWING = "/following";
 
     public static final String GET_USERS = "/rest/user";
     public static final String GET_USER_BY_ID = "/rest/user/{userId}";

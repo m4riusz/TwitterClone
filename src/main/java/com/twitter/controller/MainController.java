@@ -20,4 +20,16 @@ public class MainController {
     public String usersView() {
         return "users";
     }
+
+    @RequestMapping(value = Route.VIEW_FOLLOWERS, method = RequestMethod.GET)
+    public String followersView() {
+        return "followers";
+    }
+
+    @RequestMapping(value = Route.VIEW_FOLLOWING, method = RequestMethod.GET)
+    public String followingView() {
+        return "following";
+    }
+
+
 }
