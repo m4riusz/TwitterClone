@@ -25,7 +25,7 @@ public class TweetDaoImpl implements TweetDao {
 
     @Override
     public List<Tweet> getLatest(int maxNumberOfTweets) {
-        return getCurrentSession().createQuery("FROM Tweet t ORDER BY t.tweetDate").setMaxResults(maxNumberOfTweets).list();
+        return getCurrentSession().createQuery("FROM Tweet t ORDER BY t.tweetDate DESC").setMaxResults(maxNumberOfTweets).list();
     }
 
     @Override

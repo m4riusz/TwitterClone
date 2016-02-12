@@ -44,8 +44,6 @@ public class Tweet {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "tweetId"),
             inverseJoinColumns = @JoinColumn(name = "commentId"))
-
-
     private List<Tweet> comments;
 
     public Integer getId() {
@@ -64,7 +62,6 @@ public class Tweet {
         this.content = content;
     }
 
-    @JsonIgnore
     public User getOwner() {
         return owner;
     }

@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainController {
 
-    @RequestMapping(value = Route.MAIN, method = RequestMethod.GET)
+    @RequestMapping(value = Route.VIEW_MAIN, method = RequestMethod.GET)
     public String mainView() {
-
         return "index";
+    }
+
+    @RequestMapping(value = Route.VIEW_USERS, method = RequestMethod.GET)
+    public String usersView() {
+        return "users";
     }
 }

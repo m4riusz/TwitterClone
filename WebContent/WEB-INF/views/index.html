@@ -1,50 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Twitter clone</title>
     <script src="/resources/bower_components/angular/angular.js"></script>
+    <script src="/resources/bower_components/angular-route/angular-route.js"></script>
+    <script src="/resources/bower_components/angular-resource/angular-resource.js"></script>
     <script src="/resources/js/twitterApp.js"></script>
-    <script src="/resources/js/tweetCtrl.js"></script>
+    <script src="/resources/js/UserService.js"></script>
+    <script src="/resources/js/userCtrl.js"></script>
     <link rel="stylesheet" href="/resources/bower_components/bootstrap/dist/css/bootstrap.css">
 </head>
-<body>
+<body ng-app="twitterApp">
+
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <ul class="nav navbar-nav">
             <li><a>Twitter clone</a></li>
+            <li><a href="#latestTweets">Tweets</a></li>
+            <li><a href="#users">Users</a></li>
+            <li><a href="#followers">Followers</a></li>
+            <li><a href="#following">Following users</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
         </ul>
     </div>
-    </div>
 </nav>
 
-<div class="container-fluid text-center" ng-app="twitterApp" ng-controller="tweetCtrl">
-
-    <div class="row content">
-        <div class="col-sm-2 sidenav">
-            <p><a href="#">Link</a></p>
-        </div>
-        <div class="col-sm-8 text-left">
-            <h1>Latest tweets</h1>
-            <div class="well">
-                <p> {{firstName}}+{{lastName}}</p>
-            </div>
-            <hr>
-        </div>
-        <div class="col-sm-2 sidenav">
-            <div class="well">
-                <p>something</p>
-            </div>
-        </div>
-    </div>
+<div class="container-fluid">
+    <div ng-view></div>
 </div>
-
-<footer class="container-fluid text-center">
-    <p>Footer Text</p>
-</footer>
 
 </body>
 </html>
+
+
