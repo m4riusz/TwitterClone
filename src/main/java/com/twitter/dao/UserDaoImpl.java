@@ -28,7 +28,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void saveOrUpdate(User user) {
-        getCurrentSession().saveOrUpdate(user);
+        getCurrentSession().merge(user);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getFollowingUsers(int userId) {
         return getCurrentSession().createQuery("SELECT r FROM User u JOIN u.followers r WHERE u.id = :id")
-                .setParameter("id",userId).list();
+                .setParameter("id", userId).list();
     }
 
     @Override

@@ -18,6 +18,19 @@ app.config(function ($routeProvider) {
         .when("/following", {
             controller: "UserCtrl",
             templateUrl: "/following"
+        })
+        .when("/tweets", {
+            controller: "TweetCtrl",
+            templateUrl: "/tweets"
+        })
+        .when("/tweets/:tweetId", {
+            controller: "TweetCtrl",
+            templateUrl: function (params) {
+                return '/tweets/' + params.tweetId;
+            }
+        })
+        .otherwise({
+            redirectTo: "/users"
         });
 
 

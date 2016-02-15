@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Twitter clone</title>
@@ -9,6 +10,8 @@
     <script src="/resources/js/twitterApp.js"></script>
     <script src="/resources/js/UserService.js"></script>
     <script src="/resources/js/userCtrl.js"></script>
+    <script src="/resources/js/TweetService.js"></script>
+    <script src="/resources/js/tweetCtrl.js"></script>
     <link rel="stylesheet" href="/resources/bower_components/bootstrap/dist/css/bootstrap.css">
 </head>
 <body ng-app="twitterApp">
@@ -17,7 +20,7 @@
     <div class="container-fluid">
         <ul class="nav navbar-nav">
             <li><a>Twitter clone</a></li>
-            <li><a href="#latestTweets">Tweets</a></li>
+            <li><a href="#tweets">Tweets</a></li>
             <li><a href="#users">Users</a></li>
             <li><a href="#followers">Followers</a></li>
             <li><a href="#following">Following users</a></li>

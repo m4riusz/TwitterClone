@@ -1,0 +1,24 @@
+<div ng-controller="TweetCtrl" ng-init = "getTweets()">
+    <div class="col-sm-12 sidenav">
+        <div class="row" ng-repeat="tweet in latestTweets">
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-sm-6 col-md-8">
+                        <h4>{{tweet.owner.username}}</h4>
+                        <p>
+                            <i class="glyphicon glyphicon-envelope"></i>
+                            {{tweet.owner.email}}
+                            <br/>
+                            <i class="glyphicon glyphicon-calendar"></i>
+                            {{tweet.tweetDate}}
+                            <br/>
+                            <label>{{tweet.content}}</label>
+                            <br/>
+                            <a class="btn btn-default" href="#tweets/{{tweet.id}}">Comments</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

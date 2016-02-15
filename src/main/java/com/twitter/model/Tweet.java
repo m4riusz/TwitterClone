@@ -41,7 +41,7 @@ public class Tweet {
     }
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "tweetId"),
             inverseJoinColumns = @JoinColumn(name = "commentId"))
     private List<Tweet> comments;

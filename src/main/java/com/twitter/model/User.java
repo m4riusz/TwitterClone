@@ -37,7 +37,7 @@ public class User {
     @Email
     @Column(unique = true)
     private String email;
-    
+
     @NotNull
     private Role role;
     @NotNull
@@ -52,7 +52,7 @@ public class User {
     private Date createDate;
 
     @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "followerId"))
     private List<User> followers;
