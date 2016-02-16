@@ -16,6 +16,13 @@
                 </p>
             </div>
         </div>
+        <div class="row">
+            <div class="input-group">
+                <textarea class="form-control custom-control" rows="3" ng-model="comment"
+                          style="resize:none"></textarea>
+                <span class="input-group-addon btn btn-primary" ng-click="sendComment()">Send</span>
+            </div>
+        </div>
         <div ng-init="getComments()">
             <h3>Comments:</h3>
             <div class="row" ng-repeat="t in tweetComments">

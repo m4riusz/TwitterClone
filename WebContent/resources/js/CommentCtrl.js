@@ -4,6 +4,7 @@
 
 app.controller("CommentCtrl", function ($scope, $routeParams, TweetService) {
     $scope.tweetComments = [];
+    $scope.comment = "";
     $scope.tweet = {};
 
     $scope.getCommentedTweet = function () {
@@ -25,4 +26,16 @@ app.controller("CommentCtrl", function ($scope, $routeParams, TweetService) {
                 console.error(response);
             });
     };
+
+    $scope.sendComment = function () {
+        console.log($scope.comment);
+        TweetService.sendComment($routeParams.tweetId, $scope.comment)
+            .success(function () {
+                $scope.getComments();
+                $scope.comment = "";
+            })
+            .error(function (response) {
+                console.error(response);
+            })
+    }
 });

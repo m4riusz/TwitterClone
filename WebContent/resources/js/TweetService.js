@@ -4,51 +4,62 @@
 
 app.factory("TweetService", function ($http) {
 
-    return {
-        getLatestTweets: function () {
-            return $http({
-                method: "get",
-                url: "/rest/user/tweet"
-            });
-        },
+        return {
+            getLatestTweets: function () {
+                return $http({
+                    method: "get",
+                    url: "/rest/user/tweet"
+                });
+            },
 
-        getCommentsFromTweet: function (tweet) {
-            return $http({
-                method: "get",
-                url: "/rest/user/tweet/" + tweet.id + "/comment"
-            });
-        },
+            getCommentsFromTweet: function (tweet) {
+                return $http({
+                    method: "get",
+                    url: "/rest/user/tweet/" + tweet.id + "/comment"
+                });
+            },
 
-        getTweetsByUserId: function (userId) {
-            return $http({
-                method: "get",
-                url: "/rest/user/" + userId + "/tweet"
-            });
-        },
-        getTweetById: function (tweetId) {
-            return $http({
-                method: "get",
-                url: "/rest/user/tweet/" + tweetId
-            });
-        },
+            sendComment: function (tweetId, comment) {
+                return $http({
+                    method: "post",
+                    url: "/rest/user/tweet/" + tweetId + "/comment",
+                    data: JSON.stringify({"content": comment}),
+                    headers: {"Content-Type": "application/json"}
+                });
+            },
 
-        createTweet: function (tweet) {
-            return $http({
-                method: "post",
-                url: "/rest/user/tweet",
-                data: JSON.stringify(tweet),
-                headers: {"Content-Type": "application/json"}
-            });
-        },
+            getTweetsByUserId: function (userId) {
+                return $http({
+                    method: "get",
+                    url: "/rest/user/" + userId + "/tweet"
+                });
+            },
+            getTweetById: function (tweetId) {
+                return $http({
+                    method: "get",
+                    url: "/rest/user/tweet/" + tweetId
+                });
+            },
 
-        deleteTweet: function (tweet) {
-            return $http({
-                method: "delete",
-                url: "/rest/user/tweet",
-                data: JSON.stringify(tweet),
-                headers: {"Content-Type": "application/json"}
-            });
+            sendTweet: function (message) {
+                return $http({
+                    method: "post",
+                    url: "/rest/user/tweet",
+                    data: JSON.stringify({"content": message}),
+                    headers: {"Content-Type": "application/json"}
+                });
+            },
+
+            deleteTweet: function (message) {
+                return $http({
+                    method: "delete",
+                    url: "/rest/user/tweet",
+                    data: JSON.stringify({"content": message}),
+                    headers: {"Content-Type": "application/json"}
+                });
+            }
+
+
         }
-
     }
-});
+);

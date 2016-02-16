@@ -1,5 +1,14 @@
-<div ng-controller="TweetCtrl" ng-init = "getTweets()">
+<div ng-init="getTweets()">
     <div class="col-sm-12 sidenav">
+        <div class="row">
+            <h3>Tweet:</h3>
+            <div class="input-group">
+                <textarea class="form-control custom-control" rows="3" ng-model="message"
+                          style="resize:none"></textarea>
+                <span class="input-group-addon btn btn-primary" ng-click="sendTweet()">Send</span>
+            </div>
+        </div>
+        <h3>Latest tweets:</h3>
         <div class="row" ng-repeat="tweet in latestTweets">
             <div class="well well-sm">
                 <div class="row">

@@ -31,6 +31,11 @@ app.controller('UserCtrl', function ($scope, UserService) {
         UserService.follow(user)
             .success(function (user) {
                 $scope.following.push(user);
+
+                var index = $scope.users.indexOf(user);
+                if (index > -1) {
+                    $scope.users.splice(index, 1);
+                }
             })
             .error(function (response) {
                 console.error(response);

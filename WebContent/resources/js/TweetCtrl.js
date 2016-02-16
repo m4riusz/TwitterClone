@@ -1,7 +1,18 @@
-app.controller("TweetCtrl", function ($scope, $routeParams, TweetService) {
+app.controller("TweetCtrl", function ($scope, TweetService) {
 
     $scope.latestTweets = [];
-    $scope.tweetComments = [];
+    $scope.message = "";
+
+    $scope.sendTweet = function () {
+        TweetService.sendTweet($scope.message)
+            .success(function () {
+                $scope.getTweets();
+                $scope.message = "";
+            })
+            .error(function (response) {
+                console.error(response);
+            });
+    };
 
     $scope.getTweets = function () {
         TweetService.getLatestTweets()
@@ -13,13 +24,4 @@ app.controller("TweetCtrl", function ($scope, $routeParams, TweetService) {
             });
     };
 
-    $scope.getComments = function () {
-        TweetService.getCommentsFromTweet({"id": $routeParams.tweetId})
-            .success(function (data) {
-                $scope.tweetComments = data;
-            })
-            .error(function (response) {
-                console.error(response);
-            });
-    }
 });
