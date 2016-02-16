@@ -7,6 +7,7 @@ import com.twitter.util.TwitterUtil;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Component
 public class User {
 
     @Id
@@ -40,6 +42,7 @@ public class User {
 
     @NotNull
     private Role role;
+
     @NotNull
     private Boolean enable;
 
@@ -77,6 +80,7 @@ public class User {
         return createDate;
     }
 
+    @JsonIgnore
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
@@ -85,6 +89,7 @@ public class User {
         return enable;
     }
 
+    @JsonIgnore
     public void setEnable(Boolean enable) {
         this.enable = enable;
     }
@@ -93,6 +98,7 @@ public class User {
         return followers;
     }
 
+    @JsonIgnore
     public void setFollowers(List<User> followers) {
         this.followers = followers;
     }
@@ -101,6 +107,7 @@ public class User {
         return tweets;
     }
 
+    @JsonIgnore
     public void setTweets(List<Tweet> tweets) {
         this.tweets = tweets;
     }
@@ -109,6 +116,7 @@ public class User {
         return id;
     }
 
+    @JsonIgnore
     public void setId(Integer id) {
         this.id = id;
     }
@@ -143,6 +151,7 @@ public class User {
         return role;
     }
 
+    @JsonIgnore
     public void setRole(Role role) {
         this.role = role;
     }

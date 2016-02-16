@@ -2,8 +2,8 @@
     <div class="col-sm-2 sidenav">
         <h3>Latest users!</h3>
         <div ng-repeat="u in users">
-            <div class="well">
-                <a ng-click="showUser(u.id)">{{ u.username }}</a>
+            <div class="well" ng-click="showUser(u.id)">
+                {{ u.username }}
             </div>
         </div>
     </div>

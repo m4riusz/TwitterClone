@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.twitter.util.TwitterUtil;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Component
 public class Tweet {
     @Id
     @GeneratedValue
@@ -50,6 +52,7 @@ public class Tweet {
         return id;
     }
 
+    @JsonIgnore
     public void setId(Integer id) {
         this.id = id;
     }
@@ -66,6 +69,7 @@ public class Tweet {
         return owner;
     }
 
+    @JsonIgnore
     public void setOwner(User owner) {
         this.owner = owner;
     }
@@ -75,6 +79,7 @@ public class Tweet {
         return tweetDate;
     }
 
+    @JsonIgnore
     public void setTweetDate(Date tweetDate) {
         this.tweetDate = tweetDate;
     }
@@ -83,6 +88,7 @@ public class Tweet {
         return comments;
     }
 
+    @JsonIgnore
     public void setComments(List<Tweet> comments) {
         this.comments = comments;
     }

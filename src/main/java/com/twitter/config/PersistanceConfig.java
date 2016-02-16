@@ -1,13 +1,5 @@
 package com.twitter.config;
 
-import com.twitter.dao.TweetDao;
-import com.twitter.dao.TweetDaoImpl;
-import com.twitter.dao.UserDao;
-import com.twitter.dao.UserDaoImpl;
-import com.twitter.service.TweetService;
-import com.twitter.service.TweetServiceImpl;
-import com.twitter.service.UserService;
-import com.twitter.service.UserServiceImpl;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -29,26 +21,6 @@ public class PersistanceConfig {
 
     @Autowired
     public Environment env;
-
-    @Bean
-    public UserDao userDao(SessionFactory sessionFactory) {
-        return new UserDaoImpl(sessionFactory);
-    }
-
-    @Bean
-    public UserService userService(UserDao userDao) {
-        return new UserServiceImpl(userDao);
-    }
-
-    @Bean
-    public TweetDao tweetDao(SessionFactory sessionFactory) {
-        return new TweetDaoImpl(sessionFactory);
-    }
-
-    @Bean
-    public TweetService tweetService(UserDao userDao, TweetDao tweetDao) {
-        return new TweetServiceImpl(userDao, tweetDao);
-    }
 
     @Bean
     public SessionFactory sessionFactory(DataSource dataSource) {
