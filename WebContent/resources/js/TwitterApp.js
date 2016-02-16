@@ -2,7 +2,7 @@
  * Created by mariusz on 09.02.16.
  */
 
-var app = angular.module("twitterApp", ['ngRoute']);
+var app = angular.module("TwitterApp", ['ngRoute']);
 
 app.config(function ($routeProvider) {
 
@@ -24,7 +24,7 @@ app.config(function ($routeProvider) {
             templateUrl: "/tweets"
         })
         .when("/tweets/:tweetId", {
-            controller: "TweetCtrl",
+            controller: "CommentCtrl",
             templateUrl: function (params) {
                 return '/tweets/' + params.tweetId;
             }

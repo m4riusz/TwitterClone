@@ -1,40 +1,39 @@
-<div ng-controller="TweetCtrl" ng-init="getComments()">
+<div>
     <div class="col-sm-12 sidenav">
         <div class="row">
-            <div class="well well-sm" ng-init>
-                <div class="row">
-                    <div class="col-sm-6 col-md-8">
-                        <h4>{{tweet.owner.username}}</h4>
-                        <p>
-                            <i class="glyphicon glyphicon-envelope"></i>
-                            {{tweet.owner.email}}
-                            <br/>
-                            <i class="glyphicon glyphicon-calendar"></i>
-                            {{tweet.tweetDate}}
-                            <br/>
-                            <label>{{tweet.content}}</label>
-                            <br/>
-                        </p>
-                    </div>
-                </div>
+            <h3>Tweet:</h3>
+            <div class="well well-sm" ng-init="getCommentedTweet()">
+                <h4>{{tweet.owner.username}}</h4>
+                <p>
+                    <i class="glyphicon glyphicon-envelope"></i>
+                    {{tweet.owner.email}}
+                    <br/>
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    {{tweet.tweetDate}}
+                    <br/>
+                    <label>{{tweet.content}}</label>
+                    <br/>
+                </p>
             </div>
         </div>
-
-        <div class="row" ng-repeat="tweet in tweetComments">
-            <div class="well well-sm">
-                <div class="row">
-                    <div class="col-sm-6 col-md-8">
-                        <h4>{{tweet.owner.username}}</h4>
-                        <p>
-                            <i class="glyphicon glyphicon-envelope"></i>
-                            {{tweet.owner.email}}
-                            <br/>
-                            <i class="glyphicon glyphicon-calendar"></i>
-                            {{tweet.tweetDate}}
-                            <br/>
-                            <label>{{tweet.content}}</label>
-                            <br/>
-                        </p>
+        <div ng-init="getComments()">
+            <h3>Comments:</h3>
+            <div class="row" ng-repeat="t in tweetComments">
+                <div class="well well-sm">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-8">
+                            <h4>{{t.owner.username}}</h4>
+                            <p>
+                                <i class="glyphicon glyphicon-envelope"></i>
+                                {{t.owner.email}}
+                                <br/>
+                                <i class="glyphicon glyphicon-calendar"></i>
+                                {{t.tweetDate}}
+                                <br/>
+                                <label>{{t.content}}</label>
+                                <br/>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
