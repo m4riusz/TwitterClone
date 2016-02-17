@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -38,10 +37,10 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public void tweet(User user, Tweet tweet) throws TweetCreateException {
-        if (tweet.getContent().length() > TwitterUtil.MAX_TWEET_LENGTH) {
+        if (tweet.getContent().length() > TwitterUtil.MAX_TWEET_LENGTH ||
+                tweet.getContent().length() < TwitterUtil.MIN_TWEET_LENGTH) {
             throw new TweetCreateException(tweet.getContent().length());
         }
-        tweet.setTweetDate(Calendar.getInstance().getTime());
         tweet.setOwner(user);
         tweetDao.saveOrUpdate(tweet);
     }
@@ -73,15 +72,16 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public void createTweetComment(User currentUser, int tweetId, String content) throws TweetNotFoundException, TweetCreateException {
+    public void createTweetComment(User currentUser, int tweetId, Tweet tweet) throws TweetNotFoundException, TweetCreateException {
         Tweet tweetToComment = tweetDao.get(tweetId);
         if (tweetToComment == null) {
             throw new TweetNotFoundException(tweetId);
-        } else if (content.length() > TwitterUtil.MAX_TWEET_LENGTH) {
-            throw new TweetCreateException(content.length());
+        } else if (tweet.getContent().length() > TwitterUtil.MAX_TWEET_LENGTH ||
+                tweet.getContent().length() < TwitterUtil.MIN_TWEET_LENGTH) {
+            throw new TweetCreateException(tweet.getContent().length());
         }
-        Tweet comment = new Tweet(content, currentUser);
-        tweetToComment.getComments().add(comment);
+        tweet.setOwner(currentUser);
+        tweetToComment.getComments().add(tweet);
         tweetDao.saveOrUpdate(tweetToComment);
     }
 

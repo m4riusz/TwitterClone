@@ -70,7 +70,7 @@ public class TweetController {
     public void createTweetComment(@PathVariable int tweetId, @RequestBody Tweet tweet, Principal principal)
             throws UserNotFoundException, TweetCreateException, TweetNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
-        tweetService.createTweetComment(currentUser, tweetId, tweet.getContent());
+        tweetService.createTweetComment(currentUser, tweetId, tweet);
     }
 
     @ResponseStatus(code = HttpStatus.OK)

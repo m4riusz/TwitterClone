@@ -11,6 +11,12 @@ app.config(function ($routeProvider) {
             controller: "UserCtrl",
             templateUrl: "/users"
         })
+        .when("/users/:userId", {
+            controller: "ProfileCtrl",
+            templateUrl: function (params) {
+                return "/users/" + params.userId;
+            }
+        })
         .when("/followers", {
             controller: "UserCtrl",
             templateUrl: "/followers"

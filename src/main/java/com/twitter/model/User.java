@@ -1,9 +1,11 @@
 package com.twitter.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.twitter.util.TwitterUtil;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,34 +30,43 @@ public class User {
     @NotNull
     @Length(min = TwitterUtil.MinLoginLength, max = TwitterUtil.MaxLoginLength)
     @Column(unique = true)
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private String username;
 
     @NotNull
     @Length(min = TwitterUtil.MinPasswordLength, max = TwitterUtil.MaxPasswordLength)
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotNull
     @Email
     @Column(unique = true)
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private String email;
 
     @NotNull
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Role role;
 
     @NotNull
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Boolean enable;
 
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private List<Tweet> tweets;
 
     @NotNull
     @DateTimeFormat(pattern = TwitterUtil.DATE_FORMAT)
+    @JsonFormat(pattern = TwitterUtil.DATE_FORMAT)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date createDate;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonBackReference
+    @ManyToMany(fetch = FetchType.LAZY)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JoinTable(joinColumns = @JoinColumn(name = "userId"),
             inverseJoinColumns = @JoinColumn(name = "followerId"))
     private List<User> followers;
@@ -75,12 +86,10 @@ public class User {
         this.email = email;
     }
 
-    @JsonFormat(pattern = TwitterUtil.DATE_FORMAT)
     public Date getCreateDate() {
         return createDate;
     }
 
-    @JsonIgnore
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
@@ -89,7 +98,6 @@ public class User {
         return enable;
     }
 
-    @JsonIgnore
     public void setEnable(Boolean enable) {
         this.enable = enable;
     }
@@ -98,7 +106,6 @@ public class User {
         return followers;
     }
 
-    @JsonIgnore
     public void setFollowers(List<User> followers) {
         this.followers = followers;
     }
@@ -107,7 +114,6 @@ public class User {
         return tweets;
     }
 
-    @JsonIgnore
     public void setTweets(List<Tweet> tweets) {
         this.tweets = tweets;
     }
@@ -116,7 +122,6 @@ public class User {
         return id;
     }
 
-    @JsonIgnore
     public void setId(Integer id) {
         this.id = id;
     }
@@ -129,12 +134,10 @@ public class User {
         this.username = username;
     }
 
-    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
-    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
@@ -151,7 +154,6 @@ public class User {
         return role;
     }
 
-    @JsonIgnore
     public void setRole(Role role) {
         this.role = role;
     }

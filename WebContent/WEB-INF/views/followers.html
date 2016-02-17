@@ -1,19 +1,21 @@
 <div ng-init="getFollowers();">
     <div class="col-sm-12 sidenav">
-        <h3>Users that are following you!</h3>
-        <div class="row" ng-repeat="usr in followers">
-            <div class="well well-sm">
-                <div class="row">
-                    <div class="col-sm-6 col-md-8">
-                        <h4>{{usr.username}}</h4>
-                        <p>
-                            <i class="glyphicon glyphicon-envelope"></i>
-                            {{usr.email}}
-                            <br/>
-                            <i class="glyphicon glyphicon-gift"></i>
-                            {{usr.createDate}}
-                        </p>
-                    </div>
+        <div class="row">
+            <h3>Users that are following you!</h3>
+            <div class="form-group">
+                <label for="usr">Username:</label>
+                <input type="text" class="form-control" id="usr" ng-model="username">
+            </div>
+            <div ng-repeat="usr in followers | filter : username | orderBy: username">
+                <div class="well well-sm">
+                    <h4>{{usr.username}}</h4>
+                    <p>
+                        <i class="glyphicon glyphicon-envelope"></i>
+                        {{usr.email}}
+                        <br/>
+                        <i class="glyphicon glyphicon-gift"></i>
+                        {{usr.createDate}}
+                    </p>
                 </div>
             </div>
         </div>

@@ -18,7 +18,7 @@ public interface TweetService {
 
     public List<Tweet> getTweetComments(int tweetId) throws TweetNotFoundException;
 
-    public void createTweetComment(User currentUser, int tweetId, String content) throws TweetNotFoundException, TweetCreateException;
+    public void createTweetComment(User currentUser, int tweetId, Tweet tweet) throws TweetNotFoundException, TweetCreateException;
 
     public void deleteTweet(User owner, int tweetId) throws TweetNotFoundException, TweetDeleteException;
 }

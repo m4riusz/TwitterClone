@@ -22,6 +22,11 @@ public class MainController {
         return "users";
     }
 
+    @RequestMapping(value = Route.VIEW_USER, method = RequestMethod.GET)
+    public String userView() {
+        return "user";
+    }
+
     @RequestMapping(value = Route.VIEW_FOLLOWERS, method = RequestMethod.GET)
     public String followersView() {
         return "followers";
@@ -32,7 +37,7 @@ public class MainController {
         return "following";
     }
 
-    @RequestMapping(value = Route.VIEW_LATEST_TWEETS, method = RequestMethod.GET)
+    @RequestMapping(value = Route.VIEW_TWEETS, method = RequestMethod.GET)
     public String latestTweetsView() {
         return "tweets";
     }

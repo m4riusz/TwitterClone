@@ -11,6 +11,8 @@ public class TwitterUtil {
 
     public static final String DATE_FORMAT = "HH:mm dd-MM-yyyy";
     public static final int MAX_TWEET_LENGTH = 140;
+    public static final int MIN_TWEET_LENGTH = 1;
     public static final int NUMBER_OF_LATEST_TWEETS = 10;
+
     public static final String DELETE_MESSAGE = "Tweet has been deleted!";
 }

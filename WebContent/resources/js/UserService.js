@@ -44,10 +44,24 @@ app.factory("UserService", function ($http) {
             });
         },
 
+        getFollowersByUserId: function (userId) {
+            return $http({
+                method: "get",
+                url: "/rest/user/followers/" + userId
+            });
+        },
+
         getFollowingUsers: function () {
             return $http({
                 method: "get",
                 url: "/rest/user/following"
+            });
+        },
+
+        getFollowingUsersByUserId: function (userId) {
+            return $http({
+                method: "get",
+                url: "/rest/user/following/" + userId
             });
         }
 

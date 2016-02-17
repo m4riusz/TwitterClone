@@ -1,7 +1,7 @@
 package com.twitter.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.twitter.util.TwitterUtil;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,36 +23,35 @@ public class Tweet {
 
     @NotNull
     @Length(max = TwitterUtil.MAX_TWEET_LENGTH)
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private String content;
 
+    @NotNull
     @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private User owner;
 
-    @DateTimeFormat(pattern = TwitterUtil.DATE_FORMAT)
     @NotNull
+    @DateTimeFormat(pattern = TwitterUtil.DATE_FORMAT)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonFormat(pattern = TwitterUtil.DATE_FORMAT)
     private Date tweetDate;
 
-    public Tweet() {
-    }
-
-    public Tweet(String content, User owner) {
-        this.comments = new ArrayList<>();
-        this.tweetDate = Calendar.getInstance().getTime();
-        this.content = content;
-        this.owner = owner;
-    }
-
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "tweetId"),
             inverseJoinColumns = @JoinColumn(name = "commentId"))
     private List<Tweet> comments;
 
+    public Tweet() {
+        this.comments = new ArrayList<>();
+        this.tweetDate = Calendar.getInstance().getTime();
+    }
+
     public Integer getId() {
         return id;
     }
 
-    @JsonIgnore
     public void setId(Integer id) {
         this.id = id;
     }
@@ -69,17 +68,14 @@ public class Tweet {
         return owner;
     }
 
-    @JsonIgnore
     public void setOwner(User owner) {
         this.owner = owner;
     }
 
-    @JsonFormat(pattern = TwitterUtil.DATE_FORMAT)
     public Date getTweetDate() {
         return tweetDate;
     }
 
-    @JsonIgnore
     public void setTweetDate(Date tweetDate) {
         this.tweetDate = tweetDate;
     }
@@ -88,8 +84,9 @@ public class Tweet {
         return comments;
     }
 
-    @JsonIgnore
     public void setComments(List<Tweet> comments) {
         this.comments = comments;
     }
+
+
 }
