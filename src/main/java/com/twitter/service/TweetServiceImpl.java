@@ -25,7 +25,6 @@ public class TweetServiceImpl implements TweetService {
         this.userDao = userDao;
     }
 
-
     @Override
     public Tweet getTweetById(int tweetId) throws TweetNotFoundException {
         Tweet tweet = tweetDao.get(tweetId);

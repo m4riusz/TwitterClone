@@ -13,7 +13,7 @@ public class TweetCreateException extends Exception {
     }
 
     public TweetCreateException(int tweetLength) {
-        super("Text is too long! ( " + tweetLength + " )");
+        super("Text length is wrong! ( " + tweetLength + " )");
     }
 
 }

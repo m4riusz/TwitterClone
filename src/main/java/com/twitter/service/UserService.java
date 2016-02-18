@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
 
-    public void createUser(User user) throws UserAlreadyExist;
+    public void createUser(User user) throws UserAlreadyExist, UserCreateException;
 
     public void deleteUser(User user);
 

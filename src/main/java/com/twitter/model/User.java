@@ -28,13 +28,13 @@ public class User {
     private Integer id;
 
     @NotNull
-    @Length(min = TwitterUtil.MinLoginLength, max = TwitterUtil.MaxLoginLength)
+    @Length(min = TwitterUtil.MIN_USERNAME_LENGTH, max = TwitterUtil.MAX_USERNAME_LENGTH)
     @Column(unique = true)
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private String username;
 
     @NotNull
-    @Length(min = TwitterUtil.MinPasswordLength, max = TwitterUtil.MaxPasswordLength)
+    @Length(min = TwitterUtil.MIN_PASSWORD_LENGTH, max = TwitterUtil.MAX_PASSWORD_LENGTH)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

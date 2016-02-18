@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.util.List;
 
 @Service
@@ -22,13 +24,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User user) throws UserAlreadyExist {
-        if (!isUserExist(user)) {
-            userDao.saveOrUpdate(user);
-            return;
+    public void createUser(User user) throws UserAlreadyExist, UserCreateException {
+        if (!isPasswordLengthInBounds(user.getPassword().length())) {
+            throw new UserCreateException(TwitterUtil.PASSWORD_LENGTH_ERROR);
+        } else if (!isUsernameLengthInBounds(user.getUsername().length())) {
+            throw new UserCreateException(TwitterUtil.USERNAME_LENGTH_ERROR);
+        } else if (!isValidEmailAddress(user.getEmail())) {
+            throw new UserCreateException(TwitterUtil.EMAIL_ERROR);
+        } else if (isUserExist(user)) {
+            throw new UserAlreadyExist(TwitterUtil.USER_ALREADY_EXISTS_ERROR);
         }
-        throw new UserAlreadyExist(user.getUsername() + " " + user.getEmail());
-
+        userDao.saveOrUpdate(user);
     }
 
     @Override
@@ -38,8 +44,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void editUser(User user, String password) throws UserEditException {
-        if (password.length() < TwitterUtil.MinPasswordLength || password.length() > TwitterUtil.MaxPasswordLength) {
-            throw new UserEditException("Wrong password length!");
+        if (!isPasswordLengthInBounds(password.length())) {
+            throw new UserEditException(TwitterUtil.PASSWORD_LENGTH_ERROR);
         }
         user.setPassword(password);
         userDao.saveOrUpdate(user);
@@ -66,7 +72,7 @@ public class UserServiceImpl implements UserService {
     public User getUserByUsername(String username) throws UserNotFoundException {
         User user = userDao.getByUsername(username);
         if (user == null) {
-            throw new UserNotFoundException(username);
+            throw new UserNotFoundException(TwitterUtil.USER_NOT_FOUND_ERROR + username);
         }
         return user;
     }
@@ -89,11 +95,11 @@ public class UserServiceImpl implements UserService {
     public void follow(User user, String username) throws UserNotFoundException, UserAlreadyFollowed, UserFollowException {
         User userToFollow = userDao.getByUsername(username);
         if (user.equals(userToFollow)) {
-            throw new UserFollowException("You can not follow yourself!");
+            throw new UserFollowException(TwitterUtil.FOLLOW_YOURSELF_ERROR);
         } else if (userToFollow == null) {
             throw new UserNotFoundException(username);
         } else if (userDao.getFollowingUsers(user.getId()).contains(userToFollow)) {
-            throw new UserAlreadyFollowed("You are already following user: " + username);
+            throw new UserAlreadyFollowed(TwitterUtil.ALREADY_FOLLOWED_ERROR + username);
         }
         user.getFollowers().add(userToFollow);
         userDao.saveOrUpdate(user);
@@ -103,11 +109,11 @@ public class UserServiceImpl implements UserService {
     public void unfollow(User currentUser, String username) throws UserNotFoundException, UserNotFollowedException, UserFollowException {
         User userToUnfollow = userDao.getByUsername(username);
         if (currentUser.equals(userToUnfollow)) {
-            throw new UserFollowException("You can not unfollow yourself!");
+            throw new UserFollowException(TwitterUtil.UNFOLLOW_YOURSELF_ERROR);
         } else if (userToUnfollow == null) {
             throw new UserNotFoundException(username);
         } else if (!userDao.getFollowingUsers(currentUser.getId()).contains(userToUnfollow)) {
-            throw new UserNotFollowedException("You can not unfollow user who is not followed! " + username);
+            throw new UserNotFollowedException(TwitterUtil.UNFOLLOW_UNFOLLOWED_USER_ERROR);
         }
         currentUser.getFollowers().remove(userToUnfollow);
         userDao.saveOrUpdate(currentUser);
@@ -116,9 +122,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getFollowingUsers(int userId) throws UserNotFoundException {
         User user = userDao.get(userId);
-        if (user == null){
+        if (user == null) {
             throw new UserNotFoundException(userId);
         }
         return userDao.getFollowingUsers(userId);
+    }
+
+    private boolean isValidEmailAddress(String email) {
+        boolean result = true;
+        try {
+            InternetAddress emailAddr = new InternetAddress(email);
+            emailAddr.validate();
+        } catch (AddressException ex) {
+            result = false;
+        }
+        return result;
+    }
+
+    private boolean isUsernameLengthInBounds(int usernameLength) {
+        return usernameLength >= TwitterUtil.MIN_PASSWORD_LENGTH && usernameLength <= TwitterUtil.MAX_PASSWORD_LENGTH;
+    }
+
+    private boolean isPasswordLengthInBounds(int passwordLength) {
+        return passwordLength >= TwitterUtil.MIN_PASSWORD_LENGTH && passwordLength <= TwitterUtil.MAX_PASSWORD_LENGTH;
     }
 }
