@@ -12,6 +12,7 @@ public class Route {
     public static final String VIEW_FOLLOWING = "/following";
     public static final String VIEW_TWEETS = "/tweets";
     public static final String VIEW_TWEET = "/tweets/{tweetId}";
+    public static final String LOGIN = "/login";
     public static final String LOGOUT = "/logout";
 
     public static final String GET_USERS = "/rest/user";

@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainController {
 
+    @RequestMapping(value = Route.LOGIN, method = RequestMethod.GET)
+    public String loginView() {
+        return "login";
+    }
+
     @RequestMapping(value = Route.VIEW_MAIN, method = RequestMethod.GET)
     public String mainView() {
         return "index";
