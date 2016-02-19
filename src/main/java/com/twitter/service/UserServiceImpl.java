@@ -4,12 +4,11 @@ import com.twitter.dao.UserDao;
 import com.twitter.exception.*;
 import com.twitter.model.User;
 import com.twitter.util.TwitterUtil;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import java.util.List;
 
 @Service
@@ -53,10 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUserExist(User user) {
-        if (userDao.getByEmail(user.getEmail()) != null || userDao.getByUsername(user.getUsername()) != null) {
-            return true;
-        }
-        return false;
+        return (userDao.getByEmail(user.getEmail()) != null || userDao.getByUsername(user.getUsername()) != null);
     }
 
     @Override
@@ -129,14 +125,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean isValidEmailAddress(String email) {
-        boolean result = true;
-        try {
-            InternetAddress emailAddr = new InternetAddress(email);
-            emailAddr.validate();
-        } catch (AddressException ex) {
-            result = false;
-        }
-        return result;
+        return EmailValidator.getInstance().isValid(email);
     }
 
     private boolean isUsernameLengthInBounds(int usernameLength) {

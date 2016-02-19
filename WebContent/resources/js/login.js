@@ -39,7 +39,9 @@ var register = function () {
                 alert("You have created account!");
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.responseText);
+                console.log(xhr.responseText);
+                var response = $.parseJSON(xhr.responseText);
+                alert(response.message);
             }
         });
 

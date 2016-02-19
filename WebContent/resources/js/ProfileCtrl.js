@@ -15,6 +15,7 @@ app.controller("ProfileCtrl", function ($scope, $routeParams, UserService, Tweet
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             })
     };
 
@@ -25,6 +26,7 @@ app.controller("ProfileCtrl", function ($scope, $routeParams, UserService, Tweet
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             });
     };
 
@@ -35,6 +37,7 @@ app.controller("ProfileCtrl", function ($scope, $routeParams, UserService, Tweet
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             });
     };
 
@@ -45,6 +48,7 @@ app.controller("ProfileCtrl", function ($scope, $routeParams, UserService, Tweet
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             });
     };
 });

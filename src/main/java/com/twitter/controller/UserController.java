@@ -36,7 +36,7 @@ public class UserController {
 
     @ResponseStatus(value = HttpStatus.OK)
     @RequestMapping(value = Route.CREATE_USER, method = RequestMethod.POST)
-    public void createUser(@RequestBody User user) throws UserAlreadyExist {
+    public void createUser(@RequestBody User user) throws UserAlreadyExist, UserCreateException {
         userService.createUser(user);
         logger.info(user);
     }

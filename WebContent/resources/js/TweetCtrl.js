@@ -11,6 +11,7 @@ app.controller("TweetCtrl", function ($scope, TweetService) {
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             });
     };
 
@@ -21,6 +22,7 @@ app.controller("TweetCtrl", function ($scope, TweetService) {
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             });
     };
 

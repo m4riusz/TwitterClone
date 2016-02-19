@@ -14,6 +14,7 @@ app.controller('UserCtrl', function ($scope, UserService) {
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             });
     };
 
@@ -24,6 +25,7 @@ app.controller('UserCtrl', function ($scope, UserService) {
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             })
     };
 
@@ -39,6 +41,7 @@ app.controller('UserCtrl', function ($scope, UserService) {
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             });
     };
 
@@ -52,6 +55,7 @@ app.controller('UserCtrl', function ($scope, UserService) {
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             })
     };
 
@@ -62,6 +66,7 @@ app.controller('UserCtrl', function ($scope, UserService) {
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             });
     };
 
@@ -72,6 +77,7 @@ app.controller('UserCtrl', function ($scope, UserService) {
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             })
     };
 

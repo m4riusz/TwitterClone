@@ -14,6 +14,7 @@ app.controller("CommentCtrl", function ($scope, $routeParams, TweetService) {
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             });
     };
 
@@ -24,6 +25,7 @@ app.controller("CommentCtrl", function ($scope, $routeParams, TweetService) {
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             });
     };
 
@@ -36,6 +38,7 @@ app.controller("CommentCtrl", function ($scope, $routeParams, TweetService) {
             })
             .error(function (response) {
                 console.error(response);
+                alert(response.message);
             })
     }
 });

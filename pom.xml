@@ -20,14 +20,14 @@
         <javax.servlet.api>3.1.0</javax.servlet.api>
         <jackson.databind-version>2.6.5</jackson.databind-version>
         <org.apache.logging.log4j>2.5</org.apache.logging.log4j>
-        <javax.mail.version>1.5.1</javax.mail.version>
+        <commons-validator.version>1.4.1</commons-validator.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>javax.mail-api</artifactId>
-            <version>${javax.mail.version}</version>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>${commons-validator.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
