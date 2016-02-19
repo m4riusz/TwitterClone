@@ -12,8 +12,4 @@ public class TweetCreateException extends Exception {
         super(message);
     }
 
-    public TweetCreateException(int tweetLength) {
-        super("Text length is wrong! ( " + tweetLength + " )");
-    }
-
 }

@@ -3,11 +3,11 @@
 	<Appenders>
 		<RollingFile name="FILE" fileName="/logs/twitter.log"
 					 filePattern="/logs/archive/twitter.log.%d{yyyy-MM-dd-hh-mm}.gz">
-			<PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %c{1}: %m%n"/>
+			<PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | %c{1} %M: %m%n"/>
 			<TimeBasedTriggeringPolicy/>
 		</RollingFile>
 		<Console name="STDOUT" target="SYSTEM_OUT">
-			<PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %c{1}: %m%n"/>
+			<PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | %c{1} %M: %m%n"/>
 		</Console>
 	</Appenders>
 	<Loggers>

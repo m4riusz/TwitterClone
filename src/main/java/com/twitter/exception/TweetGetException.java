@@ -4,11 +4,11 @@ package com.twitter.exception;
  * Created by mariusz on 01.02.16.
  */
 public class TweetGetException extends Exception {
-    public TweetGetException(String s) {
-        super(s);
+    public TweetGetException() {
+        super();
     }
 
-    public TweetGetException(int tweetId) {
-        super("Wrong tweet id! ( " + tweetId + " )");
+    public TweetGetException(String message) {
+        super(message);
     }
 }
