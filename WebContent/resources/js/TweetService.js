@@ -50,11 +50,10 @@ app.factory("TweetService", function ($http) {
                 });
             },
 
-            deleteTweet: function (message) {
+            deleteTweet: function (tweetId) {
                 return $http({
                     method: "delete",
-                    url: "/rest/user/tweet",
-                    data: JSON.stringify({"content": message}),
+                    url: "/rest/user/tweet/" + tweetId,
                     headers: {"Content-Type": "application/json"}
                 });
             }

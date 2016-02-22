@@ -26,4 +26,15 @@ app.controller("TweetCtrl", function ($scope, TweetService) {
             });
     };
 
+    $scope.deleteTweet = function (tweet) {
+        TweetService.deleteTweet(tweet.id)
+            .success(function () {
+                tweet.content = "Tweet has been deleted!";
+            })
+            .error(function (response) {
+                console.error(response);
+                alert(response.message);
+            });
+    };
+
 });
