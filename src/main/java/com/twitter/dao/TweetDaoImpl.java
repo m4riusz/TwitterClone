@@ -50,6 +50,14 @@ public class TweetDaoImpl implements TweetDao {
                 .setParameter("id", tweetId).list();
     }
 
+    @Override
+    public List<Tweet> getTweetsFromFollowingUsers(int userId) {
+
+        return getCurrentSession().createQuery("" +
+                "SELECT t FROM Tweet t WHERE t.owner.id IN (SELECT r.id FROM User u JOIN u.followers r WHERE u.id = :id)")
+                .setParameter("id", userId).list();
+    }
+
     private Session getCurrentSession() {
         sessionFactory.getCurrentSession().clear();
         return sessionFactory.getCurrentSession();

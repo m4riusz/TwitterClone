@@ -29,6 +29,7 @@ public class Route {
 
     public static final String GET_TWEETS = "/rest/user/tweet";
     public static final String GET_TWEETS_BY_USERID = "/rest/user/{userId}/tweet";
+    public static final String GET_TWEETS_FROM_FOLLOWING_USERS = "/rest/user/tweet/following/{userId}";
     public static final String GET_TWEET_BY_ID = "/rest/user/tweet/{tweetId}";
     public static final String CREATE_TWEET = "/rest/user/tweet";
     public static final String DELETE_TWEET = "/rest/user/tweet/{tweetId}";

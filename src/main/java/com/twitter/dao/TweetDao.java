@@ -18,4 +18,6 @@ public interface TweetDao {
 
     public List<Tweet> getTweetComments(int tweetId);
 
+    public List<Tweet> getTweetsFromFollowingUsers(int userId);
+
 }

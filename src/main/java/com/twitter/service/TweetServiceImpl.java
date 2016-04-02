@@ -95,6 +95,15 @@ public class TweetServiceImpl implements TweetService {
         tweetDao.saveOrUpdate(tweet);
     }
 
+    @Override
+    public List<Tweet> getTweetsFromFollowingUsers(int userId) throws UserNotFoundException {
+        User user = userDao.get(userId);
+        if (user == null) {
+            throw new UserNotFoundException(MessageUtil.USER_NOT_FOUND_ERROR);
+        }
+        return tweetDao.getTweetsFromFollowingUsers(userId);
+    }
+
     private boolean isTweetLengthInBounds(int tweetLength) {
         return tweetLength >= TwitterUtil.MIN_TWEET_LENGTH && tweetLength <= TwitterUtil.MAX_TWEET_LENGTH;
     }

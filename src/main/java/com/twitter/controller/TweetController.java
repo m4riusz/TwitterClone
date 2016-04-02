@@ -80,4 +80,9 @@ public class TweetController {
         tweetService.deleteTweet(currentUser, tweetId);
     }
 
+    @RequestMapping(value = Route.GET_TWEETS_FROM_FOLLOWING_USERS, method = RequestMethod.GET)
+    public List<Tweet> getTweetsFromFollowers(@PathVariable int userId) throws UserNotFoundException {
+        return tweetService.getTweetsFromFollowingUsers(userId);
+    }
+
 }
