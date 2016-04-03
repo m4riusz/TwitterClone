@@ -21,15 +21,15 @@ public class ExceptionController {
 
     @ResponseBody
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(value = {TweetNotFoundException.class, UserNotFollowedException.class})
+    @ExceptionHandler(value = {TweetNotFoundException.class, UserNotFoundException.class})
     public ErrorResponse notFoundHandler(HttpServletRequest req, Exception exception) {
         return generateErrorResponse(req, exception);
     }
 
     @ResponseBody
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = {TweetCreateException.class, UserCreateException.class
-            , UserEditException.class, TweetGetException.class})
+    @ExceptionHandler(value = {TweetCreateException.class, UserCreateException.class,
+            UserEditException.class, TweetGetException.class})
     public ErrorResponse badRequestHandler(HttpServletRequest req, Exception exception) {
         return generateErrorResponse(req, exception);
     }
