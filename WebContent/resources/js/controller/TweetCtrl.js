@@ -2,6 +2,7 @@ app.controller("TweetCtrl", function ($scope, TweetService) {
 
     $scope.latestTweets = [];
     $scope.message = "";
+    $scope.tweetsFromFollowingUsers = [];
 
     $scope.sendTweet = function () {
         TweetService.sendTweet($scope.message)
@@ -36,5 +37,16 @@ app.controller("TweetCtrl", function ($scope, TweetService) {
                 alert(response.message);
             });
     };
+
+    $scope.getTweetsFromFollowers = function () {
+        TweetService.getTweetsFromFollowers()
+            .success(function (data) {
+                $scope.tweetsFromFollowingUsers = data;
+            })
+            .error(function (response) {
+                console.error(response);
+                alert(response.message);
+            })
+    }
 
 });

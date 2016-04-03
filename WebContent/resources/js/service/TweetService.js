@@ -57,8 +57,6 @@ app.factory("TweetService", function ($http) {
                     headers: {"Content-Type": "application/json"}
                 });
             }
-
-
         }
     }
 );

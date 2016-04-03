@@ -8,7 +8,7 @@ app.controller("ProfileCtrl", function ($scope, $routeParams, UserService, Tweet
     $scope.currentUserFollowers = [];
     $scope.currentUserFollowings = [];
 
-    $scope.getCurrentUser = function () {
+    $scope.getUserProfile = function () {
         UserService.getUserById($routeParams.userId)
             .success(function (user) {
                 $scope.currentUser = user;
