@@ -1,6 +1,7 @@
 package com.twitter.service;
 
 import com.twitter.exception.*;
+import com.twitter.model.Role;
 import com.twitter.model.User;
 
 import java.util.List;
@@ -32,4 +33,6 @@ public interface UserService {
     public void banUser(User invokeUser, int userId) throws UserNotFoundException, UserAccessibilityChangeException, PermisionException;
 
     public void unbanUser(User invokeUser, int userId) throws UserNotFoundException, UserAccessibilityChangeException, PermisionException;
+
+    public void changeUserRights(User invokeUser, int userId, Role role) throws UserNotFoundException, PermisionException;
 }

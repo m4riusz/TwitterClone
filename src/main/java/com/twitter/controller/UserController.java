@@ -1,6 +1,7 @@
 package com.twitter.controller;
 
 import com.twitter.exception.*;
+import com.twitter.model.Role;
 import com.twitter.model.User;
 import com.twitter.route.Route;
 import com.twitter.service.UserService;
@@ -25,6 +26,20 @@ public class UserController {
     @RequestMapping(value = Route.GET_USER, method = RequestMethod.HEAD)
     public User getCurrentUser(Principal principal) throws UserNotFoundException {
         return userService.getUserByUsername(principal.getName());
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(value = Route.GET_USER, method = RequestMethod.PUT)
+    public void editUser(@RequestBody User user, Principal principal) throws UserEditException, UserNotFoundException {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        userService.editUser(currentUser, user.getPassword());
+    }
+
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(value = Route.GET_USER, method = RequestMethod.PATCH)
+    public void changeUserRole(@RequestBody User user, @RequestBody Role role, Principal principal) throws UserNotFoundException, PermisionException {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        userService.changeUserRights(currentUser, user.getId(), role);
     }
 
     @RequestMapping(value = Route.GET_USER_BY_ID, method = RequestMethod.GET)
@@ -52,13 +67,6 @@ public class UserController {
         userService.createUser(user);
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
-    @RequestMapping(value = Route.GET_USER, method = RequestMethod.PUT)
-    public void editUser(@RequestBody User user, Principal principal) throws UserEditException, UserNotFoundException {
-        User currentUser = userService.getUserByUsername(principal.getName());
-        userService.editUser(currentUser, user.getPassword());
-    }
-
     @RequestMapping(value = Route.GET_FOLLOWERS, method = RequestMethod.GET)
     public List<User> getFollowers(Principal principal) throws UserNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
@@ -79,18 +87,18 @@ public class UserController {
         userService.unfollow(currentUser, user.getUsername());
     }
 
-    @RequestMapping(value = Route.GET_FOLLOWERS_BY_USERID, method = RequestMethod.GET)
-    public List<User> getFollowersFromUser(@PathVariable int userId) throws UserNotFoundException {
-        return userService.getFollowers(userId);
-    }
-
-    @RequestMapping(value = Route.GET_FOLLOWING_USERS)
+    @RequestMapping(value = Route.GET_FOLLOWING_USERS, method = RequestMethod.GET)
     public List<User> getFollowingUsers(Principal principal) throws UserNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
         return userService.getFollowingUsers(currentUser.getId());
     }
 
-    @RequestMapping(value = Route.GET_FOLLOWING_BY_USERID)
+    @RequestMapping(value = Route.GET_FOLLOWERS_BY_USERID, method = RequestMethod.GET)
+    public List<User> getFollowersFromUser(@PathVariable int userId) throws UserNotFoundException {
+        return userService.getFollowers(userId);
+    }
+
+    @RequestMapping(value = Route.GET_FOLLOWING_BY_USERID, method = RequestMethod.GET)
     public List<User> getFollowingUsersFromUser(@PathVariable int userId) throws UserNotFoundException {
         return userService.getFollowingUsers(userId);
     }

@@ -142,6 +142,20 @@ public class UserServiceImpl implements UserService {
         userDao.saveOrUpdate(userToUnlock);
     }
 
+    @Override
+    public void changeUserRights(User invokeUser, int userId, Role role) throws UserNotFoundException, PermisionException {
+        User userToChange = userDao.get(userId);
+        if (userToChange == null) {
+            throw new UserNotFoundException(MessageUtil.USER_NOT_FOUND_ERROR + userId);
+        } else if (invokeUser.getRole() == Role.USER) {
+            throw new PermisionException(MessageUtil.PERMISSION_ERROR);
+        } else if (invokeUser.equals(userToChange)) {
+            throw new PermisionException(MessageUtil.PERMISSION_ERROR);
+        }
+        userToChange.setRole(role);
+        userDao.saveOrUpdate(userToChange);
+    }
+
 
     private boolean isValidEmailAddress(String email) {
         return EmailValidator.getInstance().isValid(email);
