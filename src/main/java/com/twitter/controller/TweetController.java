@@ -32,14 +32,14 @@ public class TweetController {
         return tweetService.getLatestTweets(TwitterUtil.NUMBER_OF_LATEST_TWEETS);
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(value = Route.GET_TWEETS, method = RequestMethod.POST)
     public void tweet(@RequestBody Tweet tweet, Principal principal) throws UserNotFoundException, TweetCreateException {
         User user = userService.getUserByUsername(principal.getName());
         tweetService.tweet(user, tweet);
     }
 
-    @ResponseStatus(code = HttpStatus.OK)
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_TWEETS, method = RequestMethod.DELETE)
     public void deleteTweet(@RequestBody Tweet tweet, Principal principal) throws UserNotFoundException, TweetDeleteException, TweetNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
@@ -62,7 +62,7 @@ public class TweetController {
         return tweetService.getTweetComments(tweetId);
     }
 
-    @ResponseStatus(code = HttpStatus.OK)
+    @ResponseStatus(code = HttpStatus.CREATED)
     @RequestMapping(value = Route.GET_TWEET_COMMENTS, method = RequestMethod.POST)
     public void createTweetComment(@PathVariable int tweetId, @RequestBody Tweet tweet, Principal principal)
             throws UserNotFoundException, TweetCreateException, TweetNotFoundException {

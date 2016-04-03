@@ -28,14 +28,14 @@ public class UserController {
         return userService.getUserByUsername(principal.getName());
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_USER, method = RequestMethod.PUT)
     public void editUser(@RequestBody User user, Principal principal) throws UserEditException, UserNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
         userService.editUser(currentUser, user.getPassword());
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_USER, method = RequestMethod.PATCH)
     public void changeUserRole(@RequestBody User user, @RequestBody Role role, Principal principal) throws UserNotFoundException, PermisionException {
         User currentUser = userService.getUserByUsername(principal.getName());
@@ -47,21 +47,21 @@ public class UserController {
         return userService.getUser(userId);
     }
 
-    @ResponseStatus(code = HttpStatus.OK)
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_USER_BY_ID, method = RequestMethod.PATCH)
     public void banUser(@PathVariable int userId, Principal principal) throws UserNotFoundException, PermisionException, UserAccessibilityChangeException {
         User currentUser = userService.getUserByUsername(principal.getName());
         userService.banUser(currentUser, userId);
     }
 
-    @ResponseStatus(code = HttpStatus.OK)
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_USER_BY_ID, method = RequestMethod.PUT)
     public void unbanUser(@PathVariable int userId, Principal principal) throws UserNotFoundException, PermisionException, UserAccessibilityChangeException {
         User currentUser = userService.getUserByUsername(principal.getName());
         userService.unbanUser(currentUser, userId);
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.CREATED)
     @RequestMapping(value = Route.CREATE_USER, method = RequestMethod.POST)
     public void createUser(@RequestBody User user) throws UserAlreadyExist, UserCreateException {
         userService.createUser(user);
@@ -73,14 +73,14 @@ public class UserController {
         return userService.getFollowers(currentUser.getId());
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_FOLLOWING_USERS, method = RequestMethod.POST)
     public void followUser(@RequestBody User user, Principal principal) throws UserAlreadyFollowed, UserNotFoundException, UserFollowException {
         User currentUser = userService.getUserByUsername(principal.getName());
         userService.follow(currentUser, user.getUsername());
     }
 
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_FOLLOWING_USERS, method = RequestMethod.DELETE)
     public void unfollowUser(@RequestBody User user, Principal principal) throws UserNotFoundException, UserNotFollowedException, UserFollowException {
         User currentUser = userService.getUserByUsername(principal.getName());
