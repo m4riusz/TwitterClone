@@ -1,5 +1,6 @@
 package com.twitter.controller;
 
+import com.twitter.exception.*;
 import com.twitter.model.ErrorResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,9 +20,36 @@ public class ExceptionController {
     Logger logger = LogManager.getLogger(ExceptionController.class);
 
     @ResponseBody
-    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(value = Exception.class)
-    public ErrorResponse exceptionHandler(HttpServletRequest req, Exception exception) {
+    @ResponseStatus(code = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = {TweetNotFoundException.class, UserNotFollowedException.class})
+    public ErrorResponse notFoundHandler(HttpServletRequest req, Exception exception) {
+        return generateErrorResponse(req, exception);
+    }
+
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {TweetCreateException.class, UserCreateException.class
+            , UserEditException.class, TweetGetException.class})
+    public ErrorResponse badRequestHandler(HttpServletRequest req, Exception exception) {
+        return generateErrorResponse(req, exception);
+    }
+
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.CONFLICT)
+    @ExceptionHandler(value = {UserNotFollowedException.class, UserAlreadyFollowed.class,
+            UserFollowException.class, UserAlreadyExist.class})
+    public ErrorResponse conflictHandler(HttpServletRequest req, Exception exception) {
+        return generateErrorResponse(req, exception);
+    }
+
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(value = {TweetDeleteException.class, PermisionException.class})
+    public ErrorResponse permisionErrorHandler(HttpServletRequest req, Exception exception) {
+        return generateErrorResponse(req, exception);
+    }
+
+    private ErrorResponse generateErrorResponse(HttpServletRequest req, Exception exception) {
         ErrorResponse response = new ErrorResponse();
         response.setUrl(req.getRequestURI());
         response.setMessage(exception.getMessage());
