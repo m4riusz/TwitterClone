@@ -7,8 +7,6 @@ import com.twitter.route.Route;
 import com.twitter.service.TweetService;
 import com.twitter.service.UserService;
 import com.twitter.util.TwitterUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +20,6 @@ import java.util.List;
 
 @RestController
 public class TweetController {
-    Logger logger = LogManager.getLogger(TweetController.class);
 
     @Autowired
     private UserService userService;
@@ -32,32 +29,32 @@ public class TweetController {
 
     @RequestMapping(value = Route.GET_TWEETS, method = RequestMethod.GET)
     public List<Tweet> getLatestTweets() throws TweetGetException {
-        List<Tweet> tweets = tweetService.getLatestTweets(TwitterUtil.NUMBER_OF_LATEST_TWEETS);
-        logger.info(tweets);
-        return tweets;
-    }
-
-
-    @RequestMapping(value = Route.GET_TWEETS_BY_USERID, method = RequestMethod.GET)
-    public List<Tweet> getTweetsFromUser(@PathVariable int userId) throws UserNotFoundException {
-        List<Tweet> tweets = tweetService.getTweetsFromUser(userId);
-        logger.info(userId + " " + tweets);
-        return tweets;
+        return tweetService.getLatestTweets(TwitterUtil.NUMBER_OF_LATEST_TWEETS);
     }
 
     @ResponseStatus(value = HttpStatus.OK)
-    @RequestMapping(value = Route.CREATE_TWEET, method = RequestMethod.POST)
+    @RequestMapping(value = Route.GET_TWEETS, method = RequestMethod.POST)
     public void tweet(@RequestBody Tweet tweet, Principal principal) throws UserNotFoundException, TweetCreateException {
         User user = userService.getUserByUsername(principal.getName());
         tweetService.tweet(user, tweet);
-        logger.info(user + " " + tweet);
+    }
+
+    @ResponseStatus(code = HttpStatus.OK)
+    @RequestMapping(value = Route.GET_TWEETS, method = RequestMethod.DELETE)
+    public void deleteTweet(@RequestBody Tweet tweet, Principal principal) throws UserNotFoundException, TweetDeleteException, TweetNotFoundException {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        tweetService.deleteTweet(currentUser, tweet.getId());
+    }
+
+    @RequestMapping(value = Route.GET_TWEETS_BY_USERID, method = RequestMethod.GET)
+    public List<Tweet> getTweetsFromUser(@PathVariable int userId) throws UserNotFoundException {
+        return tweetService.getTweetsFromUser(userId);
     }
 
     @RequestMapping(value = Route.GET_TWEET_BY_ID, method = RequestMethod.GET)
     public Tweet getTweetById(@PathVariable int tweetId) throws TweetNotFoundException {
-        Tweet tweet = tweetService.getTweetById(tweetId);
-        logger.info(tweet);
-        return tweet;
+        return tweetService.getTweetById(tweetId);
+
     }
 
     @RequestMapping(value = Route.GET_TWEET_COMMENTS, method = RequestMethod.GET)
@@ -66,18 +63,11 @@ public class TweetController {
     }
 
     @ResponseStatus(code = HttpStatus.OK)
-    @RequestMapping(value = Route.CREATE_TWEET_COMMENT, method = RequestMethod.POST)
+    @RequestMapping(value = Route.GET_TWEET_COMMENTS, method = RequestMethod.POST)
     public void createTweetComment(@PathVariable int tweetId, @RequestBody Tweet tweet, Principal principal)
             throws UserNotFoundException, TweetCreateException, TweetNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
         tweetService.createTweetComment(currentUser, tweetId, tweet);
-    }
-
-    @ResponseStatus(code = HttpStatus.OK)
-    @RequestMapping(value = Route.DELETE_TWEET, method = RequestMethod.DELETE)
-    public void deleteTweet(@PathVariable int tweetId, Principal principal) throws UserNotFoundException, TweetDeleteException, TweetNotFoundException {
-        User currentUser = userService.getUserByUsername(principal.getName());
-        tweetService.deleteTweet(currentUser, tweetId);
     }
 
     @RequestMapping(value = Route.GET_TWEETS_FROM_FOLLOWING_USERS, method = RequestMethod.GET)
