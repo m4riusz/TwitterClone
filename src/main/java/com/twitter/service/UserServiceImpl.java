@@ -2,6 +2,7 @@ package com.twitter.service;
 
 import com.twitter.dao.UserDao;
 import com.twitter.exception.*;
+import com.twitter.model.Role;
 import com.twitter.model.User;
 import com.twitter.util.MessageUtil;
 import com.twitter.util.TwitterUtil;
@@ -125,6 +126,23 @@ public class UserServiceImpl implements UserService {
         return userDao.getFollowingUsers(userId);
     }
 
+    @Override
+    public void banUser(User invokeUser, int userId) throws UserNotFoundException, UserAccessibilityChangeException, PermisionException {
+        User userToBlock = userDao.get(userId);
+        checkUsersBlockOrUnblockPermission(invokeUser, userToBlock);
+        userToBlock.setEnable(false);
+        userDao.saveOrUpdate(userToBlock);
+    }
+
+    @Override
+    public void unbanUser(User invokeUser, int userId) throws UserNotFoundException, UserAccessibilityChangeException, PermisionException {
+        User userToUnlock = userDao.get(userId);
+        checkUsersBlockOrUnblockPermission(invokeUser, userToUnlock);
+        userToUnlock.setEnable(true);
+        userDao.saveOrUpdate(userToUnlock);
+    }
+
+
     private boolean isValidEmailAddress(String email) {
         return EmailValidator.getInstance().isValid(email);
     }
@@ -135,5 +153,19 @@ public class UserServiceImpl implements UserService {
 
     private boolean isPasswordLengthInBounds(int passwordLength) {
         return passwordLength >= TwitterUtil.MIN_PASSWORD_LENGTH && passwordLength <= TwitterUtil.MAX_PASSWORD_LENGTH;
+    }
+
+    private void checkUsersBlockOrUnblockPermission(User invokeUser, User user) throws UserNotFoundException, UserAccessibilityChangeException, PermisionException {
+        if (user == null) {
+            throw new UserNotFoundException(MessageUtil.USER_NOT_FOUND_ERROR + user.getId());
+        } else if (invokeUser == null) {
+            throw new UserNotFoundException(MessageUtil.USER_NOT_FOUND_ERROR + invokeUser.getId());
+        } else if (user.equals(invokeUser)) {
+            throw new UserAccessibilityChangeException(MessageUtil.ACCESSIBILITY_ERROR);
+        } else if (invokeUser.getRole() == Role.USER) {
+            throw new PermisionException(MessageUtil.PERMISSION_ERROR);
+        } else if (user.getRole() == Role.ADMIN && invokeUser.getRole() == Role.ADMIN) {
+            throw new UserAccessibilityChangeException(MessageUtil.ACCESSIBILITY_ADMIN_ERROR);
+        }
     }
 }

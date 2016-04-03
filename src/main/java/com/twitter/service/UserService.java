@@ -28,4 +28,8 @@ public interface UserService {
     public void unfollow(User currentUser, String username) throws UserNotFoundException, UserNotFollowedException, UserFollowException;
 
     public List<User> getFollowingUsers(int userId) throws UserNotFoundException;
+
+    public void banUser(User invokeUser, int userId) throws UserNotFoundException, UserAccessibilityChangeException, PermisionException;
+
+    public void unbanUser(User invokeUser, int userId) throws UserNotFoundException, UserAccessibilityChangeException, PermisionException;
 }

@@ -37,7 +37,7 @@ public class ExceptionController {
     @ResponseBody
     @ResponseStatus(code = HttpStatus.CONFLICT)
     @ExceptionHandler(value = {UserNotFollowedException.class, UserAlreadyFollowed.class,
-            UserFollowException.class, UserAlreadyExist.class})
+            UserFollowException.class, UserAlreadyExist.class, UserAccessibilityChangeException.class})
     public ErrorResponse conflictHandler(HttpServletRequest req, Exception exception) {
         return generateErrorResponse(req, exception);
     }
@@ -45,7 +45,7 @@ public class ExceptionController {
     @ResponseBody
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(value = {TweetDeleteException.class, PermisionException.class})
-    public ErrorResponse permisionErrorHandler(HttpServletRequest req, Exception exception) {
+    public ErrorResponse permissionErrorHandler(HttpServletRequest req, Exception exception) {
         return generateErrorResponse(req, exception);
     }
 
