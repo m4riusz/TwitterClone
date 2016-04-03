@@ -20,7 +20,7 @@ public interface TweetService {
 
     public void createTweetComment(User currentUser, int tweetId, Tweet tweet) throws TweetNotFoundException, TweetCreateException;
 
-    public void deleteTweet(User owner, int tweetId) throws TweetNotFoundException, TweetDeleteException;
+    public void deleteTweet(User invokeUser, int tweetId) throws TweetNotFoundException, TweetDeleteException;
 
     public List<Tweet> getTweetsFromFollowingUsers(int userId) throws UserNotFoundException;
 }

@@ -3,6 +3,7 @@ package com.twitter.service;
 import com.twitter.dao.TweetDao;
 import com.twitter.dao.UserDao;
 import com.twitter.exception.*;
+import com.twitter.model.Role;
 import com.twitter.model.Tweet;
 import com.twitter.model.User;
 import com.twitter.util.MessageUtil;
@@ -84,14 +85,14 @@ public class TweetServiceImpl implements TweetService {
     }
 
     @Override
-    public void deleteTweet(User owner, int tweetId) throws TweetNotFoundException, TweetDeleteException {
+    public void deleteTweet(User invokeUser, int tweetId) throws TweetNotFoundException, TweetDeleteException {
         Tweet tweet = tweetDao.get(tweetId);
         if (tweet == null) {
             throw new TweetNotFoundException(MessageUtil.TWEET_NOT_FOUND_ERROR + tweetId);
-        } else if (!tweet.getOwner().equals(owner)) {
-            throw new TweetDeleteException(MessageUtil.TWEET_DELETE_ERROR);
+        } else if (!tweet.getOwner().equals(invokeUser) && invokeUser.getRole() == Role.USER) {
+            throw new TweetDeleteException(MessageUtil.PERMISSION_ERROR);
         }
-        tweet.setContent(MessageUtil.TWEET_DELETE_MESSAGE);
+        tweet.setContent(MessageUtil.TWEET_DELETE_MESSAGE + " by " + invokeUser.getRole().getRoleName());
         tweetDao.saveOrUpdate(tweet);
     }
 

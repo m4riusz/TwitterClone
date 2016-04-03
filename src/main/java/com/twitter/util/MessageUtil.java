@@ -14,12 +14,12 @@ public class MessageUtil {
     public static final String UNFOLLOW_YOURSELF_ERROR = "You can not unfollow yourself! ";
     public static final String ALREADY_FOLLOWED_ERROR = "You are already following user! ";
     public static final String UNFOLLOW_UNFOLLOWED_USER_ERROR = "You can not unfollow user who is not followed! ";
+    public static final String PERMISSION_ERROR = "You don't have permission to execute this action!";
 
     public static final String TWEET_LENGTH_ERROR = "Tweet length should be between " + TwitterUtil.MIN_TWEET_LENGTH + " and " + TwitterUtil.MAX_TWEET_LENGTH;
     public static final String TWEET_FETCH_NUMBER_ERROR = "Number of tweets to fetch should be positive! ";
     public static final String TWEET_DELETE_MESSAGE = "Tweet has been deleted!";
     public static final String TWEET_NOT_FOUND_ERROR = "Tweet not found! ";
-    public static final String TWEET_DELETE_ERROR = "You are not owner of tweet you want to delete! ";
 
     private MessageUtil() {
     }
