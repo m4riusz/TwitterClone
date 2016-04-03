@@ -17,6 +17,7 @@ public class Route {
 
     public static final String GET_USERS = "/rest/user";
     public static final String GET_USER_BY_ID = "/rest/user/{userId}";
+    public static final String GET_CURRENT_USER = "/rest/user/current";
     public static final String CREATE_USER = "/register";
     public static final String EDIT_USER = "/rest/user";
 

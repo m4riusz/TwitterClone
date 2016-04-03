@@ -34,6 +34,12 @@ public class UserController {
         return user;
     }
 
+    @RequestMapping(value = Route.GET_CURRENT_USER, method = RequestMethod.GET)
+    public User getCurrentUser(Principal principal) throws UserNotFoundException {
+        User currentUser = userService.getUserByUsername(principal.getName());
+        return currentUser;
+    }
+
     @ResponseStatus(value = HttpStatus.OK)
     @RequestMapping(value = Route.CREATE_USER, method = RequestMethod.POST)
     public void createUser(@RequestBody User user) throws UserAlreadyExist, UserCreateException {
