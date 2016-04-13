@@ -5,14 +5,7 @@ package com.twitter.route;
  */
 public class Route {
 
-    public static final String VIEW_MAIN = "/";
-    public static final String VIEW_USERS = "/users";
-    public static final String VIEW_USER = "/users/{userId}";
-    public static final String VIEW_FOLLOWERS = "/followers";
-    public static final String VIEW_FOLLOWING = "/following";
-    public static final String VIEW_TWEETS = "/tweets";
-    public static final String VIEW_TWEET = "/tweets/{tweetId}";
-    public static final String LOGIN = "/login";
+    public static final String INDEX = "/";
     public static final String LOGOUT = "/logout";
 
     public static final String GET_USER = "/rest/user";

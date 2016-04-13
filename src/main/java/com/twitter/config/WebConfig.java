@@ -28,7 +28,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/views/");
+        viewResolver.setPrefix("/static/");
         viewResolver.setSuffix(".html");
         return viewResolver;
     }
@@ -50,13 +50,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
-        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
 
     @Override

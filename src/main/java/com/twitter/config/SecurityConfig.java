@@ -32,11 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(Route.CREATE_USER).permitAll()
-                .antMatchers("/resources/**").permitAll()
+                .antMatchers("/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage(Route.LOGIN)
                 .permitAll()
                 .and()
                 .logout()
