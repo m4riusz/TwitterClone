@@ -20,7 +20,7 @@ module TwitterClone.Services {
         }
 
         getAllUsers(callback:(data:TwitterClone.Models.User[]) =>void) {
-            return this.http.get("/rest/user")
+            return this.http.get(TwitterClone.Urls.getAllUsers)
                 .success((data:TwitterClone.Models.User[]) => {
                     callback(data);
                     return data;

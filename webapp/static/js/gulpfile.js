@@ -1,8 +1,10 @@
 var gulp = require("gulp");
 var watch = require("gulp-watch");
 var tsc = require('gulp-typescript');
+var clean = require('gulp-clean');
 
 var tsFiles = [".typings/main/**/*.ts", "src/**/*.ts"];
+var filesToClean = ["src/**/*.js","src/**/*.map"];
 
 var compilation = {
     target: 'es6',
@@ -22,9 +24,12 @@ gulp.task("build", function () {
         }))
 });
 
-gulp.task("default", ["build"]);
+gulp.task("clean", function () {
+    return gulp.src(filesToClean, {read: false})
+        .pipe(clean());
+});
 
-gulp.task("compile", ["build"]);
+gulp.task("default", ["build"]);
 
 gulp.task("watch", function () {
     gulp.watch(tsFiles, ["compile"]);
