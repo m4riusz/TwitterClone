@@ -5,3 +5,4 @@ target/
 .project
 .idea/
 webapp/static/bower_components
+webapp/static/js/node_modules
