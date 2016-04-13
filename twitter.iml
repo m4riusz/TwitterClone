@@ -4,7 +4,7 @@
     <facet type="web" name="Web">
       <configuration>
         <webroots>
-          <root url="file://$MODULE_DIR$/WebContent" relative="/" />
+          <root url="file://$MODULE_DIR$/webapp" relative="/" />
         </webroots>
       </configuration>
     </facet>
