@@ -7,17 +7,18 @@ module TwitterClone.Controllers {
     export class UserController {
 
         private scope:ng.IScope;
-        private userService:Services.IUserService;
-        public users:Models.User[];
+        private userService:TwitterClone.Services.IUserService;
+        public users:TwitterClone.Models.User[];
 
 
-        constructor(scope:angular.IScope, userService:Services.IUserService) {
+        constructor(scope:angular.IScope, userService:TwitterClone.Services.IUserService) {
             this.scope = scope;
             this.userService = userService;
         }
 
-        public getUsers() {
+        public getAllUsers() {
             this.userService.getAllUsers(result => {
+                console.log("AAAAAAA" + result);
                 this.users = result;
             })
         }
