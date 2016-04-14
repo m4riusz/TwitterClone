@@ -32,5 +32,5 @@ gulp.task("clean", function () {
 gulp.task("default", ["build"]);
 
 gulp.task("watch", function () {
-    gulp.watch(tsFiles, ["compile"]);
+    gulp.watch(tsFiles, ["build"]);
 });

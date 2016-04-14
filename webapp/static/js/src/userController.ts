@@ -2,6 +2,10 @@
  * Created by mariusz on 13.04.16.
  */
 
+///<reference path="userService.ts"/>
+///<reference path="../typings/main.d.ts"/>
+
+
 module TwitterClone.Controllers {
 
     export class UserController {
@@ -11,8 +15,8 @@ module TwitterClone.Controllers {
         public users:TwitterClone.Models.User[];
 
 
-        constructor(scope:angular.IScope, userService:TwitterClone.Services.IUserService) {
-            this.scope = scope;
+        constructor($scope:ng.IScope, userService:TwitterClone.Services.IUserService) {
+            this.scope = $scope;
             this.userService = userService;
         }
 

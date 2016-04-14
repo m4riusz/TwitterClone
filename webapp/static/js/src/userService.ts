@@ -3,6 +3,8 @@
  */
 ///<reference path="model.ts"/>
 ///<reference path="../typings/main.d.ts"/>
+///<reference path="apiUrl.ts"/>
+
 
 
 module TwitterClone.Services {

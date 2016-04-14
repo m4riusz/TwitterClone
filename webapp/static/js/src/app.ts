@@ -5,9 +5,7 @@
 ///<reference path="../typings/main.d.ts"/>
 ///<reference path="userService.ts"/>
 
-
-
-const appModule = angular.module("twitter",[]);
+const appModule = angular.module("twitter", ["ngRoute"]);
 
 appModule.factory("UserService", ["$http", ($http) => new TwitterClone.Services.UserService($http)]);
 

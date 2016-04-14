@@ -1,19 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="twitter">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="static/bower_components/bootstrap/dist/css/bootstrap.css">
-    <script type="text/javascript" src="static/bower_components/jquery/dist/jquery.js"></script>
-    <script type="text/javascript" src="static/bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script type="text/javascript" src="static/bower_components/angular/angular.js"></script>
-    <script type="text/javascript" src="static/js/src/userController.js"></script>
-    <script type="text/javascript" src="static/js/src/userService.js"></script>
-    <script type="text/javascript" src="static/js/src/app.js"></script>
-
 </head>
-<body>
-<div ng-controller="UserController as userController" class="container">
+<body ng-app="twitter">
+<div ng-controller="UserController" class="container">
     <ul class="nav nav-pills">
         <li class="active"><a href="#/">Home</a></li>
         <li><a ng-click="logout()">Logout</a></li>
@@ -21,14 +14,18 @@
 </div>
 <div ng-controller="UserController" class="container">
     <li><a ng-click="getAllUsers();">Logout</a></li>
-    <ul ng-init = "getAllUsers();">
-
+    <ul ng-init="getAllUsers();">
         <li ng-repeat="user in users ">
             {{user.Username}}
         </li>
     </ul>
 </div>
-
-
+<script type="text/javascript" src="static/bower_components/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="static/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="static/bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="static/js/src/userController.js"></script>
+<script type="text/javascript" src="static/js/src/userService.js"></script>
+<script type="text/javascript" src="static/bower_components/angular-route/angular-route.js"></script>
+<script type="text/javascript" src="static/js/src/app.js"></script>
 </body>
 </html>
