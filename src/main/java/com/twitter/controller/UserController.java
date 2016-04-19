@@ -23,7 +23,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @RequestMapping(value = Route.GET_USER, method = RequestMethod.HEAD)
+    @RequestMapping(value = Route.GET_USER_CURRENT, method = RequestMethod.GET)
     public User getCurrentUser(Principal principal) throws UserNotFoundException {
         return userService.getUserByUsername(principal.getName());
     }

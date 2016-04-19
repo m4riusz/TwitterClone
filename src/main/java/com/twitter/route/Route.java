@@ -9,6 +9,7 @@ public class Route {
     public static final String LOGOUT = "/logout";
 
     public static final String GET_USER = "/rest/user";
+    public static final String GET_USER_CURRENT = "/rest/user/current";
     public static final String GET_USER_BY_ID = "/rest/user/{userId}";
     public static final String CREATE_USER = "/register";
     public static final String GET_FOLLOWERS = "/rest/user/followers";

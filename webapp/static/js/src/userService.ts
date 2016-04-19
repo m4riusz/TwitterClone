@@ -13,6 +13,8 @@ module TwitterClone.Services {
         getAllUsers(callback:(data:TwitterClone.Models.User[])=>void);
         getCurrentUser(callback:(data:TwitterClone.Models.User)=>void);
         getUserById(userId:number, callback:(data:TwitterClone.Models.User)=>void);
+        getFollowersFromUserByUserId(userId:number, callback:(data:TwitterClone.Models.User[])=>void);
+        getFollowingUsersFromUserByUserId(userId:number, callback:(data:TwitterClone.Models.User[])=>void);
     }
 
     export class UserService implements IUserService {
@@ -50,6 +52,31 @@ module TwitterClone.Services {
         public getUserById(userId:number, callback:(data:TwitterClone.Models.User)=>void) {
             this.http.get(TwitterClone.Urls.getUserById(userId))
                 .success((data:TwitterClone.Models.User)=> {
+                    callback(data);
+                    return data;
+                })
+                .error((error)=> {
+                    callback(error);
+                    return error;
+                });
+        }
+
+        public getFollowersFromUserByUserId(userId:number, callback:(data:TwitterClone.Models.User[])=>void) {
+            this.http.get(TwitterClone.Urls.getFollowersFromUserByUserId(userId))
+                .success((data:TwitterClone.Models.User[])=> {
+                    callback(data);
+                    return data;
+                })
+                .error((error)=> {
+                    callback(error);
+                    return error;
+                })
+
+        }
+
+        public getFollowingUsersFromUserByUserId(userId:number, callback:(data:TwitterClone.Models.User[])=>void) {
+            this.http.get(TwitterClone.Urls.getFollowingUsersFromUserByUserId(userId))
+                .success((data:TwitterClone.Models.User[])=> {
                     callback(data);
                     return data;
                 })
