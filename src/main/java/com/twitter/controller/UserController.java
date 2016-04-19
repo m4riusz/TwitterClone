@@ -1,7 +1,6 @@
 package com.twitter.controller;
 
 import com.twitter.exception.*;
-import com.twitter.model.Role;
 import com.twitter.model.User;
 import com.twitter.route.Route;
 import com.twitter.service.UserService;
@@ -36,10 +35,10 @@ public class UserController {
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @RequestMapping(value = Route.GET_USER, method = RequestMethod.PATCH)
-    public void changeUserRole(@RequestBody User user, @RequestBody Role role, Principal principal) throws UserNotFoundException, PermisionException {
+    @RequestMapping(value = Route.GET_USER, method = RequestMethod.POST)
+    public void changeUserRole(@RequestBody User user, Principal principal) throws UserNotFoundException, PermisionException {
         User currentUser = userService.getUserByUsername(principal.getName());
-        userService.changeUserRights(currentUser, user.getId(), role);
+        userService.changeUserRights(currentUser, user.getId(), user.getRole());
     }
 
     @RequestMapping(value = Route.GET_USER_BY_ID, method = RequestMethod.GET)
@@ -48,7 +47,7 @@ public class UserController {
     }
 
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    @RequestMapping(value = Route.GET_USER_BY_ID, method = RequestMethod.PATCH)
+    @RequestMapping(value = Route.GET_USER_BY_ID, method = RequestMethod.POST)
     public void banUser(@PathVariable int userId, Principal principal) throws UserNotFoundException, PermisionException, UserAccessibilityChangeException {
         User currentUser = userService.getUserByUsername(principal.getName());
         userService.banUser(currentUser, userId);
