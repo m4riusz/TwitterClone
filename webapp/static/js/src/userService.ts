@@ -6,11 +6,13 @@
 ///<reference path="apiUrl.ts"/>
 
 
-
 module TwitterClone.Services {
 
+    import getUserById = TwitterClone.Urls.getUserById;
     export interface IUserService {
         getAllUsers(callback:(data:TwitterClone.Models.User[])=>void);
+        getCurrentUser(callback:(data:TwitterClone.Models.User)=>void);
+        getUserById(userId:number, callback:(data:TwitterClone.Models.User)=>void);
     }
 
     export class UserService implements IUserService {
@@ -21,12 +23,37 @@ module TwitterClone.Services {
             this.http = http;
         }
 
-        getAllUsers(callback:(data:TwitterClone.Models.User[]) =>void) {
+        public getAllUsers(callback:(data:TwitterClone.Models.User[]) =>void) {
             return this.http.get(TwitterClone.Urls.getAllUsers)
                 .success((data:TwitterClone.Models.User[]) => {
                     callback(data);
                     return data;
-                }).error((error) => {
+                })
+                .error((error) => {
+                    callback(error);
+                    return error;
+                });
+        }
+
+        public getCurrentUser(callback:(data:TwitterClone.Models.User)=>void) {
+            return this.http.head(TwitterClone.Urls.getCurrentUser)
+                .success((data:TwitterClone.Models.User)=> {
+                    callback(data);
+                    return data;
+                })
+                .error((error)=> {
+                    callback(error);
+                    return error;
+                })
+        }
+
+        public getUserById(userId:number, callback:(data:TwitterClone.Models.User)=>void) {
+            this.http.get(TwitterClone.Urls.getUserById(userId))
+                .success((data:TwitterClone.Models.User)=> {
+                    callback(data);
+                    return data;
+                })
+                .error((error)=> {
                     callback(error);
                     return error;
                 });

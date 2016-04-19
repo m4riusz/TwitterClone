@@ -12,10 +12,9 @@
         <li><a ng-click="logout()">Logout</a></li>
     </ul>
 </div>
-<div ng-controller="UserController" class="container">
-    <li><a ng-click="getAllUsers();">Logout</a></li>
-    <ul ng-init="getAllUsers();">
-        <li ng-repeat="user in users ">
+<div ng-controller="UserController as us" class="container">
+    <ul ng-init="us.getAllUsers();">
+        <li ng-repeat="user in us.users ">
             {{user.Username}}
         </li>
     </ul>
@@ -27,5 +26,6 @@
 <script type="text/javascript" src="static/js/src/userService.js"></script>
 <script type="text/javascript" src="static/bower_components/angular-route/angular-route.js"></script>
 <script type="text/javascript" src="static/js/src/app.js"></script>
+<script type="text/javascript" src="static/js/src/apiUrl.js"></script>
 </body>
 </html>

@@ -3,8 +3,8 @@
   "version": false,
   "dependencies": {},
   "ambientDependencies": {
-    "angular": "registry:dt/angular#1.5.0+20160412133217",
     "angular-route": "registry:dt/angular-route#1.3.0+20160317120654",
-    "jquery": "registry:dt/jquery#2.0.0+20160303223636"
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#299b5caa22876ef27dc8e9a5b7fd7bf93457b6f4",
+    "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#299b5caa22876ef27dc8e9a5b7fd7bf93457b6f4"
   }
 }

@@ -14,13 +14,13 @@ module TwitterClone.Controllers {
         private userService:TwitterClone.Services.IUserService;
         public users:TwitterClone.Models.User[];
 
-
         constructor($scope:ng.IScope, userService:TwitterClone.Services.IUserService) {
             this.scope = $scope;
             this.userService = userService;
+            this.users = [];
         }
 
-        public getAllUsers() {
+        getAllUsers() {
             this.userService.getAllUsers(result => {
                 console.log("AAAAAAA" + result);
                 this.users = result;

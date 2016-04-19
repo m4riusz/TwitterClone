@@ -4,5 +4,7 @@
 
 module TwitterClone.Urls {
 
-    export const getAllUsers = "/rest/user";
+    export const getAllUsers = '/rest/user';
+    export const getCurrentUser = '/rest/user';
+    export const getUserById = (userId:number)=>`/rest/user/${userId}`;
 }
