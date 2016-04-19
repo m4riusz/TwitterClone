@@ -21,7 +21,6 @@ module TwitterClone.Controllers {
         constructor($scope:ng.IScope, userService:TwitterClone.Services.IUserService) {
             this.scope = $scope;
             this.userService = userService;
-            this.users = [];
         }
 
         getAllUsers() {

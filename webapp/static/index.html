@@ -15,10 +15,15 @@
 <div ng-controller="UserController as us" class="container">
     <ul ng-init="us.getAllUsers();">
         <li ng-repeat="user in us.users ">
-            {{user.Username}}
+            {{user.username}}
         </li>
     </ul>
+    <div ng-init = "us.getCurrentUser();">
+        {{us.currentUser.username}}
+        {{us.currentUser.email}}
+    </div>
 </div>
+
 <script type="text/javascript" src="static/bower_components/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="static/bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <script type="text/javascript" src="static/bower_components/angular/angular.js"></script>
