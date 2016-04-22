@@ -16,4 +16,11 @@ module TwitterClone.Urls {
     export const createUser = `/register`;
     export const followUser = `/rest/user/followers`;
     export const unfollowUser = `/rest/user/followers`;
+
+    export const getTweets = `/rest/user/tweet`;
+    export const getTweetsFromUser = (userId:number) => `/rest/user/${userId}/tweet`;
+    export const getTweetsFromFollowingUsers = (userId:number) => `/rest/user/tweet/following/${userId}`;
+    export const getTweetById = (tweetId:number) => `/rest/user/tweet/${tweetId}`;
+    export const getCommentsFromTweet = (tweetId:number) => `/rest/user/tweet/${tweetId}/comment`;
+    
 }
