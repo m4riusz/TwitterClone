@@ -9,6 +9,10 @@ module TwitterClone.Services {
 
     export interface ITweetService {
         getTweets (callback:(data:TwitterClone.Models.Tweet[])=>void);
+        getTweetsByUserId(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void);
+        getTweetById(tweetId:number, callback:(data:TwitterClone.Models.Tweet)=>void);
+        getCommentsFromTweetByTweetId(tweetId:number, callback:(data:TwitterClone.Models.Tweet[])=>void);
+        getTweetsFromFollowingUsers(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void);
     }
 
     export class TweetService implements ITweetService {
@@ -29,6 +33,54 @@ module TwitterClone.Services {
                     callback(error);
                     return error;
                 });
+        }
+
+        public getTweetsByUserId(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void) {
+            this.http.get(TwitterClone.Urls.getTweetsFromUser(userId))
+                .success((data:TwitterClone.Models.Tweet[])=> {
+                    callback(data);
+                    return data;
+                })
+                .error((error)=> {
+                    callback(error);
+                    return error;
+                });
+        }
+
+        public getTweetById(tweetId:number, callback:(data:TwitterClone.Models.Tweet)=>void) {
+            this.http.get(TwitterClone.Urls.getTweetById(tweetId))
+                .success((data:TwitterClone.Models.Tweet)=> {
+                    callback(data);
+                    return data;
+                })
+                .error((error)=> {
+                    callback(error);
+                    return error;
+                });
+        }
+
+        public getCommentsFromTweetByTweetId(tweetId:number, callback:(data:TwitterClone.Models.Tweet[])=>void) {
+            this.http.get(TwitterClone.Urls.getCommentsFromTweet(tweetId))
+                .success((data:TwitterClone.Models.Tweet[]) => {
+                    callback(data);
+                    return data;
+                })
+                .error((error)=> {
+                    callback(error);
+                    return error;
+                });
+        }
+
+        public  getTweetsFromFollowingUsers(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void) {
+            this.http.get(TwitterClone.Urls.getTweetsFromFollowingUsers(userId))
+                .success((data:TwitterClone.Models.Tweet[])=> {
+                    callback(data);
+                    return data;
+                })
+                .error((error)=> {
+                    callback(error);
+                    return error;
+                })
         }
     }
 
