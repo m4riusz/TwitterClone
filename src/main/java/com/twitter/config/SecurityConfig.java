@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(Route.CREATE_USER).permitAll()
-                .antMatchers("/static/**").permitAll()
+                .antMatchers("/**/*.{js,html}").permitAll()
+                .antMatchers("/bower_components/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
