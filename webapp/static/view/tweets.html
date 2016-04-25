@@ -1,0 +1,34 @@
+<div ng-init="tweetCtrl.getTweets()">
+    <div class="col-sm-12 sidenav">
+        <div class="row">
+            <h3>Tweet:</h3>
+            <div class="input-group">
+                <textarea class="form-control custom-control" rows="3" ng-model="tweetCtrl.tweetContent"
+                          style="resize:none"></textarea>
+                <span class="input-group-addon btn btn-primary"
+                      ng-click="tweetCtrl.createTweet(tweetCtrl.tweetContent)">Send</span>
+            </div>
+        </div>
+        <h3>Latest tweets:</h3>
+        <div class="row" ng-repeat="tweet in tweetCtrl.allTweets">
+            <div class="well well-sm">
+                <div>
+                    <label class="glyphicon glyphicon-user">{{tweet.owner.username}}</label>
+                    <span class="glyphicon glyphicon-remove btn btn-default pull-right"
+                          ng-click="tweetCtrl.deleteTweet(tweet)">Delete</span>
+                </div>
+                <p>
+                    <i class="glyphicon glyphicon-envelope"></i>
+                    {{tweet.owner.email}}
+                    <br/>
+                    <i class="glyphicon glyphicon-calendar"></i>
+                    {{tweet.tweetDate}}
+                    <br/>
+                    <label>{{tweet.content}}</label>
+                    <br/>
+                    <a class="btn btn-default" href="#tweets/{{tweet.id}}">Comments</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

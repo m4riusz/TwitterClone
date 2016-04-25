@@ -13,7 +13,7 @@ module TwitterClone.Services {
         getTweetById(tweetId:number, callback:(data:TwitterClone.Models.Tweet)=>void);
         getCommentsFromTweetByTweetId(tweetId:number, callback:(data:TwitterClone.Models.Tweet[])=>void);
         getTweetsFromFollowingUsers(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void);
-        createTweet(tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void);
+        createTweet(tweetContent:string, callback:(result:boolean)=>void);
         deleteTweet(tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void);
         createTweetComment(tweetId:number, tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void);
     }
@@ -86,8 +86,8 @@ module TwitterClone.Services {
                 })
         }
 
-        public createTweet(tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void) {
-            this.http.post(TwitterClone.Urls.createTweet, tweet)
+        public createTweet(tweetContent:string, callback:(result:boolean)=>void) {
+            this.http.post(TwitterClone.Urls.createTweet, JSON.stringify({"content": tweetContent}))
                 .success((result:boolean)=> {
                     callback(result as boolean);
                     return true;

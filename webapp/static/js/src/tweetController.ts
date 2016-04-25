@@ -16,6 +16,7 @@ module TwitterClone.Controllers {
         public selectedTweet:TwitterClone.Models.Tweet;
         public comments:TwitterClone.Models.Tweet[];
         public tweetsFromFollowing:TwitterClone.Models.Tweet[];
+        public tweetContent:string;
 
         constructor($scope:ng.IScope, tweetService:TwitterClone.Services.ITweetService) {
             this.scope = $scope;
@@ -52,8 +53,8 @@ module TwitterClone.Controllers {
             });
         }
 
-        createTweet(tweet:TwitterClone.Models.Tweet) {
-            this.tweetService.createTweet(tweet, result => {
+        createTweet(tweetContent:string) {
+            this.tweetService.createTweet(tweetContent, result => {
                 if (result == false) {
                     alert("Nie powiodlo sie!");
                 }
