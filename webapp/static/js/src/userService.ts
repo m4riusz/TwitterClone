@@ -8,21 +8,20 @@
 
 module TwitterClone.Services {
 
-    import getUserById = TwitterClone.Urls.getUserById;
     export interface IUserService {
-        getAllUsers(callback:(data:TwitterClone.Models.User[])=>void);
-        getCurrentUser(callback:(data:TwitterClone.Models.User)=>void);
-        getUserById(userId:number, callback:(data:TwitterClone.Models.User)=>void);
-        getFollowersFromUserByUserId(userId:number, callback:(data:TwitterClone.Models.User[])=>void);
-        getFollowingUsersFromUserByUserId(userId:number, callback:(data:TwitterClone.Models.User[])=>void);
+        getAllUsers(callback:(data:Models.User[])=>void);
+        getCurrentUser(callback:(data:Models.User)=>void);
+        getUserById(userId:number, callback:(data:Models.User)=>void);
+        getFollowersFromUserByUserId(userId:number, callback:(data:Models.User[])=>void);
+        getFollowingUsersFromUserByUserId(userId:number, callback:(data:Models.User[])=>void);
 
-        editUserPassword(user:TwitterClone.Models.User, callback:(result:boolean)=>void);
-        editUserRole(user:TwitterClone.Models.User, callback:(result:boolean)=>void);
+        editUserPassword(user:Models.User, callback:(result:boolean)=>void);
+        editUserRole(user:Models.User, callback:(result:boolean)=>void);
         banUserById(userId:number, callback:(result:boolean)=>void);
         unbanUserById(userId:number, callback:(result:boolean)=>void);
-        createUser(user:TwitterClone.Models.User, callback:(result:boolean)=>void);
-        followUser(user:TwitterClone.Models.User, callback:(result:boolean)=>void);
-        unfollowUser(user:TwitterClone.Models.User, callback:(result:boolean)=>void);
+        createUser(user:Models.User, callback:(result:boolean)=>void);
+        followUser(user:Models.User, callback:(result:boolean)=>void);
+        unfollowUser(user:Models.User, callback:(result:boolean)=>void);
     }
 
     export class UserService implements IUserService {
@@ -33,9 +32,9 @@ module TwitterClone.Services {
             this.http = $http;
         }
 
-        public getAllUsers(callback:(data:TwitterClone.Models.User[]) =>void) {
-            return this.http.get(TwitterClone.Urls.getAllUsers)
-                .success((data:TwitterClone.Models.User[]) => {
+        public getAllUsers(callback:(data:Models.User[]) =>void) {
+            return this.http.get(Urls.getAllUsers)
+                .success((data:Models.User[]) => {
                     callback(data);
                     return data;
                 })
@@ -45,9 +44,9 @@ module TwitterClone.Services {
                 });
         }
 
-        public getCurrentUser(callback:(data:TwitterClone.Models.User)=>void) {
-            return this.http.get(TwitterClone.Urls.getCurrentUser)
-                .success((data:TwitterClone.Models.User)=> {
+        public getCurrentUser(callback:(data:Models.User)=>void) {
+            return this.http.get(Urls.getCurrentUser)
+                .success((data:Models.User)=> {
                     callback(data);
                     return data;
                 })
@@ -57,34 +56,9 @@ module TwitterClone.Services {
                 })
         }
 
-        public getUserById(userId:number, callback:(data:TwitterClone.Models.User)=>void) {
-            this.http.get(TwitterClone.Urls.getUserById(userId))
-                .success((data:TwitterClone.Models.User)=> {
-                    callback(data);
-                    return data;
-                })
-                .error((error)=> {
-                    callback(error);
-                    return error;
-                });
-        }
-
-        public getFollowersFromUserByUserId(userId:number, callback:(data:TwitterClone.Models.User[])=>void) {
-            this.http.get(TwitterClone.Urls.getFollowersFromUserByUserId(userId))
-                .success((data:TwitterClone.Models.User[])=> {
-                    callback(data);
-                    return data;
-                })
-                .error((error)=> {
-                    callback(error);
-                    return error;
-                })
-
-        }
-
-        public getFollowingUsersFromUserByUserId(userId:number, callback:(data:TwitterClone.Models.User[])=>void) {
-            this.http.get(TwitterClone.Urls.getFollowingUsersFromUserByUserId(userId))
-                .success((data:TwitterClone.Models.User[])=> {
+        public getUserById(userId:number, callback:(data:Models.User)=>void) {
+            this.http.get(Urls.getUserById(userId))
+                .success((data:Models.User)=> {
                     callback(data);
                     return data;
                 })
@@ -94,93 +68,104 @@ module TwitterClone.Services {
                 });
         }
 
-        public editUserPassword(user:TwitterClone.Models.User, callback:(result:boolean)=>void) {
-            this.http.put(TwitterClone.Urls.editUserPassword, user)
-                .success((result)=> {
+        public getFollowersFromUserByUserId(userId:number, callback:(data:Models.User[])=>void) {
+            this.http.get(Urls.getFollowersFromUserByUserId(userId))
+                .success((data:Models.User[])=> {
+                    callback(data);
+                    return data;
+                })
+                .error((error)=> {
+                    callback(error);
+                    return error;
+                })
+
+        }
+
+        public getFollowingUsersFromUserByUserId(userId:number, callback:(data:Models.User[])=>void) {
+            this.http.get(Urls.getFollowingUsersFromUserByUserId(userId))
+                .success((data:Models.User[])=> {
+                    callback(data);
+                    return data;
+                })
+                .error((error)=> {
+                    callback(error);
+                    return error;
+                });
+        }
+
+        public editUserPassword(user:Models.User, callback:(result:boolean)=>void) {
+            this.http.put(Urls.editUserPassword, user)
+                .success((result:boolean)=> {
                     callback(result as boolean);
-                    return true;
                 })
                 .error((error)=> {
-                    callback(error as boolean);
-                    return false;
+                    console.error(error);
                 });
         }
 
-        public editUserRole(user:TwitterClone.Models.User, callback:(result:boolean)=>void) {
-            this.http.post(TwitterClone.Urls.editUserRole, user)
-                .success((result)=> {
+        public editUserRole(user:Models.User, callback:(result:boolean)=>void) {
+            this.http.post(Urls.editUserRole, user)
+                .success((result:boolean)=> {
                     callback(result as boolean);
-                    return true;
                 })
                 .error((error)=> {
-                    callback(error as boolean);
-                    return false;
+                    console.error(error);
                 });
         }
 
         public banUserById(userId:number, callback:(result:boolean)=>void) {
             this.http({
                     method: "POST",
-                    url: TwitterClone.Urls.editUserEnable(userId),
+                    url: Urls.editUserEnable(userId),
                 })
-                .success((result)=> {
+                .success((result:boolean)=> {
                     callback(result as boolean);
-                    return true;
                 })
                 .error((error)=> {
-                    callback(error as boolean);
-                    return false;
+                    console.error(error);
                 });
         }
 
         public unbanUserById(userId:number, callback:(result:boolean)=>void) {
             this.http({
                     method: "PUT",
-                    url: TwitterClone.Urls.editUserEnable(userId),
+                    url: Urls.editUserEnable(userId),
                 })
-                .success((result)=> {
+                .success((result:boolean)=> {
                     callback(result as boolean);
-                    return true;
                 })
                 .error((error)=> {
-                    callback(error as boolean);
-                    return false;
+                    console.error(error);
                 });
         }
 
-        public createUser(user:TwitterClone.Models.User, callback:(result:boolean)=>void) {
-            this.http.post(TwitterClone.Urls.createUser, user)
-                .success((result)=> {
+        public createUser(user:Models.User, callback:(result:boolean)=>void) {
+            this.http.post(Urls.createUser, user)
+                .success((result:boolean)=> {
                     callback(result as boolean);
-                    return true;
                 })
                 .error((error)=> {
-                    callback(error as boolean);
-                    return false;
+                    console.error(error);
                 });
         }
 
-        public followUser(user:TwitterClone.Models.User, callback:(result:boolean)=>void) {
-            this.http.post(TwitterClone.Urls.followUser, user)
-                .success((result)=> {
+        public followUser(user:Models.User, callback:(result:boolean)=>void) {
+            this.http.post(Urls.followUser, user)
+                .success((result:boolean)=> {
                     callback(result as boolean);
-                    return true;
                 })
                 .error((error)=> {
-                    callback(error as boolean);
-                    return false;
+                    console.error(error);
                 });
         }
 
-        public unfollowUser(user:TwitterClone.Models.User, callback:(result:boolean)=>void) {
-            this.http.delete(TwitterClone.Urls.unfollowUser, user)
-                .success((result)=> {
+        public unfollowUser(user:Models.User, callback:(result:boolean)=>void) {
+            this.http.delete(Urls.unfollowUser, user)
+                .success((result:boolean)=> {
                     callback(result as boolean);
-                    return true;
                 })
                 .error((error)=> {
-                    callback(error as boolean);
-                    return false;
+                    console.error(error);
                 });
         }
     }

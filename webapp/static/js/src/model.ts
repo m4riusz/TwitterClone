@@ -4,6 +4,11 @@
 
 module TwitterClone.Models {
 
+    export class Result<T> {
+        IsSuccess: boolean;
+        Value: T;
+    }
+
     export class User {
         public Id:number;
         public Username:string;

@@ -55,57 +55,43 @@ module TwitterClone.Controllers {
 
         editUserPassword(user:TwitterClone.Models.User) {
             this.userService.editUserPassword(user, result=> {
-                if (result == false) {
-                    alert("Nie udalo sie!");
-                }
+                console.log(result);
             });
         }
 
         editUserRole(user:TwitterClone.Models.User) {
             this.userService.editUserRole(user, result => {
-                if (result == false) {
-                    alert("Nie udalo sie!");
-                }
+                console.log(result);
             });
         }
 
         banUserById(userId:number) {
             this.userService.banUserById(userId, result => {
-                if (result == false) {
-                    alert("Nie udalo sie!");
-                }
+                console.log(result);
             });
         }
 
         unbanUserById(userId:number) {
             this.userService.unbanUserById(userId, result => {
-                if (result == false) {
-                    alert("Nie udalo sie!");
-                }
+                console.log(result);
             });
         }
 
         createUser(user:TwitterClone.Models.User) {
             this.userService.createUser(user, result => {
-                if (result == false) {
-                    alert("Nie udalo sie!");
-                }
+                console.log(result);
             });
         }
 
         followUser(user:TwitterClone.Models.User) {
             this.userService.followUser(user, result => {
-                if (result == false) {
-                    alert("Nie udalo sie!");
-                }
+                console.log(result);
             });
         }
 
         unfollowUser(user:TwitterClone.Models.User) {
             this.userService.unfollowUser(user, result => {
-                if (result == false) {
-                    alert("Nie udalo sie!");
-                }
+                console.log(result);
             });
         }
     }

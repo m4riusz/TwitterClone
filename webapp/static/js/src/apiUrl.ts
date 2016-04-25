@@ -23,7 +23,7 @@ module TwitterClone.Urls {
     export const getTweetById = (tweetId:number) => `/rest/user/tweet/${tweetId}`;
     export const getCommentsFromTweet = (tweetId:number) => `/rest/user/tweet/${tweetId}/comment`;
     export const createTweet = `/rest/user/tweet`;
-    export const deleteTweet = `/rest/user/tweet`;
+    export const deleteTweet = (tweetId:number) => `/rest/user/tweet/${tweetId}`;
     export const createTweetComment = (tweetId:number)=> `/rest/user/tweet/${tweetId}/comment`;
 
 }

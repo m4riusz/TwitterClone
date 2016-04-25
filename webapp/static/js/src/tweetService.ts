@@ -8,14 +8,14 @@
 module TwitterClone.Services {
 
     export interface ITweetService {
-        getTweets (callback:(data:TwitterClone.Models.Tweet[])=>void);
-        getTweetsByUserId(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void);
-        getTweetById(tweetId:number, callback:(data:TwitterClone.Models.Tweet)=>void);
-        getCommentsFromTweetByTweetId(tweetId:number, callback:(data:TwitterClone.Models.Tweet[])=>void);
-        getTweetsFromFollowingUsers(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void);
+        getTweets (callback:(data:Models.Tweet[])=>void);
+        getTweetsByUserId(userId:number, callback:(data:Models.Tweet[])=>void);
+        getTweetById(tweetId:number, callback:(data:Models.Tweet)=>void);
+        getCommentsFromTweetByTweetId(tweetId:number, callback:(data:Models.Tweet[])=>void);
+        getTweetsFromFollowingUsers(userId:number, callback:(data:Models.Tweet[])=>void);
         createTweet(tweetContent:string, callback:(result:boolean)=>void);
-        deleteTweet(tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void);
-        createTweetComment(tweetId:number, tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void);
+        deleteTweet(tweetId:number, callback:(result:boolean)=>void);
+        createTweetComment(tweetId:number, tweet:Models.Tweet, callback:(result:boolean)=>void);
     }
 
     export class TweetService implements ITweetService {
@@ -26,9 +26,21 @@ module TwitterClone.Services {
             this.http = $http;
         }
 
-        public getTweets(callback:(data:TwitterClone.Models.Tweet[])=>void) {
-            this.http.get(TwitterClone.Urls.getTweets)
-                .success((data:TwitterClone.Models.Tweet[])=> {
+        public getTweets(callback:(data:Models.Tweet[])=>void) {
+            this.http.get(Urls.getTweets)
+                .success((data:Models.Tweet[]) => {
+                    callback(data);
+                    return data;
+                })
+                .error((error) => {
+                    callback(error);
+                    return error;
+                });
+        }
+
+        public getTweetsByUserId(userId:number, callback:(data:Models.Tweet[])=>void) {
+            this.http.get(Urls.getTweetsFromUser(userId))
+                .success((data:Models.Tweet[])=> {
                     callback(data);
                     return data;
                 })
@@ -38,9 +50,9 @@ module TwitterClone.Services {
                 });
         }
 
-        public getTweetsByUserId(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void) {
-            this.http.get(TwitterClone.Urls.getTweetsFromUser(userId))
-                .success((data:TwitterClone.Models.Tweet[])=> {
+        public getTweetById(tweetId:number, callback:(data:Models.Tweet)=>void) {
+            this.http.get(Urls.getTweetById(tweetId))
+                .success((data:Models.Tweet)=> {
                     callback(data);
                     return data;
                 })
@@ -50,9 +62,9 @@ module TwitterClone.Services {
                 });
         }
 
-        public getTweetById(tweetId:number, callback:(data:TwitterClone.Models.Tweet)=>void) {
-            this.http.get(TwitterClone.Urls.getTweetById(tweetId))
-                .success((data:TwitterClone.Models.Tweet)=> {
+        public getCommentsFromTweetByTweetId(tweetId:number, callback:(data:Models.Tweet[])=>void) {
+            this.http.get(Urls.getCommentsFromTweet(tweetId))
+                .success((data:Models.Tweet[]) => {
                     callback(data);
                     return data;
                 })
@@ -62,21 +74,9 @@ module TwitterClone.Services {
                 });
         }
 
-        public getCommentsFromTweetByTweetId(tweetId:number, callback:(data:TwitterClone.Models.Tweet[])=>void) {
-            this.http.get(TwitterClone.Urls.getCommentsFromTweet(tweetId))
-                .success((data:TwitterClone.Models.Tweet[]) => {
-                    callback(data);
-                    return data;
-                })
-                .error((error)=> {
-                    callback(error);
-                    return error;
-                });
-        }
-
-        public getTweetsFromFollowingUsers(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void) {
-            this.http.get(TwitterClone.Urls.getTweetsFromFollowingUsers(userId))
-                .success((data:TwitterClone.Models.Tweet[])=> {
+        public getTweetsFromFollowingUsers(userId:number, callback:(data:Models.Tweet[])=>void) {
+            this.http.get(Urls.getTweetsFromFollowingUsers(userId))
+                .success((data:Models.Tweet[])=> {
                     callback(data);
                     return data;
                 })
@@ -87,38 +87,32 @@ module TwitterClone.Services {
         }
 
         public createTweet(tweetContent:string, callback:(result:boolean)=>void) {
-            this.http.post(TwitterClone.Urls.createTweet, JSON.stringify({"content": tweetContent}))
+            this.http.post(Urls.createTweet, JSON.stringify({"content": tweetContent}))
                 .success((result:boolean)=> {
-                    callback(result as boolean);
-                    return true;
+                    callback(result);
                 })
                 .error((error)=> {
-                    callback(error as boolean);
-                    return false
+                    console.error(error);
                 });
         }
 
-        public deleteTweet(tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void) {
-            this.http.delete(TwitterClone.Urls.deleteTweet, tweet)
+        public deleteTweet(tweetId:number, callback:(result:boolean)=>void) {
+            this.http.delete(Urls.deleteTweet(tweetId))
                 .success((result:boolean)=> {
-                    callback(result as boolean);
-                    return true;
+                    callback(result);
                 })
                 .error((error)=> {
-                    callback(error as boolean);
-                    return false
+                    console.error(error);
                 });
         }
 
-        public createTweetComment(tweetId:number, tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void) {
-            this.http.post(TwitterClone.Urls.createTweetComment(tweetId), tweet)
+        public createTweetComment(tweetId:number, tweet:Models.Tweet, callback:(result:boolean)=>void) {
+            this.http.post(Urls.createTweetComment(tweetId), tweet)
                 .success((result:boolean)=> {
-                    callback(result as boolean);
-                    return true;
+                    callback(result);
                 })
                 .error((error)=> {
-                    callback(error as boolean);
-                    return false
+                    console.error(error);
                 });
         }
     }

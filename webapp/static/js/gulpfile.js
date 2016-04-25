@@ -7,7 +7,7 @@ var tsFiles = [".typings/main/**/*.ts", "src/**/*.ts"];
 var filesToClean = ["src/**/*.js","src/**/*.map"];
 
 var compilation = {
-    target: 'es6',
+    target: 'es5',
     module: 'commonjs',
     declaration: false,
     "sourceMap": true,

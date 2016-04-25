@@ -8,29 +8,31 @@
 
 module TwitterClone.Controllers {
 
+    import getTweets = TwitterClone.Urls.getTweets;
     export class TweetController {
         private scope:ng.IScope;
-        private tweetService:TwitterClone.Services.ITweetService;
-        public allTweets:TwitterClone.Models.Tweet[];
-        public tweetsFromUser:TwitterClone.Models.Tweet[];
-        public selectedTweet:TwitterClone.Models.Tweet;
-        public comments:TwitterClone.Models.Tweet[];
-        public tweetsFromFollowing:TwitterClone.Models.Tweet[];
+        private tweetService:Services.ITweetService;
+        public allTweets:Models.Tweet[];
+        public tweetsFromUser:Models.Tweet[];
+        public selectedTweet:Models.Tweet;
+        public comments:Models.Tweet[];
+        public tweetsFromFollowing:Models.Tweet[];
         public tweetContent:string;
 
-        constructor($scope:ng.IScope, tweetService:TwitterClone.Services.ITweetService) {
+        constructor($scope:ng.IScope, tweetService:Services.ITweetService) {
             this.scope = $scope;
             this.tweetService = tweetService;
         }
 
         getTweets() {
             this.tweetService.getTweets(result => {
-                this.allTweets = result;
+                this.allTweets = result
             });
         }
 
         getTweetsByUserId(userId:number) {
             this.tweetService.getTweetsByUserId(userId, result=> {
+
                 this.tweetsFromUser = result;
             });
         }
@@ -45,6 +47,7 @@ module TwitterClone.Controllers {
             this.tweetService.getCommentsFromTweetByTweetId(tweetId, result=> {
                 this.comments = result;
             });
+
         }
 
         getTweetsFromFollowingUsers(userId:number) {
@@ -55,25 +58,19 @@ module TwitterClone.Controllers {
 
         createTweet(tweetContent:string) {
             this.tweetService.createTweet(tweetContent, result => {
-                if (result == false) {
-                    alert("Nie powiodlo sie!");
-                }
+                console.log(result);
             });
         }
 
-        deleteTweet(tweet:TwitterClone.Models.Tweet) {
-            this.tweetService.deleteTweet(tweet, result => {
-                if (result == false) {
-                    alert("Nie powiodlo sie!");
-                }
+        deleteTweet(tweetId:number) {
+            this.tweetService.deleteTweet(tweetId, result => {
+                this.getTweets();
             });
         }
 
-        createTweetComment(tweetId:number, tweet:TwitterClone.Models.Tweet) {
+        createTweetComment(tweetId:number, tweet:Models.Tweet) {
             this.tweetService.createTweetComment(tweetId, tweet, result => {
-                if (result == false) {
-                    alert("Nie powiodlo sie!");
-                }
+                console.log(result);
             });
         }
     }
