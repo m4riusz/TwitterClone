@@ -52,8 +52,28 @@ module TwitterClone.Controllers {
             });
         }
 
+        createTweet(tweet:TwitterClone.Models.Tweet) {
+            this.tweetService.createTweet(tweet, result => {
+                if (result == false) {
+                    alert("Nie powiodlo sie!");
+                }
+            });
+        }
 
+        deleteTweet(tweet:TwitterClone.Models.Tweet) {
+            this.tweetService.deleteTweet(tweet, result => {
+                if (result == false) {
+                    alert("Nie powiodlo sie!");
+                }
+            });
+        }
+
+        createTweetComment(tweetId:number, tweet:TwitterClone.Models.Tweet) {
+            this.tweetService.createTweetComment(tweetId, tweet, result => {
+                if (result == false) {
+                    alert("Nie powiodlo sie!");
+                }
+            });
+        }
     }
-
-
 }

@@ -13,6 +13,9 @@ module TwitterClone.Services {
         getTweetById(tweetId:number, callback:(data:TwitterClone.Models.Tweet)=>void);
         getCommentsFromTweetByTweetId(tweetId:number, callback:(data:TwitterClone.Models.Tweet[])=>void);
         getTweetsFromFollowingUsers(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void);
+        createTweet(tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void);
+        deleteTweet(tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void);
+        createTweetComment(tweetId:number, tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void);
     }
 
     export class TweetService implements ITweetService {
@@ -71,7 +74,7 @@ module TwitterClone.Services {
                 });
         }
 
-        public  getTweetsFromFollowingUsers(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void) {
+        public getTweetsFromFollowingUsers(userId:number, callback:(data:TwitterClone.Models.Tweet[])=>void) {
             this.http.get(TwitterClone.Urls.getTweetsFromFollowingUsers(userId))
                 .success((data:TwitterClone.Models.Tweet[])=> {
                     callback(data);
@@ -81,6 +84,42 @@ module TwitterClone.Services {
                     callback(error);
                     return error;
                 })
+        }
+
+        public createTweet(tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void) {
+            this.http.post(TwitterClone.Urls.createTweet, tweet)
+                .success((result:boolean)=> {
+                    callback(result as boolean);
+                    return true;
+                })
+                .error((error)=> {
+                    callback(error as boolean);
+                    return false
+                });
+        }
+
+        public deleteTweet(tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void) {
+            this.http.delete(TwitterClone.Urls.deleteTweet, tweet)
+                .success((result:boolean)=> {
+                    callback(result as boolean);
+                    return true;
+                })
+                .error((error)=> {
+                    callback(error as boolean);
+                    return false
+                });
+        }
+
+        public createTweetComment(tweetId:number, tweet:TwitterClone.Models.Tweet, callback:(result:boolean)=>void) {
+            this.http.post(TwitterClone.Urls.createTweetComment(tweetId), tweet)
+                .success((result:boolean)=> {
+                    callback(result as boolean);
+                    return true;
+                })
+                .error((error)=> {
+                    callback(error as boolean);
+                    return false
+                });
         }
     }
 
