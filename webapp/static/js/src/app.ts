@@ -6,6 +6,7 @@
 ///<reference path="../typings/main.d.ts"/>
 ///<reference path="userService.ts"/>
 ///<reference path="tweetService.ts"/>
+///<reference path="route.ts"/>
 
 
 const appModule = angular.module("twitter", ["ngRoute"]);
@@ -15,3 +16,5 @@ appModule.factory("TweetService", ["$http", ($http) => new TwitterClone.Services
 
 appModule.controller("UserController", ["$scope", "UserService", ($scope, userService) => new TwitterClone.Controllers.UserController($scope, userService)]);
 appModule.controller("TweetController", ["$scope", "TweetService", ($scope, tweetService) => new TwitterClone.Controllers.TweetController($scope, tweetService)]);
+
+appModule.config(["$routeProvider", ($routeProvider) => TwitterClone.Route.Routing.get($routeProvider)]);
