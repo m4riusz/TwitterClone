@@ -40,10 +40,10 @@ public class TweetController {
     }
 
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    @RequestMapping(value = Route.GET_TWEETS, method = RequestMethod.DELETE)
-    public void deleteTweet(@RequestBody Tweet tweet, Principal principal) throws UserNotFoundException, TweetDeleteException, TweetNotFoundException {
+    @RequestMapping(value = Route.GET_TWEET_BY_ID, method = RequestMethod.DELETE)
+    public void deleteTweet(@PathVariable int tweetId, Principal principal) throws UserNotFoundException, TweetDeleteException, TweetNotFoundException {
         User currentUser = userService.getUserByUsername(principal.getName());
-        tweetService.deleteTweet(currentUser, tweet.getId());
+        tweetService.deleteTweet(currentUser, tweetId);
     }
 
     @RequestMapping(value = Route.GET_TWEETS_BY_USERID, method = RequestMethod.GET)
