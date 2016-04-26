@@ -15,7 +15,7 @@ module TwitterClone.Services {
         getTweetsFromFollowingUsers(userId:number, callback:(data:Models.Tweet[])=>void);
         createTweet(tweetContent:string, callback:(result:boolean)=>void);
         deleteTweet(tweetId:number, callback:(result:boolean)=>void);
-        createTweetComment(tweetId:number, tweet:Models.Tweet, callback:(result:boolean)=>void);
+        createTweetComment(tweetId:number, tweet:string, callback:(result:boolean)=>void);
     }
 
     export class TweetService implements ITweetService {
@@ -106,8 +106,8 @@ module TwitterClone.Services {
                 });
         }
 
-        public createTweetComment(tweetId:number, tweet:Models.Tweet, callback:(result:boolean)=>void) {
-            this.http.post(Urls.createTweetComment(tweetId), tweet)
+        public createTweetComment(tweetId:number, tweet:string, callback:(result:boolean)=>void) {
+            this.http.post(Urls.createTweetComment(tweetId), JSON.stringify({"content": tweet}))
                 .success((result:boolean)=> {
                     callback(result);
                 })

@@ -15,7 +15,7 @@ appModule.factory("UserService", ["$http", ($http) => new TwitterClone.Services.
 appModule.factory("TweetService", ["$http", ($http) => new TwitterClone.Services.TweetService($http)]);
 
 appModule.controller("UserController", ["$scope", "UserService", ($scope, userService) => new TwitterClone.Controllers.UserController($scope, userService)]);
-appModule.controller("TweetController", ["$scope", "TweetService", ($scope, tweetService) => new TwitterClone.Controllers.TweetController($scope, tweetService)]);
+appModule.controller("TweetController", ["$routeParams", "$scope", "TweetService", ($routeParams, $scope, tweetService) => new TwitterClone.Controllers.TweetController($routeParams, $scope, tweetService)]);
 
 appModule.config(["$routeProvider", ($routeProvider) => TwitterClone.Route.Routing.get($routeProvider)]);
 

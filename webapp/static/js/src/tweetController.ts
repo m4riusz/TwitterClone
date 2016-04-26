@@ -12,14 +12,17 @@ module TwitterClone.Controllers {
     export class TweetController {
         private scope:ng.IScope;
         private tweetService:Services.ITweetService;
+        public routeParams:ng.route.IRouteParamsService;
         public allTweets:Models.Tweet[];
         public tweetsFromUser:Models.Tweet[];
         public selectedTweet:Models.Tweet;
         public comments:Models.Tweet[];
         public tweetsFromFollowing:Models.Tweet[];
         public tweetContent:string;
+        public commentContent:string;
 
-        constructor($scope:ng.IScope, tweetService:Services.ITweetService) {
+        constructor($routeParams:ng.route.IRouteParamsService, $scope:ng.IScope, tweetService:Services.ITweetService) {
+            this.routeParams = $routeParams;
             this.scope = $scope;
             this.tweetService = tweetService;
         }
@@ -32,7 +35,6 @@ module TwitterClone.Controllers {
 
         getTweetsByUserId(userId:number) {
             this.tweetService.getTweetsByUserId(userId, result=> {
-
                 this.tweetsFromUser = result;
             });
         }
@@ -59,18 +61,21 @@ module TwitterClone.Controllers {
         createTweet(tweetContent:string) {
             this.tweetService.createTweet(tweetContent, result => {
                 this.getTweets();
+                this.tweetContent = "";
             });
         }
 
         deleteTweet(tweetId:number) {
             this.tweetService.deleteTweet(tweetId, result => {
                 this.getTweets();
+                this.getCommentsFromTweetByTweetId(tweetId);
             });
         }
 
-        createTweetComment(tweetId:number, tweet:Models.Tweet) {
+        createTweetComment(tweetId:number, tweet:string) {
             this.tweetService.createTweetComment(tweetId, tweet, result => {
-                console.log(result);
+                this.getCommentsFromTweetByTweetId(tweetId);
+                this.commentContent = "";
             });
         }
     }
