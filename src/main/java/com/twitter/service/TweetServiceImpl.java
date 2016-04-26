@@ -38,7 +38,9 @@ public class TweetServiceImpl implements TweetService {
 
     @Override
     public void tweet(User user, Tweet tweet) throws TweetCreateException {
-        if (!isTweetLengthInBounds(tweet.getContent().length())) {
+        if (tweet.getContent() == null) {
+            throw new TweetCreateException(MessageUtil.TWEET_NOT_FOUND_ERROR);
+        } else if (!isTweetLengthInBounds(tweet.getContent().length())) {
             throw new TweetCreateException(MessageUtil.TWEET_LENGTH_ERROR);
         }
         tweet.setOwner(user);
@@ -74,8 +76,8 @@ public class TweetServiceImpl implements TweetService {
     @Override
     public void createTweetComment(User currentUser, int tweetId, Tweet tweet) throws TweetNotFoundException, TweetCreateException {
         Tweet tweetToComment = tweetDao.get(tweetId);
-        if (tweetToComment == null) {
-            throw new TweetNotFoundException(MessageUtil.TWEET_NOT_FOUND_ERROR + tweetId);
+        if (tweetToComment == null || tweet.getContent() == null) {
+            throw new TweetNotFoundException(MessageUtil.TWEET_NOT_FOUND_ERROR);
         } else if (!isTweetLengthInBounds(tweet.getContent().length())) {
             throw new TweetCreateException(MessageUtil.TWEET_LENGTH_ERROR);
         }
