@@ -18,3 +18,7 @@ appModule.controller("UserController", ["$scope", "UserService", ($scope, userSe
 appModule.controller("TweetController", ["$scope", "TweetService", ($scope, tweetService) => new TwitterClone.Controllers.TweetController($scope, tweetService)]);
 
 appModule.config(["$routeProvider", ($routeProvider) => TwitterClone.Route.Routing.get($routeProvider)]);
+
+appModule.directive("myTweet", ()=> {
+    return {restrict: 'E', scope: {tweet: '=', ctrl: "="}, templateUrl: 'view/tweetTemplate.html'}
+});

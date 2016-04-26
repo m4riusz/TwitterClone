@@ -1,0 +1,18 @@
+<div class="well well-sm">
+    <div>
+        <label class="glyphicon glyphicon-user">{{tweet.owner.username}}</label>
+                    <span class="glyphicon glyphicon-remove btn btn-default pull-right"
+                          ng-click="ctrl.deleteTweet(tweet.id)">Delete</span>
+    </div>
+    <p>
+        <i class="glyphicon glyphicon-envelope"></i>
+        {{tweet.owner.email}}
+        <br/>
+        <i class="glyphicon glyphicon-calendar"></i>
+        {{tweet.tweetDate}}
+        <br/>
+        <label>{{tweet.content}}</label>
+        <br/>
+        <a class="btn btn-default" href="#tweets/{{tweet.id}}">Comments</a>
+    </p>
+</div>

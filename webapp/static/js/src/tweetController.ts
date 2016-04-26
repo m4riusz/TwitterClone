@@ -58,7 +58,7 @@ module TwitterClone.Controllers {
 
         createTweet(tweetContent:string) {
             this.tweetService.createTweet(tweetContent, result => {
-                console.log(result);
+                this.getTweets();
             });
         }
 
