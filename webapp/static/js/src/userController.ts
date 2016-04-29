@@ -84,14 +84,14 @@ module TwitterClone.Controllers {
             });
         }
 
-        followUser(user:TwitterClone.Models.User) {
-            this.userService.followUser(user, result => {
+        followUser(userId:number) {
+            this.userService.followUser(userId, result => {
                 console.log(result);
             });
         }
 
-        unfollowUser(user:TwitterClone.Models.User) {
-            this.userService.unfollowUser(user, result => {
+        unfollowUser(userId:number) {
+            this.userService.unfollowUser(userId, result => {
                 console.log(result);
             });
         }

@@ -20,8 +20,8 @@ module TwitterClone.Services {
         banUserById(userId:number, callback:(result:boolean)=>void);
         unbanUserById(userId:number, callback:(result:boolean)=>void);
         createUser(user:Models.User, callback:(result:boolean)=>void);
-        followUser(user:Models.User, callback:(result:boolean)=>void);
-        unfollowUser(user:Models.User, callback:(result:boolean)=>void);
+        followUser(userId:number, callback:(result:boolean)=>void);
+        unfollowUser(userId:number, callback:(result:boolean)=>void);
     }
 
     export class UserService implements IUserService {
@@ -149,8 +149,11 @@ module TwitterClone.Services {
                 });
         }
 
-        public followUser(user:Models.User, callback:(result:boolean)=>void) {
-            this.http.post(Urls.followUser, user)
+        public followUser(userId:number, callback:(result:boolean)=>void) {
+            this.http({
+                    method: "POST",
+                    url: Urls.followUser(userId),
+                })
                 .success((result:boolean)=> {
                     callback(result as boolean);
                 })
@@ -159,8 +162,8 @@ module TwitterClone.Services {
                 });
         }
 
-        public unfollowUser(user:Models.User, callback:(result:boolean)=>void) {
-            this.http.delete(Urls.unfollowUser, user)
+        public unfollowUser(userId:number, callback:(result:boolean)=>void) {
+            this.http.delete(Urls.unfollowUser(userId))
                 .success((result:boolean)=> {
                     callback(result as boolean);
                 })

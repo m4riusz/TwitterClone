@@ -24,9 +24,9 @@ public interface UserService {
 
     public List<User> getFollowers(int userId) throws UserNotFoundException;
 
-    public void follow(User user, String userToFollow) throws UserNotFoundException, UserAlreadyFollowed, UserFollowException;
+    public void follow(User user, int userId) throws UserNotFoundException, UserAlreadyFollowed, UserFollowException;
 
-    public void unfollow(User currentUser, String username) throws UserNotFoundException, UserNotFollowedException, UserFollowException;
+    public void unfollow(User currentUser, int userId) throws UserNotFoundException, UserNotFollowedException, UserFollowException;
 
     public List<User> getFollowingUsers(int userId) throws UserNotFoundException;
 

@@ -90,28 +90,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void follow(User user, String username) throws UserNotFoundException, UserAlreadyFollowed, UserFollowException {
-        User userToFollow = userDao.getByUsername(username);
+    public void follow(User user, int userId) throws UserNotFoundException, UserAlreadyFollowed, UserFollowException {
+        User userToFollow = userDao.get(userId);
         if (user.equals(userToFollow)) {
             throw new UserFollowException(MessageUtil.FOLLOW_YOURSELF_ERROR);
         } else if (userToFollow == null) {
-            throw new UserNotFoundException(username);
+            throw new UserNotFoundException(String.valueOf(userId));
         } else if (userDao.getFollowingUsers(user.getId()).contains(userToFollow)) {
-            throw new UserAlreadyFollowed(MessageUtil.ALREADY_FOLLOWED_ERROR + username);
+            throw new UserAlreadyFollowed(MessageUtil.ALREADY_FOLLOWED_ERROR + userId);
         }
         user.getFollowers().add(userToFollow);
         userDao.saveOrUpdate(user);
     }
 
     @Override
-    public void unfollow(User currentUser, String username) throws UserNotFoundException, UserNotFollowedException, UserFollowException {
-        User userToUnfollow = userDao.getByUsername(username);
+    public void unfollow(User currentUser, int userId) throws UserNotFoundException, UserNotFollowedException, UserFollowException {
+        User userToUnfollow = userDao.get(userId);
         if (currentUser.equals(userToUnfollow)) {
             throw new UserFollowException(MessageUtil.UNFOLLOW_YOURSELF_ERROR);
         } else if (userToUnfollow == null) {
-            throw new UserNotFoundException(username);
+            throw new UserNotFoundException(String.valueOf(userId));
         } else if (!userDao.getFollowingUsers(currentUser.getId()).contains(userToUnfollow)) {
-            throw new UserNotFollowedException(MessageUtil.UNFOLLOW_UNFOLLOWED_USER_ERROR);
+            throw new UserNotFollowedException(MessageUtil.UNFOLLOW_UNFOLLOWED_USER_ERROR + userId);
         }
         currentUser.getFollowers().remove(userToUnfollow);
         userDao.saveOrUpdate(currentUser);

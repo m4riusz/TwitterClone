@@ -14,7 +14,6 @@ public class Route {
     public static final String CREATE_USER = "/register";
     public static final String GET_FOLLOWERS = "/rest/user/followers";
     public static final String GET_FOLLOWERS_BY_USERID = "/rest/user/followers/{userId}";
-    public static final String GET_FOLLOWING_USERS = "/rest/user/following";
     public static final String GET_FOLLOWING_BY_USERID = "/rest/user/following/{userId}";
 
     public static final String GET_TWEETS = "/rest/user/tweet";

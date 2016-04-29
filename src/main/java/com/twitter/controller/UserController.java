@@ -73,23 +73,22 @@ public class UserController {
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @RequestMapping(value = Route.GET_FOLLOWING_USERS, method = RequestMethod.POST)
-    public void followUser(@RequestBody User user, Principal principal) throws UserAlreadyFollowed, UserNotFoundException, UserFollowException {
+    @RequestMapping(value = Route.GET_FOLLOWING_BY_USERID, method = RequestMethod.POST)
+    public void followUser(@PathVariable int userId, Principal principal) throws UserAlreadyFollowed, UserNotFoundException, UserFollowException {
         User currentUser = userService.getUserByUsername(principal.getName());
-        userService.follow(currentUser, user.getUsername());
+        userService.follow(currentUser, userId);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    @RequestMapping(value = Route.GET_FOLLOWING_USERS, method = RequestMethod.DELETE)
-    public void unfollowUser(@RequestBody User user, Principal principal) throws UserNotFoundException, UserNotFollowedException, UserFollowException {
+    @RequestMapping(value = Route.GET_FOLLOWING_BY_USERID, method = RequestMethod.DELETE)
+    public void unfollowUser(@PathVariable int userId, Principal principal) throws UserNotFoundException, UserNotFollowedException, UserFollowException {
         User currentUser = userService.getUserByUsername(principal.getName());
-        userService.unfollow(currentUser, user.getUsername());
+        userService.unfollow(currentUser, userId);
     }
 
-    @RequestMapping(value = Route.GET_FOLLOWING_USERS, method = RequestMethod.GET)
-    public List<User> getFollowingUsers(Principal principal) throws UserNotFoundException {
-        User currentUser = userService.getUserByUsername(principal.getName());
-        return userService.getFollowingUsers(currentUser.getId());
+    @RequestMapping(value = Route.GET_FOLLOWING_BY_USERID, method = RequestMethod.GET)
+    public List<User> getFollowingUsersFromUser(@PathVariable int userId) throws UserNotFoundException {
+        return userService.getFollowingUsers(userId);
     }
 
     @RequestMapping(value = Route.GET_FOLLOWERS_BY_USERID, method = RequestMethod.GET)
@@ -97,8 +96,5 @@ public class UserController {
         return userService.getFollowers(userId);
     }
 
-    @RequestMapping(value = Route.GET_FOLLOWING_BY_USERID, method = RequestMethod.GET)
-    public List<User> getFollowingUsersFromUser(@PathVariable int userId) throws UserNotFoundException {
-        return userService.getFollowingUsers(userId);
-    }
+
 }
