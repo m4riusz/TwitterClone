@@ -10,12 +10,16 @@ module TwitterClone.Route {
         static get(routeProvider:angular.route.IRouteProvider) {
             routeProvider.when("/tweets", {
                 controller: "TweetController as tweetCtrl",
-                templateUrl: "/view/tweets.html",
+                templateUrl: "/view/tweets.html"
             });
             routeProvider.when("/tweets/:tweetId", {
                 controller: "TweetController as tweetCtrl",
                 templateUrl: "/view/tweet.html"
             });
+            routeProvider.when("/users", {
+                controller: "UserController as userCtrl",
+                templateUrl: "/view/users.html"
+            })
         }
     }
 }

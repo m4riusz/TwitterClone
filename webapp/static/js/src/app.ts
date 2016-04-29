@@ -7,6 +7,7 @@
 ///<reference path="userService.ts"/>
 ///<reference path="tweetService.ts"/>
 ///<reference path="route.ts"/>
+///<reference path="directive.ts"/>
 
 
 const appModule = angular.module("twitter", ["ngRoute"]);
@@ -19,6 +20,6 @@ appModule.controller("TweetController", ["$routeParams", "$scope", "TweetService
 
 appModule.config(["$routeProvider", ($routeProvider) => TwitterClone.Route.Routing.get($routeProvider)]);
 
-appModule.directive("myTweet", ()=> {
-    return {restrict: 'E', scope: {tweet: '=', ctrl: "="}, templateUrl: 'view/tweetTemplate.html'}
-});
+appModule.directive("myTweet", ()=> TwitterClone.Directives.Directive.getTweetDirective());
+
+appModule.directive("myUser", ()=> TwitterClone.Directives.Directive.getUserDirective());
