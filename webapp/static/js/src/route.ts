@@ -24,6 +24,14 @@ module TwitterClone.Route {
                 controller: "UserController as userCtrl",
                 templateUrl: "/view/user.html"
             });
+            routeProvider.when("/followers/:userId", {
+                controller: "UserController as userCtrl",
+                templateUrl: "/view/followers.html"
+            });
+            routeProvider.when("/following/:userId",{
+                controller: "UserController as userCtrl",
+                templateUrl: "/view/following.html"
+            });
         }
     }
 }

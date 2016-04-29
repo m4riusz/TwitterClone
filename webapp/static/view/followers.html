@@ -1,0 +1,19 @@
+<div ng-init="userCtrl.getFollowersFromUserByUserId(userCtrl.routeParams.userId);">
+    <div class="col-sm-12 sidenav">
+        <div class="row">
+            <h3>Users that are following you!</h3>
+            <div ng-repeat="usr in userCtrl.followers">
+                <div class="well well-sm">
+                    <h4>{{usr.username}}</h4>
+                    <p>
+                        <i class="glyphicon glyphicon-envelope"></i>
+                        {{usr.email}}
+                        <br/>
+                        <i class="glyphicon glyphicon-gift"></i>
+                        {{usr.createDate}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

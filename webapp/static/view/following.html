@@ -1,0 +1,24 @@
+<div ng-init="userCtrl.getFollowingUsersFromUserByUserId(userCtrl.routeParams.userId);">
+    <div class="col-sm-12 sidenav">
+        <div class="row">
+            <h3>Users you are following!</h3>
+            <div ng-repeat="usr in userCtrl.followingUsers">
+                <div class="well well-sm">
+                    <h4>{{usr.username}}</h4>
+                    <p>
+                        <i class="glyphicon glyphicon-envelope"></i>
+                        {{usr.email}}
+                        <br/>
+                        <i class="glyphicon glyphicon-gift"></i>
+                        {{usr.createDate}}
+                    </p>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" ng-click="userCtrl.unfollowUser(usr.id);">
+                            Unfollow
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

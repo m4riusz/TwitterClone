@@ -6,14 +6,14 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
+<nav ng-controller = "UserController as userCtrl" class="navbar navbar-inverse">
+    <div class="container-fluid" ng-init = "userCtrl.getCurrentUser();">
         <ul class="nav navbar-nav">
             <li><a>Twitter clone</a></li>
             <li><a href="#tweets">Tweets</a></li>
             <li><a href="#users">Users</a></li>
-            <li><a href="#followers">Followers</a></li>
-            <li><a href="#following">Following users</a></li>
+            <li><a href="#followers/{{userCtrl.currentUser.id}}">Followers</a></li>
+            <li><a href="#following/{{userCtrl.currentUser.id}}">Following users</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
