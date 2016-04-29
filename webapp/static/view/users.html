@@ -1,0 +1,14 @@
+<div ng-init="userCtrl.getAllUsers()">
+    <div class="col-sm-2 sidenav">
+        <h3>Latest users!</h3>
+        <div ng-repeat="user in userCtrl.users">
+            <div class="well" ng-click="userCtrl.getUserById(user.id)">
+                {{ user.username }}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-10 sidenav" ng-if="userCtrl.selectedUser != null">
+        <my-user user="userCtrl.selectedUser" ctrl="userCtrl"></my-user>
+    </div>
+</div>

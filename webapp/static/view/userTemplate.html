@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="well well-sm">
+        <div class="row">
+            <div class="col-sm-6 col-md-8">
+                <h4>{{user.username}}</h4>
+                <p>
+                    <i class="glyphicon glyphicon-envelope"></i>
+                    {{user.email}}
+                    <br/>
+                    <i class="glyphicon glyphicon-gift"></i>
+                    {{user.createDate}}
+                </p>
+                <div class="btn-group">
+                    <a class="btn btn-primary" href="#users/{{user.id}}">
+                        Show Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
