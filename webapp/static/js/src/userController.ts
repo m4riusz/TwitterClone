@@ -8,6 +8,7 @@
 
 module TwitterClone.Controllers {
 
+    import getUserById = TwitterClone.Urls.getUserById;
     export class UserController {
         private scope:ng.IScope;
         private userService:TwitterClone.Services.IUserService;
@@ -87,12 +88,16 @@ module TwitterClone.Controllers {
         followUser(userId:number) {
             this.userService.followUser(userId, result => {
                 console.log(result);
+                this.getFollowersFromUserByUserId(userId);
+                this.scope.$apply();
             });
         }
 
         unfollowUser(userId:number) {
             this.userService.unfollowUser(userId, result => {
                 console.log(result);
+                this.getFollowersFromUserByUserId(userId);
+                this.scope.$apply();
             });
         }
     }

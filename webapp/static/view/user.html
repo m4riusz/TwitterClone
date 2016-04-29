@@ -1,0 +1,96 @@
+<div ng-init="userCtrl.getUserById(userCtrl.routeParams.userId);">
+    <div class="col-sm-12 sidenav" ng-init="userCtrl.getCurrentUser();">
+        <div class="row">
+            <div class="col-sm-6 col-md-8">
+                <h2>{{userCtrl.selectedUser.username}}</h2>
+                <p>
+                    <i class="glyphicon glyphicon-envelope"></i>
+                    {{userCtrl.selectedUser.email}}
+                    <br/>
+                    <i class="glyphicon glyphicon-gift"></i>
+                    {{userCtrl.selectedUser.createDate}}
+                </p>
+                <div class="btn-group">
+                    <button class="btn btn-primary" ng-click="userCtrl.followUser(userCtrl.selectedUser.id);">
+                        Follow
+                    </button>
+                    <button class="btn btn-primary" ng-click="userCtrl.unfollowUser(userCtrl.selectedUser.id);">
+                        Unfollow
+                    </button>
+                    <button ng-if="userCtrl.currentUser.role == 'ADMIN'" class="btn btn-primary"
+                            ng-click="userCtrl.banUserById(userCtrl.selectedUser.id);">
+                        Ban
+                    </button>
+                    <button ng-if="userCtrl.currentUser.role == 'ADMIN'" class="btn btn-primary"
+                            ng-click="userCtrl.unbanUserById(userCtrl.selectedUser.id);">
+                        Unban
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4" ng-controller="TweetController as tweetCtrl"
+             ng-init="tweetCtrl.getTweetsByUserId(userCtrl.routeParams.userId);">
+            <h3>Tweets ( {{tweetCtrl.tweetsFromUser.length}} ):</h3>
+            <div class="pre-scrollable">
+                <div ng-repeat="tweet in tweetCtrl.tweetsFromUser">
+                    <div class="well well-sm">
+                        <p>
+                            <br/>
+                            <i class="glyphicon glyphicon-calendar"></i>
+                            {{tweet.tweetDate}}
+                            <br/>
+                            <label>{{tweet.content}}</label>
+                            <br/>
+                            <button ng-if="userCtrl.currentUser.role == 'ADMIN'" class="btn btn-primary"
+                                    ng-click="tweetCtrl.deleteTweet(tweet.id);">
+                                Delete
+                            </button>
+                            <br/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4" ng-init="userCtrl.getFollowersFromUserByUserId(userCtrl.routeParams.userId);">
+            <h3>Followers ( {{userCtrl.followers.length}} ):</h3>
+            <div class="pre-scrollable">
+                <div ng-repeat="u in userCtrl.followers">
+
+                    <div class="well well-sm">
+                        <h4>{{u.username}}</h4>
+                        <p>
+                            <i class="glyphicon glyphicon-envelope"></i>
+                            {{u.email}}
+                            <br/>
+                            <i class="glyphicon glyphicon-gift"></i>
+                            {{u.createDate}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4 " ng-init="userCtrl.getFollowingUsersFromUserByUserId(userCtrl.routeParams.userId);">
+            <h3>Following ( {{userCtrl.followingUsers.length}} ):</h3>
+            <div class="pre-scrollable">
+                <div ng-repeat="user in userCtrl.followingUsers">
+                    <div class="well well-sm">
+                        <h4>{{user.username}}</h4>
+                        <p>
+                            <i class="glyphicon glyphicon-envelope"></i>
+                            {{user.email}}
+                            <br/>
+                            <i class="glyphicon glyphicon-gift"></i>
+                            {{user.createDate}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
