@@ -7,8 +7,7 @@
 
 
 module TwitterClone.Controllers {
-
-    import getTweets = TwitterClone.Urls.getTweets;
+    
     export class TweetController {
         private scope:ng.IScope;
         private tweetService:Services.ITweetService;

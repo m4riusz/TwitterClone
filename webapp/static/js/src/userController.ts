@@ -9,16 +9,17 @@
 module TwitterClone.Controllers {
 
     export class UserController {
-
         private scope:ng.IScope;
         private userService:TwitterClone.Services.IUserService;
+        private routeParams:ng.route.IRouteParamsService;
         public users:TwitterClone.Models.User[];
         public currentUser:TwitterClone.Models.User;
         public selectedUser:TwitterClone.Models.User;
         public followers:TwitterClone.Models.User[];
         public followingUsers:TwitterClone.Models.User[];
 
-        constructor($scope:ng.IScope, userService:TwitterClone.Services.IUserService) {
+        constructor($routeParams:ng.route.IRouteParamsService, $scope:ng.IScope, userService:TwitterClone.Services.IUserService) {
+            this.routeParams = $routeParams;
             this.scope = $scope;
             this.userService = userService;
         }
