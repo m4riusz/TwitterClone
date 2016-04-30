@@ -9,6 +9,15 @@
                     <br/>
                     <i class="glyphicon glyphicon-gift"></i>
                     {{userCtrl.selectedUser.createDate}}
+                    <br/>
+                <div ng-if="userCtrl.currentUser.role == 'ADMIN'">
+                    <i class="glyphicon glyphicon-user"></i>
+                    Role: {{userCtrl.selectedUser.role}}
+                    <br/>
+                    <i class="glyphicon glyphicon-cog"></i>
+                    Enabled: {{userCtrl.selectedUser.enable}}
+                </div>
+
                 </p>
                 <div class="btn-group">
                     <button class="btn btn-primary" ng-click="userCtrl.followUser(userCtrl.selectedUser.id);">

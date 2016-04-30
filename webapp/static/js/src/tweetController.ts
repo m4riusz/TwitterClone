@@ -7,7 +7,7 @@
 
 
 module TwitterClone.Controllers {
-    
+
     export class TweetController {
         private scope:ng.IScope;
         private tweetService:Services.ITweetService;
@@ -68,6 +68,7 @@ module TwitterClone.Controllers {
             this.tweetService.deleteTweet(tweetId, result => {
                 this.getTweets();
                 this.getCommentsFromTweetByTweetId(tweetId);
+                this.getTweetsByUserId(this.routeParams.userId);
             });
         }
 

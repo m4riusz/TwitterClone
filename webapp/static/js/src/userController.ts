@@ -70,12 +70,14 @@ module TwitterClone.Controllers {
         banUserById(userId:number) {
             this.userService.banUserById(userId, result => {
                 console.log(result);
+                this.getUserById(userId);
             });
         }
 
         unbanUserById(userId:number) {
             this.userService.unbanUserById(userId, result => {
                 console.log(result);
+                this.getUserById(userId);
             });
         }
 
@@ -89,7 +91,6 @@ module TwitterClone.Controllers {
             this.userService.followUser(userId, result => {
                 console.log(result);
                 this.getFollowersFromUserByUserId(userId);
-                this.scope.$apply();
             });
         }
 
@@ -97,7 +98,6 @@ module TwitterClone.Controllers {
             this.userService.unfollowUser(userId, result => {
                 console.log(result);
                 this.getFollowersFromUserByUserId(userId);
-                this.scope.$apply();
             });
         }
     }
