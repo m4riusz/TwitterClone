@@ -31,12 +31,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(Route.CREATE_USER).permitAll()
-                .antMatchers("/**/*.{js,html}").permitAll()
                 .antMatchers("/bower_components/**").permitAll()
+                .antMatchers("/view/register.html").permitAll()
+                .antMatchers("/js/src/login.js").permitAll()
+                .antMatchers(Route.CREATE_USER).permitAll()
                 .anyRequest().authenticated()
+                .antMatchers("/**/*.{js,html}").permitAll()
                 .and()
                 .formLogin()
+                .loginPage("/view/login.html")
                 .permitAll()
                 .and()
                 .logout()
