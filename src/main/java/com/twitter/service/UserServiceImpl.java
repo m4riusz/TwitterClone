@@ -8,6 +8,9 @@ import com.twitter.util.MessageUtil;
 import com.twitter.util.TwitterUtil;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,13 +22,17 @@ public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
 
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void createUser(User user) throws UserAlreadyExist, UserCreateException {
+
         if (!isPasswordLengthInBounds(user.getPassword().length())) {
             throw new UserCreateException(MessageUtil.PASSWORD_LENGTH_ERROR);
         } else if (!isUsernameLengthInBounds(user.getUsername().length())) {
@@ -35,6 +42,7 @@ public class UserServiceImpl implements UserService {
         } else if (isUserExist(user)) {
             throw new UserAlreadyExist(MessageUtil.USER_ALREADY_EXISTS_ERROR);
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.saveOrUpdate(user);
     }
 
@@ -48,7 +56,7 @@ public class UserServiceImpl implements UserService {
         if (!isPasswordLengthInBounds(password.length())) {
             throw new UserEditException(MessageUtil.PASSWORD_LENGTH_ERROR);
         }
-        user.setPassword(password);
+        user.setPassword(passwordEncoder.encode(password));
         userDao.saveOrUpdate(user);
     }
 
@@ -61,16 +69,16 @@ public class UserServiceImpl implements UserService {
     public User getUser(int id) throws UserNotFoundException {
         User user = userDao.get(id);
         if (user == null) {
-            throw new UserNotFoundException(MessageUtil.TWEET_NOT_FOUND_ERROR + id);
+            throw new UserNotFoundException(MessageUtil.USER_NOT_FOUND_ERROR + id);
         }
         return user;
     }
 
     @Override
-    public User getUserByUsername(String username) throws UserNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.getByUsername(username);
         if (user == null) {
-            throw new UserNotFoundException(MessageUtil.USER_NOT_FOUND_ERROR + username);
+            throw new UsernameNotFoundException(MessageUtil.USER_NOT_FOUND_ERROR + username);
         }
         return user;
     }

@@ -3,10 +3,13 @@ package com.twitter.service;
 import com.twitter.exception.*;
 import com.twitter.model.Role;
 import com.twitter.model.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends UserDetailsService{
 
     public void createUser(User user) throws UserAlreadyExist, UserCreateException;
 
@@ -18,7 +21,7 @@ public interface UserService {
 
     public User getUser(int id) throws UserNotFoundException;
 
-    public User getUserByUsername(String username) throws UserNotFoundException;
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
     public List<User> getAllUsers();
 

@@ -24,20 +24,20 @@ public class UserController {
 
     @RequestMapping(value = Route.GET_USER_CURRENT, method = RequestMethod.GET)
     public User getCurrentUser(Principal principal) throws UserNotFoundException {
-        return userService.getUserByUsername(principal.getName());
+        return (User) userService.loadUserByUsername(principal.getName());
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_USER, method = RequestMethod.PUT)
     public void editUser(@RequestBody User user, Principal principal) throws UserEditException, UserNotFoundException {
-        User currentUser = userService.getUserByUsername(principal.getName());
+        User currentUser = (User) userService.loadUserByUsername(principal.getName());
         userService.editUser(currentUser, user.getPassword());
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_USER, method = RequestMethod.POST)
     public void changeUserRole(@RequestBody User user, Principal principal) throws UserNotFoundException, PermisionException {
-        User currentUser = userService.getUserByUsername(principal.getName());
+        User currentUser = (User) userService.loadUserByUsername(principal.getName());
         userService.changeUserRights(currentUser, user.getId(), user.getRole());
     }
 
@@ -49,14 +49,14 @@ public class UserController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_USER_BY_ID, method = RequestMethod.POST)
     public void banUser(@PathVariable int userId, Principal principal) throws UserNotFoundException, PermisionException, UserAccessibilityChangeException {
-        User currentUser = userService.getUserByUsername(principal.getName());
+        User currentUser = (User) userService.loadUserByUsername(principal.getName());
         userService.banUser(currentUser, userId);
     }
 
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_USER_BY_ID, method = RequestMethod.PUT)
     public void unbanUser(@PathVariable int userId, Principal principal) throws UserNotFoundException, PermisionException, UserAccessibilityChangeException {
-        User currentUser = userService.getUserByUsername(principal.getName());
+        User currentUser = (User) userService.loadUserByUsername(principal.getName());
         userService.unbanUser(currentUser, userId);
     }
 
@@ -68,21 +68,21 @@ public class UserController {
 
     @RequestMapping(value = Route.GET_FOLLOWERS, method = RequestMethod.GET)
     public List<User> getFollowers(Principal principal) throws UserNotFoundException {
-        User currentUser = userService.getUserByUsername(principal.getName());
+        User currentUser = (User) userService.loadUserByUsername(principal.getName());
         return userService.getFollowers(currentUser.getId());
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_FOLLOWING_BY_USERID, method = RequestMethod.POST)
     public void followUser(@PathVariable int userId, Principal principal) throws UserAlreadyFollowed, UserNotFoundException, UserFollowException {
-        User currentUser = userService.getUserByUsername(principal.getName());
+        User currentUser = (User) userService.loadUserByUsername(principal.getName());
         userService.follow(currentUser, userId);
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @RequestMapping(value = Route.GET_FOLLOWING_BY_USERID, method = RequestMethod.DELETE)
     public void unfollowUser(@PathVariable int userId, Principal principal) throws UserNotFoundException, UserNotFollowedException, UserFollowException {
-        User currentUser = userService.getUserByUsername(principal.getName());
+        User currentUser = (User) userService.loadUserByUsername(principal.getName());
         userService.unfollow(currentUser, userId);
     }
 
