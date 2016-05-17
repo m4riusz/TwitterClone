@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/bower_components/**").permitAll()
                 .antMatchers("/view/register.html").permitAll()
-                .antMatchers("/js/src/login.js").permitAll()
+                .antMatchers("/js/src/{register.js, apiUrl.js}").permitAll()
                 .antMatchers(Route.CREATE_USER).permitAll()
                 .anyRequest().authenticated()
                 .antMatchers("/**/*.{js,html}").permitAll()

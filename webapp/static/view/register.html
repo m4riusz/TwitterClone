@@ -5,7 +5,8 @@
     <title>Title</title>
     <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css">
     <script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/src/login.js"></script>
+    <script type="text/javascript" src="../js/src/register.js"></script>
+    <script type="text/javascript" src="../js/src/apiUrl.js"></script>
 </head>
 <body>
 <div id="register-form" method="post"
@@ -30,7 +31,7 @@
     <div class="form-group">
         <div class="row">
             <div>
-                <button onclick="register();"
+                <button onclick="TwitterClone.Register.register('username','password','confirm-password','email');"
                         tabindex="4" class="btn btn-lg btn-primary btn-block">
                     Register Now
                 </button>
