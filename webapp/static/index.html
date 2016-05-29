@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="twitter">
+<html lang="en" ng-app="twitter" >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
 </head>
-<body>
+<body onload="location = '#tweets'">
 <nav ng-controller = "UserController as userCtrl" class="navbar navbar-inverse">
     <div class="container-fluid" ng-init = "userCtrl.getCurrentUser();">
         <ul class="nav navbar-nav">
