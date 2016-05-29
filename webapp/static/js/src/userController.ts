@@ -8,7 +8,6 @@
 
 module TwitterClone.Controllers {
 
-    import getUserById = TwitterClone.Urls.getUserById;
     export class UserController {
         private scope:ng.IScope;
         private userService:TwitterClone.Services.IUserService;
